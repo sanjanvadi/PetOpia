@@ -17,6 +17,6 @@ Step 1: Clone/Download this repository into your system and run `npm i` in the t
 
 Step 2: Make sure the .env file exists and contains the fields DATABASE_URL and DATABASE_NAME
 
-Step 3: Run `npm start` to start the server
+Step 3: Run `npm start` from the server directory and the client directory to start the server for the backend and the frontend respectively
 
-Step 4: Navigate to the route [http://localhost:3000]() (default) or whatever URL is used by React to start the server to get started with using PetOpia
+Step 4: Navigate to the route [http://localhost:3000]() (default) or whatever URL is used by the client (React) to start the server to get started with using PetOpia
