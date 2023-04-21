@@ -7,27 +7,33 @@ import {
   CardActionArea,
   Grid,
   Typography,
+  Button
 } from "@mui/material";
 import AnimalDetail from "./modals/AnimalDetail";
 import noImage from "../img/download.jpeg";
+import ErrorPage from "./ErrorPage";
 
-function AdoptPet(props) {
+function AdoptPet() {
   let card;
   const [token, setToken] = useState(null);
   const [data, setData] = useState(null);
   const [page, setPage] = useState(1);
   const [openModal,setOpenModal] = useState(false);
+  const [maxPage,setMaxPage] = useState(null);
+  const [error,setError] = useState(null);
   const [animal,setAnimal] = useState(null);
   const clientId = "BVnaCxeYALlTyVuSQNWR8uFlad3Yk8lEC51O3t7Hm6o7PFqJHX";
+  const clientId2 = 'mR1WfUgThjt5RpjyZuTHIHMf5BC0SzUbTuJjJnSyJZiRodfiPA';
   const clientSecret = "l1bJ7O2rRafSVNt4ORYnhZwaQo5L8Ac5P3oGg4U7";
-console.log(data);
+  const clientSecret2 = 'dep3PivKfHYkOfGRYbrkwD2EefMrogmngnPjdomZ';
+
   useEffect(() => {
     async function fetchToken() {
       const response = await fetch(
         "https://api.petfinder.com/v2/oauth2/token",
         {
           method: "POST",
-          body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
+          body: `grant_type=client_credentials&client_id=${clientId2}&client_secret=${clientSecret2}`,
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
@@ -51,13 +57,15 @@ console.log(data);
       })
         .then((response) => response.json())
         .then((response) => {
-            console.log(response)
-            setData(response.animals)});
+            setMaxPage(response.pagination.total_pages)
+            setData(response.animals)
+            setError(null)})
+        .catch(error=>setError(error.message));
     }
     if (token) {
-      fetchData();
+        fetchData();
     }
-  }, [token, page]);
+  }, [token,page]);
 
   const handleOpenModal=(event)=>{
     setOpenModal(true);
@@ -67,31 +75,39 @@ console.log(data);
     setOpenModal(false);
   };
 
+  const handlePrevios=()=>{
+    setPage(page-1);
+  };
+  const handleNext=()=>{
+    setPage(page+1);
+  };
+
   const buildCard = (event)=>{
     const characterists = event.tags.map((tag)=>{
         return `${tag} `;
     })
     return(
-        <Grid item xs={8} sm={6} md={4} lg={3} xl={2.5} key={event.id}>
-            <Card className='card' variant='outlined'>
+        <Grid item xs={8} sm={6} md={4} lg={3} xl={3} key={event.id}>
+            <Card className='card' sx={{minHeight:'550px',maxHeight:'550px'}} variant='outlined'>
                 <CardActionArea>
-                    <div onClick={handleOpenModal(event)}>
+                    <div onClick={()=>handleOpenModal(event)}>
                     <CardMedia
                         className='media'
                         component='img'
-                        image={event.photos&&event.photos[0] ? event.photos[0].medium : noImage}
-                        title='event image'
-                        sx={{width:'305px', height:'300px'}}
+                        image={event.photos&&event.photos[0] ? event.photos[0].large : noImage}
+                        title={`${event.name} image`}
+                        sx={{width:'100%', height:'400px'}}
                     />
-                    <CardContent>
+                    
+                    <CardContent sx={{alignItems:'center'}}>
                         <Typography className='titleHead' variant='h5' component='h2'>
                             {event.name?event.name:<span></span>}
                         </Typography>
                         <Typography variant='body1' component='span'>
-                            {event.age?<span>{event.age} </span>: <span> </span> }{event.breeds.primary? <span>| {event.breeds.primary}</span>:<span> </span>}{event.breeds.secondary?<span> x {event.breeds.secondary}</span>:<span></span>}
+                            {event.age?<span>{event.age} </span>: <span> </span> }{event.gender?<span>| {event.gender}</span>:<span> </span>}{event.breeds.primary? <span> | {event.breeds.primary}</span>:<span> </span>}{event.breeds.secondary?<span> x {event.breeds.secondary}</span>:<span></span>}
                         </Typography>
                         <Typography variant='body1' component='span' sx={{objectFit:'contain'}}>
-                            {characterists?<span><br/>{characterists}</span>:<span></span>}
+                            {characterists?<span className="character"><br/>{characterists}</span>:<span></span>}
                         </Typography>
                     </CardContent>
                     </div>
@@ -102,26 +118,45 @@ console.log(data);
 }
 
   if (data) {
+    // let filteredData = data.filter((event)=>(
+    //     event.photos.length!==0
+    // ))
+    
     card = data && data.map((event) => {
         return buildCard(event);
       });
   }
 
+  if(error){
+    return(
+        <ErrorPage error={error}></ErrorPage>
+    )
+  }
+  else{
   return (
     <div>
-      <Grid container className="grid" spacing={5}>
-        {card}
-      </Grid>
-
+        <span className="pageTitle">Adopt a Pet</span>
+        <br/>
+        <br/>
+        {page>1?<Button sx={{color:'#6504B5',borderBlockColor:'#6504B5'}} variant="outlined" onClick={()=>handlePrevios()}>Previous</Button>:<span></span>}
+        <span className="pageSpace">{page}</span>
+        {page<maxPage?<Button sx={{color:'#6504B5',borderBlockColor:'#6504B5'}} variant="outlined" onClick={()=>handleNext()}>Next</Button>:<span></span>}
+        <br/>
+        <br/>
+        <br/>
+        <Grid container justifyContent={'center'}  className="grid" spacing={7}>
+            {card}
+        </Grid>
       {openModal && openModal && (
         <AnimalDetail
             isOpen={openModal}
             handleClose={handleCloseModals}
             animal={animal}
+            token={token}
         />
         )}
     </div>
-  );
+  )};
 }
 
 export default AdoptPet;

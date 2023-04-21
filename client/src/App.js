@@ -11,21 +11,26 @@ function App() {
   return (
     <Router>
       <div>
-      <header className='App-header'>
-            <h1 className='App-title'>
-              PetOpia
-            </h1>
-            <br/>
-            <nav>
-              <NavLink className='showlink' to='/adoptpet'>
-                Adopt a Pet
-              </NavLink>
-            </nav>
-          </header>
-          <Routes>
-              <Route path='/adoptpet' element={<AdoptPet/>} />
-              {/* <Route path='*' element={<G/>}/> */}
-          </Routes>
+        <header>
+          <nav className="App-header">
+            <NavLink className='mainLogo' to="/">
+              <h1 className="App-title">PetOpia</h1>
+            </NavLink>
+            <div className="navLinks">
+                <NavLink className='showlink' to="/">
+                  Home
+                </NavLink>
+                <NavLink className='showlink' to="/adoptpet">
+                  Adopt
+                </NavLink>
+            </div>
+          </nav>
+        </header>
+        <Routes>
+          {/* <Route path='/' element={<Home/>}/> */}
+          <Route path="/adoptpet" element={<AdoptPet />} />
+          {/* <Route path='*' element={<NotFound/>}/> */}
+        </Routes>
       </div>
     </Router>
   );
