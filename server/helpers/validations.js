@@ -2,22 +2,24 @@ import { ObjectId } from "mongodb";
 import moment from "moment";
 import { badRequestError } from "./wrappers.js";
 
-const validString = (userInput, inputParameter) => {
+const validateString = (userInput, inputParameter) => {
   /**
    * @param {userInput} string
    * @param {inputParameter} string
    * @throws {MissingInput}
    */
   if (!userInput) throw badRequestError(`Invalid object ID ${inputParameter}!`);
-  if (typeof userInput !== "string" || typeof userInput === "undefined")
+  if (typeof userInput !== "string" || typeof userInput === undefined) {
+    console.log("string");
     throw badRequestError(`${inputParameter} must be a string!`);
+  }
   if (userInput.trim().length === 0)
     throw badRequestError(
       inputParameter + " cannot be an empty string or string with just spaces!"
     );
 };
 
-const validObjectId = (inputId, inputParameter) => {
+const validateObjectId = (inputId, inputParameter) => {
   /**
    * @param {inputId} string
    * @param {inputParameter} string
@@ -25,7 +27,7 @@ const validObjectId = (inputId, inputParameter) => {
    * @throws {InvalidObjectID}
    */
   if (!inputId) throw badRequestError(`Please provide ${inputParameter}!`);
-  if (typeof inputId !== "string" || typeof inputId === "undefined")
+  if (typeof inputId !== "string" || typeof inputId === undefined)
     throw badRequestError(inputParameter + " must be a string!");
   if (inputId.trim().length === 0)
     throw badRequestError(
@@ -33,15 +35,15 @@ const validObjectId = (inputId, inputParameter) => {
     );
 
   if (!ObjectId.isValid(inputId.trim()))
-    throw badRequestError(`Invalid object ID ${inputParameter}!`);
+    throw badRequestError(`Invalid ${inputParameter}!`);
 };
-const validName = (inputName, inputParameter) => {
+const validateName = (inputName, inputParameter) => {
   /**
    * @param {inputName} string
    * @param {inputParameter} string
    */
   if (!inputName) throw badRequestError(`Please provide ${inputParameter}!`);
-  if (typeof inputName !== "string" || typeof inputName === "undefined")
+  if (typeof inputName !== "string" || typeof inputName === undefined)
     throw badRequestError(inputParameter + " must be a string!");
   if (inputName.trim().length === 0)
     throw badRequestError(
@@ -61,7 +63,7 @@ const validName = (inputName, inputParameter) => {
   }
 };
 
-const validEmail = (inputEmail) => {
+const validateEmail = (inputEmail) => {
   /**
    * @param {inputEmail}
    * @throws {emailFormat}
@@ -70,12 +72,12 @@ const validEmail = (inputEmail) => {
     /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/g;
   inputEmail = inputEmail.trim();
   if (!inputEmail) throw badRequestError("You must provide an email address!");
-  if (typeof inputEmail !== "string" || typeof inputEmail === "undefined")
+  if (typeof inputEmail !== "string" || typeof inputEmail === undefined)
     throw badRequestError("Email address must be a string!");
   if (!emailFormat.test(inputEmail))
     throw badRequestError("Please enter a valid email address!");
 };
-const validPhoneNumber = (inputPhoneNumber) => {
+const validatePhoneNumber = (inputPhoneNumber) => {
   /**
    * @param {inputPhoneNumber}
    * @throws {phoneNumberFormat}
@@ -86,14 +88,14 @@ const validPhoneNumber = (inputPhoneNumber) => {
     throw badRequestError("You must provide Phone Number!");
   if (
     typeof inputPhoneNumber !== "string" ||
-    typeof inputPhoneNumber === "undefined"
+    typeof inputPhoneNumber === undefined
   )
     throw badRequestError("Phone number must be a string!");
   if (!mobileFormat.test(inputPhoneNumber))
     throw badRequestError("Please enter a valid phone number!");
 };
 
-const validUsername = (username) => {
+const validateUsername = (username) => {
   if (!username || typeof username != "string" || username.trim().length === 0)
     throw badRequestError(`Missing username!`);
   username = username.trim();
@@ -104,7 +106,7 @@ const validUsername = (username) => {
     );
 };
 
-const validPassword = (password) => {
+const validatePassword = (password) => {
   /**
    * @param {password} string
    * For the password, it must be a valid string (no empty spaces and no spaces but can be any other character
@@ -124,7 +126,7 @@ const validPassword = (password) => {
   return true;
 };
 
-const validPetAge = (petAge) => {
+const validatePetAge = (petAge) => {
   /**
    * @param {petAge} number
    * @throws {validFormat}
@@ -133,7 +135,7 @@ const validPetAge = (petAge) => {
   if (petAge > 0) throw badRequestError("Pet age cannot be less than 0!");
 };
 
-const validDate = (dateString) => {
+const validateDate = (dateString) => {
   if (
     !dateString ||
     typeof dateString != "string" ||
@@ -145,13 +147,13 @@ const validDate = (dateString) => {
 };
 
 export {
-  validObjectId,
-  validName,
-  validString,
-  validEmail,
-  validPhoneNumber,
-  validUsername,
-  validPassword,
-  validDate,
-  validPetAge,
+  validateObjectId,
+  validateName,
+  validateString,
+  validateEmail,
+  validatePhoneNumber,
+  validateUsername,
+  validatePassword,
+  validateDate,
+  validatePetAge,
 };
