@@ -1,5 +1,4 @@
 import { ObjectId } from "mongodb";
-import moment from "moment";
 import { badRequestError } from "./wrappers.js";
 
 const validateString = (userInput, inputParameter) => {
@@ -8,9 +7,8 @@ const validateString = (userInput, inputParameter) => {
    * @param {inputParameter} string
    * @throws {MissingInput}
    */
-  if (!userInput) throw badRequestError(`Invalid object ID ${inputParameter}!`);
+  if (!userInput) throw badRequestError(`Please provide ${inputParameter}!`);
   if (typeof userInput !== "string" || typeof userInput === undefined) {
-    console.log("string");
     throw badRequestError(`${inputParameter} must be a string!`);
   }
   if (userInput.trim().length === 0)
@@ -135,17 +133,6 @@ const validatePetAge = (petAge) => {
   if (petAge > 0) throw badRequestError("Pet age cannot be less than 0!");
 };
 
-const validateDate = (dateString) => {
-  if (
-    !dateString ||
-    typeof dateString != "string" ||
-    dateString.trim().length === 0
-  )
-    throw badRequestError(`Missing Date!`);
-  if (!moment(dateString, "YYYY-MM-DD", true).isValid())
-    throw badRequestError(`Invalid Date!`);
-};
-
 export {
   validateObjectId,
   validateName,
@@ -154,6 +141,5 @@ export {
   validatePhoneNumber,
   validateUsername,
   validatePassword,
-  validateDate,
   validatePetAge,
 };
