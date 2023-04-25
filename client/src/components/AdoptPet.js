@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
-  CardHeader,
   CardMedia,
   CardActionArea,
   Grid,
@@ -22,10 +21,8 @@ function AdoptPet() {
   const [maxPage,setMaxPage] = useState(null);
   const [error,setError] = useState(null);
   const [animal,setAnimal] = useState(null);
-  const clientId = "BVnaCxeYALlTyVuSQNWR8uFlad3Yk8lEC51O3t7Hm6o7PFqJHX";
-  const clientId2 = 'mR1WfUgThjt5RpjyZuTHIHMf5BC0SzUbTuJjJnSyJZiRodfiPA';
-  const clientSecret = "l1bJ7O2rRafSVNt4ORYnhZwaQo5L8Ac5P3oGg4U7";
-  const clientSecret2 = 'dep3PivKfHYkOfGRYbrkwD2EefMrogmngnPjdomZ';
+  const clientId = 'mR1WfUgThjt5RpjyZuTHIHMf5BC0SzUbTuJjJnSyJZiRodfiPA';
+  const clientSecret = 'dep3PivKfHYkOfGRYbrkwD2EefMrogmngnPjdomZ';
 
   useEffect(() => {
     async function fetchToken() {
@@ -33,7 +30,7 @@ function AdoptPet() {
         "https://api.petfinder.com/v2/oauth2/token",
         {
           method: "POST",
-          body: `grant_type=client_credentials&client_id=${clientId2}&client_secret=${clientSecret2}`,
+          body: `grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}`,
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
