@@ -31,7 +31,6 @@ router
       );
       res.json(postedComment);
     } catch (error) {
-      console.log(error);
       res.status(error.code).send(error.message);
     }
   })
@@ -44,7 +43,6 @@ router
       );
       res.json(postAfterDeletion);
     } catch (error) {
-      console.log(error);
       res.status(error.code).send(error.message);
     }
   })
@@ -58,7 +56,6 @@ router
       );
       res.json(postAfterUpdate);
     } catch (error) {
-      console.log(error);
       res.status(error.code).send(error.message);
     }
   });
@@ -97,7 +94,6 @@ router
       );
       res.json(commentUnliked);
     } catch (error) {
-      console.log(error);
       res.status(error.code).send(error.message);
     }
   });

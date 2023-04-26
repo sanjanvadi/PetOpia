@@ -5,13 +5,14 @@ import {
   getAllPosts,
   getPostById,
 } from "../data/communityPosts.js";
+import { ObjectId } from "mongodb";
 const router = express.Router();
 
 router
   .route("/")
   .get(async (req, res) => {
     try {
-      const allPosts = await getAllPosts();
+      const allPosts = await getAllPosts(req.query.page);
       res.json(allPosts);
     } catch (error) {
       res.status(error.code).send(error.message);
@@ -19,11 +20,14 @@ router
   })
   .post(async (req, res) => {
     try {
-      const { postImage, postDescription } = req.body;
+      const { postImage, postTitle, postCaption} = req.body;
+      const userId = new ObjectId();
       const newPost = await createPost(
-        req.session.user._id.toString(),
+        // req.session.user._id.toString(),
+        userId.toString(),
         postImage,
-        postDescription
+        postTitle,
+        postCaption
       );
       res.json(newPost);
     } catch (error) {
