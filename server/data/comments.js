@@ -11,9 +11,10 @@ const getCommentsByPostId = async (postId) => {
 
   const postById = await getPostById(postId);
   if (postById === null) throw notFoundError("Post doesn't exist!");
-  postById.postComments.forEach(ele => {
+  postById.postComments.forEach((ele) => {
     ele._id = ele._id.toString();
   });
+  postById.postComments.sort().reverse();
   return postById.postComments;
 };
 
@@ -48,7 +49,8 @@ const postComment = async (postId, userThatPosted, comment) => {
   const newComment = {
     _id: new ObjectId(),
     userThatPosted: userThatPosted.trim(),
-    commentDate: moment().format("MM/DD/YYYY, h:mm A"),
+    commentDate: moment().format("MM/DD/YYYY"),
+    commentTime: moment().format("h:mm A"),
     comment: comment,
     commentLikes: [],
     // replies: [],
