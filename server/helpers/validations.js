@@ -61,6 +61,21 @@ const validateName = (inputName, inputParameter) => {
   }
 };
 
+const validatePostTitle = (postTitle, inputParameter) => {
+  /**
+   * @param {postTitle} string
+   * @param {inputParameter} string
+   */
+  if (!postTitle) throw badRequestError(`Please provide ${inputParameter}!`);
+  if (typeof postTitle !== "string" || typeof postTitle === undefined)
+    throw badRequestError(inputParameter + " must be a string!");
+  if (postTitle.trim().length === 0)
+    throw badRequestError(
+      inputParameter + " cannot be an empty string or string with just spaces!"
+    );
+    if (postTitle.length > 30) throw badRequestError(inputParameter + " cannot contain more than 30 characters!")
+};
+
 const validateEmail = (inputEmail) => {
   /**
    * @param {inputEmail}
@@ -142,4 +157,5 @@ export {
   validateUsername,
   validatePassword,
   validatePetAge,
+  validatePostTitle
 };
