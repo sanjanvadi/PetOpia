@@ -1,0 +1,208 @@
+import { useState } from "react";
+import axios from "axios";
+import Modal from "react-modal";
+const cloudinaryApi = "dzlf4ut72";
+const presetValue = "lqbvmbqp";
+
+Modal.setAppElement("#root");
+
+function EditPost(props) {
+  const [postImage, setPostImage] = useState("");
+  const [postTitle, setPostTitle] = useState(props.oldDetails.postTitle);
+  const [postDescription, setPostDescription] = useState(
+    props.oldDetails.postDescription
+  );
+  const [isOpen, setIsOpen] = useState(props.isOpen);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [axiosLoading, setAxiosLoading] = useState(null);
+  const [checked, setChecked] = useState(false);
+
+  const handleCheckBox = () => {
+    setChecked(!checked);
+  };
+
+  const handleImageChange = (event) => {
+    if (event.target.files[0] && props.oldDetails.postImage) {
+      setPostImage(event.target.files[0]);
+      document.getElementById("remove-pic").checked = false;
+      document.getElementById("remove-pic").disabled = true;
+    } else if (event.target.files[0]) {
+      setPostImage(event.target.files[0]);
+    } else if (!event.target.files[0]) {
+      document.getElementById("remove-pic").disabled = false;
+    }
+    // if (!checked && props.oldDetails.postImage) setPostImage(null);
+    else if (checked) setPostImage("");
+  };
+
+  const handleTitleChange = (event) => {
+    setPostTitle(event.target.value);
+  };
+
+  const handleDescriptionChange = (event) => {
+    setPostDescription(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setAxiosLoading(true);
+    document.querySelector("#post-upload").disabled = true;
+    if (postImage) {
+      console.log("Hello if");
+      const formData = new FormData();
+      formData.append("file", postImage);
+      formData.append("upload_preset", presetValue);
+
+      axios
+        .post(
+          `https://api.cloudinary.com/v1_1/${cloudinaryApi}/image/upload`,
+          formData
+        )
+        .then((response) => {
+          // console.log(response.data.url);
+          setPostImage(response.data.url);
+
+          axios
+            .put(`/community-posts/${props.oldDetails.postId}`, {
+              postImage: response.data.url,
+              postTitle: postTitle,
+              postDescription: postDescription,
+            })
+            .then(() => {
+              setPostImage("");
+              setPostTitle("");
+              setPostDescription("");
+              handleCloseModal();
+              setFormSubmitted(true);
+              setShowAlert(true);
+              setAxiosLoading(false);
+              setChecked(false);
+              document.querySelector("#post-upload").disabled = false;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => console.log(error));
+    } else {
+      console.log("Hello else");
+      axios
+        .put(`/community-posts/${props.oldDetails.postId}`, {
+          postImage: checked ? "" : props.oldDetails.postImage,
+          postTitle: postTitle,
+          postDescription: postDescription,
+        })
+        .then(() => {
+          setPostImage("");
+          setPostTitle("");
+          setPostDescription("");
+          handleCloseModal();
+          setFormSubmitted(true);
+          setShowAlert(true);
+          setAxiosLoading(false);
+          setChecked(false);
+          document.querySelector("#post-upload").disabled = false;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+    props.handlePostUpdated();
+    props.handleEditModalClose();
+  };
+
+  return (
+    <div>
+      {formSubmitted && showAlert && (
+        <div className="alert alert-success fade show" role="alert">
+          Post successfully edited!
+        </div>
+      )}
+      <Modal
+        className="modal-lg modal-content"
+        isOpen={isOpen}
+        contentLabel="Form Modal"
+      >
+        {isOpen && (
+          <div>
+            <h1>Edit Post:</h1> <br />
+            <br />
+            <button
+              id="close-button"
+              className="post-link"
+              onClick={handleCloseModal}
+            >
+              &times;
+            </button>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label className="form-label">Change Picture</label>
+                <input
+                  className="form-control"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+              </div>
+              <br />
+              <label className="form-label">Change Title</label>
+              <input
+                className="form-control"
+                type="text"
+                value={postTitle}
+                onChange={handleTitleChange}
+                required
+              />
+              <br />
+              <label className="form-label">Change Description</label>
+              <textarea
+                rows={4}
+                className="form-control"
+                type="text"
+                value={postDescription}
+                onChange={handleDescriptionChange}
+                required
+              />
+              <br />
+              {axiosLoading ? <p>Updating...</p> : <span></span>}
+              {props.oldDetails.postImage ? (
+                <>
+                  {" "}
+                  <button
+                    id="post-upload"
+                    className="post-link edit-post-submit"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                  <label className="remove-picture-label" htmlFor="remove-pic">
+                    Remove Picture
+                  </label>
+                  <input
+                    onChange={handleCheckBox}
+                    className="remove-picture"
+                    id="remove-pic"
+                    type="checkbox"
+                  />
+                </>
+              ) : (
+                <>
+                  <button id="post-upload" className="post-link" type="submit">
+                    Submit
+                  </button>
+                </>
+              )}
+            </form>
+          </div>
+        )}
+      </Modal>
+    </div>
+  );
+}
+
+export default EditPost;
