@@ -13,22 +13,19 @@ import "../App.css";
 import EditPost from "./modals/EditPost";
 import DeletePost from "./modals/DeletePost";
 import NewPost from "./modals/NewPost";
+import LikeUnlikePost from "./LikeUnlikePost";
+import LikeUnlikeComment from "./LikeUnlikeComment";
 
 function ViewPost() {
   const [viewPost, setViewPost] = useState(undefined);
   const [loading, setLoading] = useState(true);
-  const [countForEdit, setCountForEdit] = useState(0);
-  const [countForDelete, setCountForDelete] = useState(0);
-  const [countForNew, setCountForNew] = useState(0);
+  const [count, setCount] = useState(0);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [newModalOpen, setNewModalOpen] = useState(false);
   const [comments, setComments] = useState(undefined);
-  const [countForAddComment, setCountForAddComment] = useState(0);
   const [newComment, setNewComment] = useState(undefined);
-  const [liked, setLiked] = useState(false);
   let { postId } = useParams();
-  let { commentId } = useParams();
   let navigate = useNavigate();
   let comment;
 
@@ -38,21 +35,17 @@ function ViewPost() {
         const resPosts = await axios.get(`/community-posts/${postId}`);
         const resComments = await axios.get(`/view-post/${postId}`);
         setViewPost(resPosts.data);
-        setComments(resComments.data);
+        setComments(resComments.data.postComments);
         setLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     getPostsAndComments();
-  }, [postId, countForEdit, countForDelete, countForAddComment]);
+  }, [postId, count]);
 
-  const handlePostUpdated = () => {
-    setCountForEdit(countForEdit + 1);
-  };
-
-  const handlePostDeleted = () => {
-    setCountForDelete(countForDelete + 1);
+  const handleChange = () => {
+    setCount(count + 1);
   };
 
   const handleEditModalOpen = () => {
@@ -69,10 +62,6 @@ function ViewPost() {
 
   const handleDeleteModalClose = () => {
     setDeleteModalOpen(false);
-  };
-
-  const handlePostAdded = () => {
-    setCountForNew(countForNew + 1);
   };
 
   const handleNewModalOpen = () => {
@@ -103,45 +92,7 @@ function ViewPost() {
       .catch((error) => {
         console.log(error);
       });
-    setCountForAddComment(countForAddComment + 1);
-  };
-
-  const handleLikeUnlike = () => {
-    if (liked) {
-      axios.post(`/view-post/${postId}/${commentId}`).then (() => {
-        
-      }).catch(error => {console.log(error);})
-    }
-    setLiked(!liked);
-  };
-
-  const buildComment = (com) => {
-    // make an axios call here to get the user details
-    return (
-      <>
-        <Grid container wrap="nowrap" spacing={2}>
-          <Grid justifyContent="left" item xs zeroMinWidth>
-            <h5 style={{ margin: 0, textAlign: "left" }}>
-              {com.userThatPosted}
-              {liked ? (
-                <button onClick={handleLikeUnlike} className="like-button">
-                  <i className="bi bi-hand-thumbs-up-fill"></i>
-                </button>
-              ) : (
-                <button onClick={handleLikeUnlike} className="like-button">
-                  <i className="bi bi-hand-thumbs-up"></i>
-                </button>
-              )}
-            </h5>
-            <p style={{ textAlign: "left" }}>{com.comment}</p>
-            <p style={{ textAlign: "left", color: "gray" }}>
-              Posted On: {com.commentDate + ", " + com.commentTime}
-            </p>
-          </Grid>
-        </Grid>
-        <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
-      </>
-    );
+    setCount(count + 1);
   };
 
   const buildCard = () => {
@@ -186,6 +137,11 @@ function ViewPost() {
                 }}
               >
                 <dl>
+                <p>
+                    <dt className="title">Posted By: </dt>
+                    {viewPost &&
+                      " " + viewPost.userThatPosted}
+                  </p>
                   <p>
                     <dt className="title">Posted On: </dt>
                     {viewPost &&
@@ -197,13 +153,15 @@ function ViewPost() {
                   </p>
                   <p>
                     Found it useful?
-                    <button className="like-button like-in-view">
-                      <i className="bi bi-hand-thumbs-up"></i>
-                    </button>
-                    {/* {viewPost.postLikes.length !== 0 &&
+                    <LikeUnlikePost
+                      className={"like-button"}
+                      countFunction={handleChange}
+                      post={viewPost}
+                    />
+                    {viewPost.postLikes.length !== 0 &&
                       (viewPost.postLikes.length === 1
                         ? viewPost.postLikes.length + " like"
-                        : viewPost.postLikes.length + " likes")} */}
+                        : viewPost.postLikes.length + " likes")}
                   </p>
                   <button onClick={handleEditModalOpen} className="post-link">
                     Edit
@@ -215,7 +173,7 @@ function ViewPost() {
                     <EditPost
                       handleEditModalClose={handleEditModalClose}
                       isOpen={editModalOpen}
-                      handlePostUpdated={handlePostUpdated}
+                      handleChange={handleChange}
                       oldDetails={{
                         postId: postId,
                         postImage: viewPost.postImage,
@@ -228,7 +186,7 @@ function ViewPost() {
                     <DeletePost
                       handleDeleteModalClose={handleDeleteModalClose}
                       isOpen={deleteModalOpen}
-                      handlePostDeleted={handlePostDeleted}
+                      handleChange={handleChange}
                       postId={postId}
                     />
                   )}
@@ -297,6 +255,11 @@ function ViewPost() {
                   <p>
                     <dt className="title">Posted On: </dt>
                     {viewPost &&
+                      viewPost.userThatPosted}
+                  </p>
+                  <p>
+                    <dt className="title">Posted On: </dt>
+                    {viewPost &&
                       " " + viewPost.postDate + " at " + viewPost.postTime}
                   </p>
                   <p>
@@ -306,9 +269,11 @@ function ViewPost() {
                   <br />
                   <p>
                     Found it useful?
-                    <button className="like-button like-in-view">
-                      <i className="bi bi-hand-thumbs-up"></i>
-                    </button>
+                    <LikeUnlikePost
+                      className={"like-button"}
+                      countFunction={handleChange}
+                      post={viewPost}
+                    />
                     {viewPost.postLikes.length !== 0 &&
                       (viewPost.postLikes.length === 1
                         ? viewPost.postLikes.length + " like"
@@ -324,7 +289,7 @@ function ViewPost() {
                     <EditPost
                       handleEditModalClose={handleEditModalClose}
                       isOpen={editModalOpen}
-                      handlePostUpdated={handlePostUpdated}
+                      handleChange={handleChange}
                       oldDetails={{
                         postId: postId,
                         postTitle: viewPost.postTitle,
@@ -336,7 +301,7 @@ function ViewPost() {
                     <DeletePost
                       handleDeleteModalClose={handleDeleteModalClose}
                       isOpen={deleteModalOpen}
-                      handlePostDeleted={handlePostDeleted}
+                      handleChange={handleChange}
                       postId={postId}
                     />
                   )}
@@ -347,6 +312,22 @@ function ViewPost() {
         </div>
         <div style={{ padding: 14 }} className="comment-section">
           <h2>Comment Section</h2>
+          <form onSubmit={handleCommentAdded}>
+            <div className="write-comment">
+              <label htmlFor="comment-box"></label>
+              <input
+                value={newComment}
+                onChange={handleCommentChange}
+                id="comment-box"
+                placeholder="Write a comment..."
+                type="text"
+                required
+              />
+              <button type="submit" className="post-link">
+                Post
+              </button>
+            </div>
+          </form>
           <Paper style={{ padding: "40px 20px" }}>
             {comment.length ? comment : "No Comments Posted!"}
           </Paper>
@@ -354,6 +335,27 @@ function ViewPost() {
       </div>
     );
     return res;
+  };
+
+  const buildComment = (com) => {
+    // make an axios call here to get the user details
+    return (
+      <>
+        <Grid container wrap="nowrap" spacing={2}>
+          <Grid justifyContent="left" item xs zeroMinWidth>
+            <h5 style={{ margin: 0, textAlign: "left" }}>
+              {com.userThatPosted}
+              <LikeUnlikeComment countFunction = {handleChange} commentId = {com.commentId}/>
+            </h5>
+            <p style={{ textAlign: "left" }}>{com.comment}</p>
+            <p style={{ textAlign: "left", color: "gray" }}>
+              Posted On: {com.commentDate + ", " + com.commentTime}
+            </p>
+          </Grid>
+        </Grid>
+        <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
+      </>
+    );
   };
 
   comment =
@@ -382,7 +384,7 @@ function ViewPost() {
           <NewPost
             handleNewModalClose={handleNewModalClose}
             isOpen={newModalOpen}
-            handlePostAdded={handlePostAdded}
+            handleChange={handleChange}
           />
         )}
       </div>

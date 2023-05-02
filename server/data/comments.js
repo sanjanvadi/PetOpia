@@ -14,8 +14,11 @@ const getCommentsByPostId = async (postId) => {
   postById.postComments.forEach((ele) => {
     ele._id = ele._id.toString();
   });
-  postById.postComments.sort().reverse();
-  return postById.postComments;
+  // postById.postComments.sort().reverse();
+  postById.postComments.sort((a,b) => {
+    return b.commentLikes.length - a.commentLikes.length;
+  })
+  return postById;
 };
 
 const getCommentByCommentId = async (postId, commentId) => {

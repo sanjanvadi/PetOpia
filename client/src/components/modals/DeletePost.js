@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 function DeletePost(props) {
   const [isOpen, setIsOpen] = useState(props.isOpen);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
   const [axiosLoading, setAxiosLoading] = useState(null);
+  // const [formSubmitted, setFormSubmitted] = useState(false);
+  // const [showAlert, setShowAlert] = useState(false);
   let navigate = useNavigate();
 
   const handleCloseModal = () => {
     setIsOpen(false);
-    props.handlePostDeleted();
+    props.handleChange();
     props.handleDeleteModalClose();
   };
 
@@ -22,9 +22,9 @@ function DeletePost(props) {
     axios
       .delete(`/community-posts/${props.postId}`)
       .then(() => {
-        setFormSubmitted(true);
-        setShowAlert(true);
         setAxiosLoading(false);
+        // setFormSubmitted(true);
+        // setShowAlert(true);
         navigate(-1)
       })
       .catch((error) => {
@@ -34,11 +34,11 @@ function DeletePost(props) {
 
   return (
     <div>
-      {formSubmitted && showAlert && (
+      {/* {formSubmitted && showAlert && (
         <div className="alert alert-success fade show" role="alert">
           Post successfully deleted!
         </div>
-      )}
+      )} */}
       <Modal
         className="modal-lg modal-content"
         isOpen={isOpen}

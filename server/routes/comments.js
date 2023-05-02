@@ -18,6 +18,7 @@ router
       const allCommentsByPostId = await getCommentsByPostId(req.params.postId);
       res.json(allCommentsByPostId);
     } catch (error) {
+      console.log(error);
       res.status(error.code).send(error.message);
     }
   })
@@ -33,52 +34,41 @@ router
     } catch (error) {
       res.status(error.code).send(error.message);
     }
-  })
-  // .delete(async (req, res) => {
-  //   try {
-  //     const { commentId } = req.body;
-  //     const postAfterDeletion = await deleteComment(
-  //       req.params.postId,
-  //       xss(commentId)
-  //     );
-  //     res.json(postAfterDeletion);
-  //   } catch (error) {
-  //     res.status(error.code).send(error.message);
-  //   }
-  // })
-  // .patch(async (req, res) => {
-  //   try {
-  //     const { commentId, comment } = req.body;
-  //     const postAfterUpdate = await editComment(
-  //       req.params.postId,
-  //       commentId,
-  //       xss(comment)
-  //     );
-  //     res.json(postAfterUpdate);
-  //   } catch (error) {
-  //     res.status(error.code).send(error.message);
-  //   }
-  // });
+  });
+// .delete(async (req, res) => {
+//   try {
+//     const { commentId } = req.body;
+//     const postAfterDeletion = await deleteComment(
+//       req.params.postId,
+//       xss(commentId)
+//     );
+//     res.json(postAfterDeletion);
+//   } catch (error) {
+//     res.status(error.code).send(error.message);
+//   }
+// })
+// .patch(async (req, res) => {
+//   try {
+//     const { commentId, comment } = req.body;
+//     const postAfterUpdate = await editComment(
+//       req.params.postId,
+//       commentId,
+//       xss(comment)
+//     );
+//     res.json(postAfterUpdate);
+//   } catch (error) {
+//     res.status(error.code).send(error.message);
+//   }
+// });
 
 router
   .route("/:postId/:commentId")
-  // .get(async (req, res) => {
-  //   try {
-  //     const commentById = await getCommentByCommentId(
-  //       req.params.postId,
-  //       req.params.commentId
-  //     );
-  //     res.json(commentById);
-  //   } catch (error) {
-  //     res.status(error.code).send(error.message);
-  //   }
-  // })
   .post(async (req, res) => {
     try {
       const commentLiked = await likeComment(
         req.session.user._id,
         req.params.postId,
-        req.params.commentId
+        req.body.commentId
       );
       res.json(commentLiked);
     } catch (error) {
@@ -90,34 +80,23 @@ router
       const commentUnliked = await unlikeComment(
         req.session.user._id,
         req.params.postId,
-        req.params.commentId
+        req.body.commentId
       );
       res.json(commentUnliked);
     } catch (error) {
       res.status(error.code).send(error.message);
     }
   });
-
-router
-  .route("/:postId/likes")
-  .post(async (req, res) => {
-    try {
-      const likedData = await likePost(req.session.user._id, req.body.postId);
-      res.json(likedData);
-    } catch (error) {
-      res.status(error.code).send(error.message);
-    }
-  })
-  .delete(async (req, res) => {
-    try {
-      const unlikedData = await unlikePost(
-        req.session.user._id,
-        req.body.postId
-      );
-      res.json(unlikedData);
-    } catch (error) {
-      res.status(error.code).send(error.message);
-    }
-  });
+// .get(async (req, res) => {
+//   try {
+//     const commentById = await getCommentByCommentId(
+//       req.params.postId,
+//       req.params.commentId
+//     );
+//     res.json(commentById);
+//   } catch (error) {
+//     res.status(error.code).send(error.message);
+//   }
+// });
 
 export default router;

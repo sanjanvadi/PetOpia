@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Modal from "react-modal";
+import ErrorPage from "../ErrorPage";
 const cloudinaryApi = "dzlf4ut72";
 const presetValue = "lqbvmbqp";
 
@@ -11,15 +12,26 @@ function NewPost(props) {
   const [postTitle, setPostTitle] = useState("");
   const [postDescription, setPostDescription] = useState("");
   const [isOpen, setIsOpen] = useState(props.isOpen);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
   const [axiosLoading, setAxiosLoading] = useState(null);
+  const [isError, setIsError] = useState(null);
+  const [displayedError, setDisplayedError] = useState(null);
+  // const [formSubmitted, setFormSubmitted] = useState(false);
+  // const [showAlert, setShowAlert] = useState(false);
 
   const handleImageChange = (event) => {
     setPostImage(event.target.files[0]);
   };
 
   const handleTitleChange = (event) => {
+    if (event.target.value.length > 30) {
+      setIsError(true);
+      setDisplayedError("Post title cannot contain more than 30 characters!")
+      document.querySelector("#post-upload").hidden = true;
+    } else {
+      setIsError(false);
+      setDisplayedError(null)
+      document.querySelector("#post-upload").hidden = false;
+    }
     setPostTitle(event.target.value);
   };
 
@@ -30,6 +42,7 @@ function NewPost(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setAxiosLoading(true);
+    setIsError(false);
     document.querySelector("#post-upload").disabled = true;
     if (postImage) {
       const formData = new FormData();
@@ -55,16 +68,18 @@ function NewPost(props) {
               setPostTitle("");
               setPostDescription("");
               handleCloseModal();
-              setFormSubmitted(true);
-              setShowAlert(true);
               setAxiosLoading(false);
+              // setFormSubmitted(true);
+              // setShowAlert(true);
               document.querySelector("#post-upload").disabled = false;
             })
             .catch((error) => {
               console.log(error);
             });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
       axios
         .post("/community-posts", {
@@ -77,9 +92,9 @@ function NewPost(props) {
           setPostTitle("");
           setPostDescription("");
           handleCloseModal();
-          setFormSubmitted(true);
-          setShowAlert(true);
           setAxiosLoading(false);
+          // setFormSubmitted(true);
+          // setShowAlert(true);
           document.querySelector("#post-upload").disabled = false;
         })
         .catch((error) => {
@@ -90,17 +105,17 @@ function NewPost(props) {
 
   const handleCloseModal = () => {
     setIsOpen(false);
-    props.handlePostAdded();
+    props.handleChange();
     props.handleNewModalClose();
   };
 
   return (
     <div>
-      {formSubmitted && showAlert && (
+      {/* {formSubmitted && showAlert && (
         <div className="alert alert-success fade show" role="alert">
           Post successfully uploaded!
         </div>
-      )}
+      )} */}
       <Modal
         className="modal-lg modal-content"
         isOpen={isOpen}
@@ -136,8 +151,8 @@ function NewPost(props) {
                 onChange={handleTitleChange}
                 required
               />
-
               <br />
+              {isError && <ErrorPage error={displayedError} />}
               <label className="form-label">Write a Description</label>
               <textarea
                 rows={4}
@@ -148,7 +163,7 @@ function NewPost(props) {
                 required
               />
               <br />
-              {axiosLoading ? <p>Uploading...</p> : <span></span>}
+              {axiosLoading && <p>Uploading...</p>}
               <button id="post-upload" className="post-link" type="submit">
                 Submit
               </button>

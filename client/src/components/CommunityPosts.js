@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import NewPost from "./modals/NewPost";
 import LikeUnlikePost from "./LikeUnlikePost";
-import ErrorPage from "./ErrorPage";
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import "../../src/App.css";
 // import SearchPosts from "./SearchPosts.js";
@@ -17,9 +16,7 @@ function CommunityPosts() {
   const [myPostsData, setMyPostsData] = useState(undefined);
   const [newModalOpen, setNewModalOpen] = useState(false);
   const [count, setCount] = useState(0);
-  const [liked, setLiked] = useState(false);
   const [postType, setPostType] = useState("allPosts");
-  const [error, setError] = useState(null);
   let card = null;
   //   const [searchedData, setSearchedData] = useState(undefined);
   //   const [searchTerm, setSearchTerm] = useState("");
@@ -52,10 +49,6 @@ function CommunityPosts() {
     getPostsData();
   }, [currentPage, count]);
 
-  const handlePostAdded = () => {
-    setCount(count + 1);
-  };
-
   const handleNewModalOpen = () => {
     setNewModalOpen(true);
   };
@@ -64,14 +57,8 @@ function CommunityPosts() {
     setNewModalOpen(false);
   };
 
-  const handleLike = async () => {
-    if (liked) {
-      // await axios.delete(`/likes/${postId}`)
-      setLiked(false);
-    } else {
-      // await axios.post(`/likes/${postId}`);
-      setLiked(true);
-    }
+  const handleChange = () => {
+    setCount(count + 1);
   };
 
   //   useEffect(() => {
@@ -132,12 +119,18 @@ function CommunityPosts() {
               variant="h6"
               component="h3"
             >
+              <div style={{ fontWeight: "bold" }} className="date">
+                {post.userThatPosted.length > 13
+                  ? post.userThatPosted.slice(0, 13) + "..."
+                  : post.userThatPosted}
+                <br />
+                <LikeUnlikePost className = {"in-community-posts"} countFunction={handleChange} post={post} />
+              </div>
               <div className="date">
                 {post.postDate}
                 <br />
                 {post.postTime}
               </div>
-              {/* <LikeUnlike postId={post._id} /> */}
             </Typography>
             <Link to={`/community-posts/${post._id}`}>
               <Typography
@@ -149,15 +142,17 @@ function CommunityPosts() {
                 variant="h6"
                 component="h3"
               >
-                <div className="post-title truncate">{post.postTitle}</div>
+                <div className="post-title">{post.postTitle}</div>
               </Typography>
               <Typography
-                className="truncate"
+                className=""
                 variant="body2"
                 color="textSecondary"
                 component="p"
               >
-                {post.postDescription && post.postDescription}
+                {post.postDescription.length > 60
+                  ? post.postDescription.slice(0, 60) + "..."
+                  : post.postDescription}
               </Typography>
             </Link>
           </CardContent>
@@ -190,7 +185,11 @@ function CommunityPosts() {
                 <br />
                 {post.postTime}
               </div>
-              {/* <LikeUnlike postId={post._id} /> */}
+              <div style={{ fontWeight: "bold" }} className="date">
+                {post.userThatPosted.slice(0, 5)}
+                <br />
+                <LikeUnlikePost className = {"in-community-posts"} countFunction={handleChange} post={post} />
+              </div>
             </Typography>
             <Link to={`/community-posts/${post._id}`}>
               <Typography
@@ -247,17 +246,9 @@ function CommunityPosts() {
   };
 
   if (postType === "allPosts") {
-    card =
-      allPostsData &&
-      allPostsData.map((post) => {
-        return buildCard(post);
-      });
+    card = allPostsData && allPostsData.map((post) => buildCard(post));
   } else if (postType === "myPosts") {
-    card =
-      myPostsData &&
-      myPostsData.map((post) => {
-        return buildCard(post);
-      });
+    card = myPostsData && myPostsData.map((post) => buildCard(post));
   }
 
   if (loading) {
@@ -289,7 +280,7 @@ function CommunityPosts() {
           <NewPost
             handleNewModalClose={handleNewModalClose}
             isOpen={newModalOpen}
-            handlePostAdded={handlePostAdded}
+            handleChange={handleChange}
           />
         )}
         <br />
@@ -333,7 +324,7 @@ function CommunityPosts() {
           <NewPost
             handleNewModalClose={handleNewModalClose}
             isOpen={newModalOpen}
-            handlePostAdded={handlePostAdded}
+            handleChange={handleChange}
           />
         )}
         <br />
@@ -377,7 +368,7 @@ function CommunityPosts() {
           <NewPost
             handleNewModalClose={handleNewModalClose}
             isOpen={newModalOpen}
-            handlePostAdded={handlePostAdded}
+            handleChange={handleChange}
           />
         )}
         <br />
@@ -427,7 +418,7 @@ function CommunityPosts() {
           <NewPost
             handleNewModalClose={handleNewModalClose}
             isOpen={newModalOpen}
-            handlePostAdded={handlePostAdded}
+            handleChange={handleChange}
           />
         )}
         <br />

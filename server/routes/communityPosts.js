@@ -31,7 +31,6 @@ router.route("/").post(async (req, res) => {
     );
     res.json(addPost);
   } catch (error) {
-    console.log(error);
     res.status(error.code).send(error.message);
   }
 });
