@@ -7,6 +7,7 @@ let _db = undefined;
 
 const dbConnection = async () => {
   if (!_connection) {
+    console.log("Aaa");
     _connection = await MongoClient.connect(process.env.DATABASE_URL);
     _db = await _connection.db(process.env.DATABASE_NAME);
   }

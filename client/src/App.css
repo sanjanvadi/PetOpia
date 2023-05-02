@@ -217,3 +217,189 @@ span{
 	grid-area: div5;
 	text-align: center;
 }
+
+
+.homeDiv {
+    width: 100%;
+    display: flex;
+}
+
+.homeDiv .editBtn {
+    margin-left: auto;
+    background-color: rgb(6, 200, 174);
+    color: black;
+    font-weight: bold;
+}
+
+.homeDiv button {
+    margin-left: auto;
+    background-color: rgb(3, 117, 3);
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
+    font-weight: bold;
+    height: 30px;
+    width: 70px;
+}
+
+.homeDiv .delBtn {
+    margin-left: 10px;
+    background-color: rgb(192, 28, 28);
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
+    font-weight: bold;
+    height: 30px;
+    width: 70px;
+}
+
+.delYesBtn {
+    margin-left: 10px;
+    background-color: rgb(192, 28, 28);
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
+    font-weight: bold;
+    height: 30px;
+    width: 70px;
+}
+
+.delNoBtn {
+    margin-left: 10px;
+    background-color: rgb(3, 117, 3);
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
+    font-weight: bold;
+    height: 30px;
+    width: 70px;
+}
+
+.mainDiv {
+    padding: 15px;
+}
+
+.line {
+    height: 0.5px;
+    width: 50%;
+    background-color: black;
+}
+
+.medCardDiv {
+    display: none;
+}
+
+.medHeaderDiv {
+    background-color: #ece6e6;
+}
+
+.medHeaderDiv h3 {
+    padding: 4px;
+}
+
+.medHeaderDiv:hover {
+    cursor: pointer;
+}
+
+
+.appCardDiv {
+    display: none;
+}
+
+.appHeaderDiv {
+    background-color: #ece6e6;
+}
+
+.appHeaderDiv h3 {
+    padding: 4px;
+}
+
+.appHeaderDiv:hover {
+    cursor: pointer;
+}
+
+td {
+    padding: 7.5px;
+    font-weight: 500;
+}
+
+.presCardDiv {
+    display: none;
+}
+
+.presHeaderDiv {
+    background-color: #ece6e6;
+}
+
+.presHeaderDiv h3 {
+    padding: 4px;
+}
+
+.presHeaderDiv:hover {
+    cursor: pointer;
+}
+
+.cardDiv {
+    width: 50%;
+}
+
+.addButtonDiv {
+    width: 50%;
+}
+
+.addButtonDiv button {
+    margin-left: 90%;
+    background-color: rgb(3, 117, 3);
+    font-weight: bold;
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
+    height: 30px;
+    width: 60px;
+}
+
+.submitBtn {
+    background-color: #575ce8;
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
+    height: 30px;
+    width: 60px;
+}
+
+.delBtn {
+    background-color: #e2e2e2;
+    color: black;
+    padding: 5px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
+    height: 30px;
+    width: 60px;
+}
+
+/* .addMedDiv {
+    display: none;
+    background-color: aqua;
+    width: 100%;
+    position: fixed;
+} */
