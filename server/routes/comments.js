@@ -68,7 +68,7 @@ router
       const commentLiked = await likeComment(
         req.session.user._id,
         req.params.postId,
-        req.body.commentId
+        req.params.commentId
       );
       res.json(commentLiked);
     } catch (error) {
@@ -80,7 +80,7 @@ router
       const commentUnliked = await unlikeComment(
         req.session.user._id,
         req.params.postId,
-        req.body.commentId
+        req.params.commentId
       );
       res.json(commentUnliked);
     } catch (error) {

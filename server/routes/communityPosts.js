@@ -5,6 +5,7 @@ import {
   editPost,
   getAllPosts,
   getPostById,
+  searchPosts,
 } from "../data/communityPosts.js";
 import { ObjectId } from "mongodb";
 import xss from "xss";
@@ -13,18 +14,19 @@ const router = express.Router();
 router.route("/").get(async (req, res) => {
   try {
     const allData = await getAllPosts(req.query.page);
-    res.json({allData: allData, sessionData: req.session.user});
+    const searchedData = await searchPosts(req.query.keyword);
+    res.json({allData: allData, searchedData: searchedData, sessionData: req.session.user});
   } catch (error) {
+    console.log(error);
     res.status(error.code).send(error.message);
   }
 });
 router.route("/").post(async (req, res) => {
   try {
     const { postImage, postTitle, postDescription } = req.body;
-    const userId = new ObjectId();
     const addPost = await newPost(
-      // req.session.user._id.toString(),
-      userId.toString(),
+      // req.session.user._id,
+      "644b1e3a316bde16b1a407f5",
       xss(postImage),
       xss(postTitle),
       xss(postDescription)
@@ -50,8 +52,8 @@ router
       const { postImage, postTitle, postDescription } = req.body;
       const updatedPost = await editPost(
         req.params.postId,
-        // req.session.user._id.toString(),
-        "644bad644669bf97ed815029",
+        // req.session.user._id,
+        "644b1e3a316bde16b1a407f5",
         xss(postImage),
         xss(postTitle),
         xss(postDescription)

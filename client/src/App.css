@@ -17,7 +17,7 @@
 
 input {
   margin-top: 5px;
-  border: 1px solid #9a41e4;
+  border: 1px solid #db9b43;
 }
 .post-body {
   display: block;
@@ -28,7 +28,7 @@ input {
 
 .App-header {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #9a41e4;
+  background-color: #db9b43;
   height: 80px;
   padding: 20px;
   color: #222;
@@ -42,17 +42,6 @@ input {
   font-variant: normal;
   font-weight: 700;
   line-height: 28.4px;
-  float: left;
-}
-
-.nav-link {
-  color: white;
-  font-family: "Leckerli One";
-  font-size: 40px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 700;
-  line-height: 26.4px;
   float: left;
 }
 
@@ -93,7 +82,7 @@ col-md-4 {
   padding: 0.4rem 0.8rem;
   background-color: white;
   border-radius: 3px;
-  background-color: #9a41e4;
+  background-color: #db9b43;
   color: white;
   text-decoration: none !important;
   margin: 5px;
@@ -132,7 +121,7 @@ div {
 }
 
 a {
-  color: #9a41e4;
+  color: #db9b43;
   text-decoration: none !important;
 }
 
@@ -146,7 +135,7 @@ ul {
 
 .title {
   font-weight: bold;
-  color: #9a41e4;
+  color: #db9b43;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -192,8 +181,8 @@ dd {
 }
 
 .community {
-  background-color: white;
-  color: #9a41e4;
+  /* background-color: white; */
+  color: #db9b43;
   font-family: "Leckerli One";
   font-size: 40px;
   font-style: normal;
@@ -204,7 +193,7 @@ dd {
 }
 
 .community:hover {
-  color: #9a41e4;
+  color: #db9b43;
   border: none;
 }
 
@@ -212,7 +201,7 @@ dd {
   padding: 0.4rem 0.8rem;
   background-color: white;
   border-radius: 3px;
-  background-color: #9a41e4;
+  background-color: #db9b43;
   color: white;
   text-decoration: none !important;
   margin: 1px;
@@ -245,7 +234,7 @@ dd {
 .date {
   float: right;
   font-size: small;
-  text-align: left;
+  text-align: right;
 }
 
 .like-unlike {
@@ -254,7 +243,7 @@ dd {
   padding-right: 11px;
   background-color: white;
   border-radius: 3px;
-  background-color: #9a41e4;
+  background-color: #db9b43;
   color: white;
   /* text-decoration: none !important; */
   margin: 5px;
@@ -272,16 +261,6 @@ dd {
   opacity: 1;
 }
 
-.truncate {
-  -webkit-line-clamp: 2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 50ch;
-}
-
-/* .mui-ripple-circle {display: none} */
-
 .mat-ripple-element {
   display: none;
 }
@@ -293,8 +272,16 @@ dd {
   font-size: x-large;
 }
 
+.in-community-posts {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: x-large;
+  float: left;
+}
+
 i {
-  color: #9a41e4;
+  color: #db9b43;
   transition: color 0.3s ease-in-out;
 }
 
@@ -304,22 +291,10 @@ i {
 }
 
 .dropdown {
-  background-color: #9a41e4;
+  background-color: #db9b43;
   color: white;
   border: white;
-}
-
-.post-and-comment {
-  display: flex;
-  height: 700px;
-}
-
-.comment-section {
-  float: left;
-  width: 50%;
-  overflow: auto;
-  border-radius: 10px;
-  box-shadow: 5px 5px 5px #9a41e4 inset;
+  outline: #db9b43;
 }
 
 .view-post {
@@ -347,16 +322,31 @@ i {
   margin-left: 25%;
 }
 
+.post-and-comment {
+  display: flex;
+  height: 730px;
+}
+
+.comment-section {
+  float: left;
+  width: 50%;
+  overflow-y: auto;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px #db9b43 inset;
+}
+
 .write-comment {
   display: flex;
-  width: 900px;
+  width: inherit;
   padding: 1px;
   padding-left: 20px;
   justify-content: center;
   align-items: center;
   margin: auto;
   border-radius: 7px;
-  border: 1px solid #9a41e4;
+  background-color: white;
+  border: 1px solid #db9b43;
+  margin-bottom: 5px;
 }
 
 #comment-box {
@@ -366,4 +356,22 @@ i {
   border: 0;
   padding: 0;
   outline: none;
+}
+
+.error {
+  color: red;
+  font-size: small;
+}
+
+.search-input {
+  width: 35%;
+  height: 35px;
+  outline: 1px solid #db9b43;
+  border-radius: 7px;
+}
+
+body {
+  background-image: url("./img/pets.png");
+  background-size: cover;
+  background-position: no-repeat;
 }
