@@ -1,6 +1,0 @@
-{
-  "type": "module",
-  "dependencies": {
-    "moment": "^2.29.4"
-  }
-}
