@@ -1,11 +1,13 @@
 import React from "react";
-import "./App.css";
 import {
-  NavLink,
   BrowserRouter as Router,
-  Route,
   Routes,
+  Route,
+  NavLink,
 } from "react-router-dom";
+import CommunityPosts from "./components/CommunityPosts";
+import ViewPost from "./components/ViewPost";
+import "./App.css";
 import AdoptPet from "./components/AdoptPet";
 import Account from "./components/Account";
 import SignIn from "./components/SignIn";
@@ -47,6 +49,8 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/my-pets" element={<PetCenterHome></PetCenterHome>}/>
             <Route path="/my-pet-info" element={<PetInfo></PetInfo>}/>
+            <Route path={`/community-posts`} element={<CommunityPosts />} />
+          <Route path={`/community-posts/:postId`} element={<ViewPost />} />
           </Routes>
         </div>
       </Router>
