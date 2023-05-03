@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Modal from "react-modal";
-import ErrorPage from "../ErrorPage";
+import ErrorHandler from "../ErrorHandler";
 const cloudinaryApi = "dzlf4ut72";
 const presetValue = "lqbvmbqp";
 
@@ -123,7 +123,7 @@ function NewPost(props) {
       >
         {isOpen && (
           <div>
-            <h1>New Post:</h1> <br />
+            <h1>New Post</h1> <br />
             <br />
             <button
               id="close-button"
@@ -143,8 +143,9 @@ function NewPost(props) {
                 />
               </div>
               <br />
-              <label className="form-label">Title</label>
+              <label className="form-label">Post Title</label>
               <input
+              placeholder="Headline of your post..."
                 className="form-control"
                 type="text"
                 value={postTitle}
@@ -152,9 +153,10 @@ function NewPost(props) {
                 required
               />
               <br />
-              {isError && <ErrorPage error={displayedError} />}
+              {isError && <ErrorHandler error={displayedError} />}
               <label className="form-label">Write a Description</label>
               <textarea
+              placeholder="Describe what your post is about..."
                 rows={4}
                 className="form-control"
                 type="text"

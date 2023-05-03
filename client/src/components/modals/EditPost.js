@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Modal from "react-modal";
-import ErrorPage from "../ErrorPage";
+import ErrorHandler from "../ErrorHandler";
 const cloudinaryApi = "dzlf4ut72";
 const presetValue = "lqbvmbqp";
 
@@ -17,6 +17,7 @@ function EditPost(props) {
   const [axiosLoading, setAxiosLoading] = useState(null);
   const [checked, setChecked] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [serverError, setServerError] = useState(false);
   const [displayedError, setDisplayedError] = useState(null);
   // const [formSubmitted, setFormSubmitted] = useState(false);
   // const [showAlert, setShowAlert] = useState(false);
@@ -34,20 +35,19 @@ function EditPost(props) {
       setPostImage(event.target.files[0]);
     } else if (!event.target.files[0]) {
       document.getElementById("remove-pic").disabled = false;
-    }
-    else if (checked) setPostImage("");
+    } else if (checked) setPostImage("");
   };
 
   const handleTitleChange = (event) => {
     if (event.target.value.length > 30) {
       setIsError(true);
-      setDisplayedError("Post title cannot contain more than 30 characters!")
+      setDisplayedError("Post title cannot contain more than 30 characters!");
       document.querySelector("#post-upload").hidden = true;
       document.querySelector("#remove-pic").hidden = true;
       document.querySelector("#remove-pic-label").hidden = true;
     } else {
       setIsError(false);
-      setDisplayedError(null)
+      setDisplayedError(null);
       document.querySelector("#post-upload").hidden = false;
       document.querySelector("#remove-pic").hidden = false;
       document.querySelector("#remove-pic-label").hidden = false;
@@ -74,7 +74,6 @@ function EditPost(props) {
           formData
         )
         .then((response) => {
-          // console.log(response.data.url);
           setPostImage(response.data.url);
 
           axios
@@ -84,17 +83,21 @@ function EditPost(props) {
               postDescription: postDescription,
             })
             .then(() => {
+              setAxiosLoading(false);
+              setServerError(false);
               setPostImage("");
               setPostTitle("");
               setPostDescription("");
               handleCloseModal();
-              setAxiosLoading(false);
               setChecked(false);
               // setFormSubmitted(true);
               // setShowAlert(true);
               document.querySelector("#post-upload").disabled = false;
             })
             .catch((error) => {
+              setAxiosLoading(false);
+              setServerError(true);
+              setDisplayedError(error.response.data);
               console.log(error);
             });
         })
@@ -107,17 +110,22 @@ function EditPost(props) {
           postDescription: postDescription,
         })
         .then(() => {
+          setAxiosLoading(false);
+          setServerError(false);
           setPostImage("");
           setPostTitle("");
           setPostDescription("");
           handleCloseModal();
-          setAxiosLoading(false);
           setChecked(false);
           // setFormSubmitted(true);
           // setShowAlert(true);
           document.querySelector("#post-upload").disabled = false;
         })
         .catch((error) => {
+          setAxiosLoading(false);
+          setServerError(true);
+          setDisplayedError(error.response.data);
+          document.querySelector("#post-upload").disabled = false;
           console.log(error);
         });
     }
@@ -143,7 +151,7 @@ function EditPost(props) {
       >
         {isOpen && (
           <div>
-            <h1>Edit Post:</h1> <br />
+            <h1>Edit Post</h1> <br />
             <br />
             <button
               id="close-button"
@@ -165,6 +173,7 @@ function EditPost(props) {
               <br />
               <label className="form-label">Change Title</label>
               <input
+                placeholder="Headline of your post..."
                 className="form-control"
                 type="text"
                 value={postTitle}
@@ -172,9 +181,10 @@ function EditPost(props) {
                 required
               />
               <br />
-              {isError && <ErrorPage error={displayedError} />}
+              {isError && <ErrorHandler error={displayedError} />}
               <label className="form-label">Change Description</label>
               <textarea
+                placeholder="Describe what your post is about..."
                 rows={4}
                 className="form-control"
                 type="text"
@@ -184,6 +194,7 @@ function EditPost(props) {
               />
               <br />
               {axiosLoading && <p>Updating...</p>}
+              {serverError && <ErrorHandler error={displayedError} />}
               {props.oldDetails.postImage ? (
                 <>
                   {" "}
@@ -194,7 +205,11 @@ function EditPost(props) {
                   >
                     Submit
                   </button>
-                  <label id = "remove-pic-label" className="remove-picture-label" htmlFor="remove-pic">
+                  <label
+                    id="remove-pic-label"
+                    className="remove-picture-label"
+                    htmlFor="remove-pic"
+                  >
                     Remove Picture
                   </label>
                   <input

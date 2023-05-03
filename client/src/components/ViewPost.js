@@ -100,7 +100,7 @@ function ViewPost() {
       <div className="post-and-comment">
         <div className="view-post">
           <Card
-            className="viewss"
+            className="views"
             variant="outlined"
             sx={{
               maxWidth: 550,
@@ -137,10 +137,9 @@ function ViewPost() {
                 }}
               >
                 <dl>
-                <p>
+                  <p>
                     <dt className="title">Posted By: </dt>
-                    {viewPost &&
-                      " " + viewPost.userThatPosted}
+                    {viewPost && " " + viewPost.userThatPosted}
                   </p>
                   <p>
                     <dt className="title">Posted On: </dt>
@@ -163,12 +162,19 @@ function ViewPost() {
                         ? viewPost.postLikes.length + " like"
                         : viewPost.postLikes.length + " likes")}
                   </p>
-                  <button onClick={handleEditModalOpen} className="post-link">
-                    Edit
-                  </button>
-                  <button onClick={handleDeleteModalOpen} className="post-link">
-                    Delete
-                  </button>
+                  {viewPost.userThatPosted === "644f4dd3258aac3913f46b73" && (
+                    <button onClick={handleEditModalOpen} className="post-link">
+                      Edit
+                    </button>
+                  )}
+                  {viewPost.userThatPosted === "644f4dd3258aac3913f46b73" && (
+                    <button
+                      onClick={handleDeleteModalOpen}
+                      className="post-link"
+                    >
+                      Delete
+                    </button>
+                  )}
                   {editModalOpen && (
                     <EditPost
                       handleEditModalClose={handleEditModalClose}
@@ -213,7 +219,7 @@ function ViewPost() {
               </button>
             </div>
           </form>
-          <Paper style={{ padding: "40px 20px" }}>
+          <Paper style={{ padding: "30px 20px" }}>
             {comment.length ? comment : "No Comments Posted!"}
           </Paper>
         </div>
@@ -222,6 +228,7 @@ function ViewPost() {
       <div className="post-and-comment">
         <div className="view-post">
           <Card
+            className="views"
             variant="outlined"
             sx={{
               maxWidth: 550,
@@ -254,8 +261,7 @@ function ViewPost() {
                 <dl>
                   <p>
                     <dt className="title">Posted On: </dt>
-                    {viewPost &&
-                      viewPost.userThatPosted}
+                    {viewPost && viewPost.userThatPosted}
                   </p>
                   <p>
                     <dt className="title">Posted On: </dt>
@@ -343,10 +349,19 @@ function ViewPost() {
       <>
         <Grid container wrap="nowrap" spacing={2}>
           <Grid justifyContent="left" item xs zeroMinWidth>
-            <h5 style={{ margin: 0, textAlign: "left" }}>
+            <p style={{ margin: 0, textAlign: "left", fontWeight: "bold" }}>
               {com.userThatPosted}
-              <LikeUnlikeComment countFunction = {handleChange} commentId = {com.commentId}/>
-            </h5>
+              <LikeUnlikeComment
+                countFunction={handleChange}
+                commentObj={com}
+              />
+              <span style={{ fontWeight: "lighter" }}>
+                {com.commentLikes.length !== 0 &&
+                  (com.commentLikes.length === 1
+                    ? com.commentLikes.length + " like"
+                    : com.commentLikes.length + " likes")}
+              </span>
+            </p>
             <p style={{ textAlign: "left" }}>{com.comment}</p>
             <p style={{ textAlign: "left", color: "gray" }}>
               Posted On: {com.commentDate + ", " + com.commentTime}
