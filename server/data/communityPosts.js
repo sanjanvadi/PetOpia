@@ -116,24 +116,6 @@ const editPost = async (
   userThatPosted = userThatPosted.trim();
 
   let updatedPost;
-
-  // if (postImage !== "") {
-  //   validateString(postImage, "Image path");
-  //   postImage = postImage.trim();
-  //   updatedPost = {
-  //     userThatPosted: userThatPosted, // this userId comes from the active session
-  //     postImage: postImage,
-  //     postTitle: postTitle,
-  //     postDescription: postDescription,
-  //   };
-  // } else {
-  //   updatedPost = {
-  //     userThatPosted: userThatPosted, // this userId comes from the active session
-  //     postTitle: postTitle,
-  //     postDescription: postDescription,
-  //   };
-  // }
-
   const oldData = await getPostById(postId);
   if (postImage !== "") {
     validateString(postImage, "Image path");
@@ -190,4 +172,19 @@ const deletePost = async (postId) => {
   }
   return { postId: postId, deleted: true };
 };
-export { newPost, getAllPosts, getPostById, deletePost, editPost };
+
+const searchPosts = async (keyword) => {
+  const postsCollection = await communityPosts();
+  const allPostsData = await postsCollection
+    .find()
+    .sort({ $natural: -1 })
+    .toArray();
+  const searchedPosts = allPostsData.filter(
+    (post) =>
+      post.postTitle.toLowerCase().includes(keyword) ||
+      post.postDescription.toLowerCase().includes(keyword)
+  );
+  return searchedPosts;
+};
+
+export { newPost, getAllPosts, getPostById, deletePost, editPost, searchPosts };

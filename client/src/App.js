@@ -14,10 +14,13 @@ function App() {
       <div>
         <header>
           <nav className="App-header">
-              <h1 className="App-title">PetOpia</h1>
+            <h1 className="App-title">PetOpia</h1>
             <div className="navLinks">
               <NavLink className="post-link nav-link" to="/">
                 Home
+              </NavLink>
+              <NavLink className="post-link nav-link" to="/community-posts">
+                Community
               </NavLink>
             </div>
           </nav>

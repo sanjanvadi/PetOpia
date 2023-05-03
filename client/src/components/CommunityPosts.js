@@ -5,7 +5,8 @@ import NewPost from "./modals/NewPost";
 import LikeUnlikePost from "./LikeUnlikePost";
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import "../../src/App.css";
-// import SearchPosts from "./SearchPosts.js";
+import SearchPosts from "./SearchPosts";
+import ErrorHandler from "./ErrorHandler";
 
 function CommunityPosts() {
   const [firstPage, setFirstPage] = useState(false);
@@ -17,37 +18,52 @@ function CommunityPosts() {
   const [newModalOpen, setNewModalOpen] = useState(false);
   const [count, setCount] = useState(0);
   const [postType, setPostType] = useState("allPosts");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchedData, setSearchedData] = useState(undefined);
   let card = null;
-  //   const [searchedData, setSearchedData] = useState(undefined);
-  //   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const getPostsData = async () => {
-      try {
-        const { data } = await axios.get(
-          `/community-posts?page=${currentPage}`
-        );
-        setMyPostsData(data.allData.allPostsData);
-        const numberOfPages = Math.ceil(
-          data.allData.numberOfDocs / data.allData.limit
-        );
-        const remainingPosts = Math.ceil(
-          data.allData.numberOfDocs % data.allData.limit
-        );
-        if (currentPage === 1) setFirstPage(true);
-        else setFirstPage(false);
-        if (currentPage === numberOfPages) {
-          if (remainingPosts <= data.allData.limit) setLastPage(true);
-          else setLastPage(false);
-        } else setLastPage(false);
-        setAllPostsData(data.allData.allPosts);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
+      if (searchQuery) {
+        try {
+          const resSearchedData = await axios.get(
+            `/community-posts?keyword=${searchQuery}`
+          );
+          setSearchedData(resSearchedData.data.searchedData);
+          setLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        try {
+          const { data } = await axios.get(
+            `/community-posts?page=${currentPage}`
+          );
+          const postsByUser = data.allData.allPostsData.filter((post) => {
+            return post.userThatPosted === "644f4dd3258aac3913f46b73";
+          });
+          setMyPostsData(postsByUser);
+          const numberOfPages = Math.ceil(
+            data.allData.numberOfDocs / data.allData.limit
+          );
+          const remainingPosts = Math.ceil(
+            data.allData.numberOfDocs % data.allData.limit
+          );
+          if (currentPage === 1) setFirstPage(true);
+          else setFirstPage(false);
+          if (currentPage === numberOfPages) {
+            if (remainingPosts <= data.allData.limit) setLastPage(true);
+            else setLastPage(false);
+          } else setLastPage(false);
+          setAllPostsData(data.allData.allPosts);
+          setLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
       }
     };
     getPostsData();
-  }, [currentPage, count]);
+  }, [currentPage, count, searchQuery]);
 
   const handleNewModalOpen = () => {
     setNewModalOpen(true);
@@ -60,30 +76,6 @@ function CommunityPosts() {
   const handleChange = () => {
     setCount(count + 1);
   };
-
-  //   useEffect(() => {
-  //     async function fetchData() {
-  //       try {
-  //         console.log(`in fetch searchTerm: ${searchTerm}`);
-  //         const { data } = await axios.get(
-  //           "http://api.tvmaze.com/search/posts?q=" + searchTerm
-  //         );
-  //         setSearchedData(data);
-  //         setLoading(false);
-  //       } catch (e) {
-  //         console.log(e);
-  //       }
-  //     }
-  //     if (searchTerm) {
-  //       console.log("searchTerm is set");
-  //       fetchData();
-  //     }
-  //   }, [searchTerm]);
-
-  //   const searchValue = async (value) => {
-  //     setSearchTerm(value);
-  //   };
-
   const buildCard = (post) => {
     const res = post.postImage ? (
       <Grid item xs={12} sm={7} md={5} lg={4} xl={3} key={post._id}>
@@ -124,7 +116,11 @@ function CommunityPosts() {
                   ? post.userThatPosted.slice(0, 13) + "..."
                   : post.userThatPosted}
                 <br />
-                <LikeUnlikePost className = {"in-community-posts"} countFunction={handleChange} post={post} />
+                <LikeUnlikePost
+                  className={"in-community-posts"}
+                  countFunction={handleChange}
+                  post={post}
+                />
               </div>
               <div className="date">
                 {post.postDate}
@@ -188,7 +184,11 @@ function CommunityPosts() {
               <div style={{ fontWeight: "bold" }} className="date">
                 {post.userThatPosted.slice(0, 5)}
                 <br />
-                <LikeUnlikePost className = {"in-community-posts"} countFunction={handleChange} post={post} />
+                <LikeUnlikePost
+                  className={"in-community-posts"}
+                  countFunction={handleChange}
+                  post={post}
+                />
               </div>
             </Typography>
             <Link to={`/community-posts/${post._id}`}>
@@ -214,20 +214,19 @@ function CommunityPosts() {
     return res;
   };
 
-  //   if (searchTerm) {
-  //     card =
-  //       searchedData &&
-  //       searchedData.map((posts) => {
-  //         let { post } = posts;
-  //         return buildCard(post);
-  //       });
-  //   } else {
-  // card =
-  //   allPostsData &&
-  //   allPostsData.map((post) => {
-  //     return buildCard(post);
-  //   });
-  //   }
+  if (searchQuery) {
+    card =
+      searchedData &&
+      searchedData.map((post) => {
+        return buildCard(post);
+      });
+  } else {
+    if (postType === "allPosts") {
+      card = allPostsData && allPostsData.map((post) => buildCard(post));
+    } else if (postType === "myPosts") {
+      card = myPostsData && myPostsData.map((post) => buildCard(post));
+    }
+  }
 
   const next = () => {
     setCurrentPage(currentPage + 1);
@@ -245,11 +244,9 @@ function CommunityPosts() {
     }
   };
 
-  if (postType === "allPosts") {
-    card = allPostsData && allPostsData.map((post) => buildCard(post));
-  } else if (postType === "myPosts") {
-    card = myPostsData && myPostsData.map((post) => buildCard(post));
-  }
+  const searchValue = (value) => {
+    setSearchQuery(value.toLowerCase());
+  };
 
   if (loading) {
     return (
@@ -258,12 +255,14 @@ function CommunityPosts() {
       </div>
     );
   }
-
+  if (!allPostsData || !myPostsData) {
+    return <ErrorHandler error="ERROR 500: Internal Server Error!" />;
+  }
+  // if (!searchedData.length) return <div>No posts found!</div>
   if (firstPage && lastPage) {
     return (
       <div>
-        <div className="post-link community">PetOpia Community</div>
-        {/* <SearchPosts searchValue={searchValue} /> */}
+        <div className="community">PetOpia Community</div>
         <button className="post-link new-post">
           <select onChange={handleDropdown} className="dropdown">
             <option value="option1">All Posts</option>
@@ -276,6 +275,9 @@ function CommunityPosts() {
         >
           New Post
         </button>
+        <br />
+        <br />
+        <SearchPosts searchValue={searchValue} />
         {newModalOpen && (
           <NewPost
             handleNewModalClose={handleNewModalClose}
@@ -300,8 +302,7 @@ function CommunityPosts() {
   } else if (firstPage) {
     return (
       <div>
-        <div className="post-link community">PetOpia Community</div>
-        {/* <SearchPosts searchValue={searchValue} /> */}
+        <div className="community">PetOpia Community</div>
         <button className="post-link new-post">
           <select onChange={handleDropdown} className="dropdown">
             <option value="option1">All Posts</option>
@@ -315,11 +316,14 @@ function CommunityPosts() {
           New Post
         </button>
         <br />
-        {postType === "allPosts" && (
+        {postType === "allPosts" && !searchQuery && (
           <button onClick={next} className="post-link">
             Next
           </button>
         )}
+        <br />
+        <br />
+        <SearchPosts searchValue={searchValue} />
         {newModalOpen && newModalOpen && (
           <NewPost
             handleNewModalClose={handleNewModalClose}
@@ -344,8 +348,7 @@ function CommunityPosts() {
   } else if (lastPage) {
     return (
       <div>
-        <div className="post-link community">PetOpia Community</div>
-        {/* <SearchPosts searchValue={searchValue} /> */}
+        <div className="community">PetOpia Community</div>
         <button className="post-link new-post">
           <select onChange={handleDropdown} className="dropdown">
             <option value="option1">All Posts</option>
@@ -359,11 +362,14 @@ function CommunityPosts() {
           New Post
         </button>
         <br />
-        {postType === "allPosts" && (
+        {postType === "allPosts" && !searchQuery && (
           <button onClick={prev} className="post-link">
             Prev
           </button>
         )}
+        <br />
+        <br />
+        <SearchPosts searchValue={searchValue} />
         {newModalOpen && newModalOpen && (
           <NewPost
             handleNewModalClose={handleNewModalClose}
@@ -388,8 +394,7 @@ function CommunityPosts() {
   } else {
     return (
       <div>
-        <div className="post-link community">PetOpia Community</div>
-        {/* <SearchPosts searchValue={searchValue} /> */}
+        <div className="community">PetOpia Community</div>
         <button className="post-link new-post">
           <select onChange={handleDropdown} className="dropdown">
             <option value="option1">All Posts</option>
@@ -403,17 +408,20 @@ function CommunityPosts() {
           New Post
         </button>
         <br />
-        {postType === "allPosts" && (
+        {postType === "allPosts" && !searchQuery && (
           <button onClick={prev} className="post-link">
             Prev
           </button>
         )}
 
-        {postType === "allPosts" && (
+        {postType === "allPosts" && !searchQuery && (
           <button onClick={next} className="post-link">
             Next
           </button>
         )}
+        <br />
+        <br />
+        <SearchPosts searchValue={searchValue} />
         {newModalOpen && newModalOpen && (
           <NewPost
             handleNewModalClose={handleNewModalClose}
