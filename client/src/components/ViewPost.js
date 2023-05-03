@@ -335,7 +335,11 @@ function ViewPost() {
             </div>
           </form>
           <Paper style={{ padding: "40px 20px" }}>
-            {comment.length ? comment : "No Comments Posted!"}
+            {comment.length ? (
+              <Grid container justifyContent="left" wrap="nowrap" spacing={2}>
+                {comment}
+              </Grid>
+              ) : "No Comments Posted!"}
           </Paper>
         </div>
       </div>
@@ -347,8 +351,7 @@ function ViewPost() {
     // make an axios call here to get the user details
     return (
       <>
-        <Grid container wrap="nowrap" spacing={2}>
-          <Grid justifyContent="left" item xs zeroMinWidth>
+          <Grid item xs zeroMinWidth key={com._id}>
             <p style={{ margin: 0, textAlign: "left", fontWeight: "bold" }}>
               {com.userThatPosted}
               <LikeUnlikeComment
@@ -367,7 +370,6 @@ function ViewPost() {
               Posted On: {com.commentDate + ", " + com.commentTime}
             </p>
           </Grid>
-        </Grid>
         <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
       </>
     );

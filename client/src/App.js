@@ -14,6 +14,7 @@ import SignIn from "./components/SignIn";
 import { AuthProvider } from "./components/firebase/Auth";
 import PrivateRoute from "./components/PrivateRoute";
 import { PetCenterHome, PetInfo } from "./components/Home";
+import SignOutButton from "./components/SignOut";
 
 function App() {
   return (
@@ -25,17 +26,26 @@ function App() {
               <h1 className="App-title">PetOpia</h1>
               <div className="navLinks">
                 <NavLink className="postLink" to="/">
-                  Home
+                  signIn
+                </NavLink>
+                <NavLink className="postLink" to="/account/my-pets">
+                  Pet-Center
+                </NavLink>
+                <NavLink className="postLink" to="/account/community-posts">
+                  Community
                 </NavLink>
                 <NavLink className="postLink" to="/adoptpet">
                   Adopt
                 </NavLink>
-                <NavLink className="postLink" to="/account">
+                {/* <NavLink className="postLink" to="/account">
                   Account
-                </NavLink>
-                <NavLink className="postLink" to="/signin">
-                  Sign In
-                </NavLink>
+                </NavLink> */}
+                {/* <NavLink className="postLink" to="/signin">
+                  Sign Out
+                </NavLink> */}
+                <div className="postLink">
+                  <SignOutButton/>
+                </div>
               </div>
             </nav>
           </header>
@@ -44,13 +54,13 @@ function App() {
             <Route path="/adoptpet" element={<AdoptPet />} />
             {/* <Route path='*' element={<NotFound/>}/> */}
             <Route path="/account" element={<PrivateRoute />}>
-              <Route path="/account" element={<Account />} />
+              {/* <Route path="/account" element={<Account />} /> */}
+              <Route path="/account/my-pets" element={<PetCenterHome />} />
+              <Route path="/account/my-pet-info" element={<PetInfo />} />
+              <Route path={`/account/community-posts`} element={<CommunityPosts />} />
+              <Route path={`/account/community-posts/:postId`} element={<ViewPost />} />
             </Route>
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/my-pets" element={<PetCenterHome></PetCenterHome>}/>
-            <Route path="/my-pet-info" element={<PetInfo></PetInfo>}/>
-            <Route path={`/community-posts`} element={<CommunityPosts />} />
-          <Route path={`/community-posts/:postId`} element={<ViewPost />} />
+            <Route path="/" element={<SignIn />} />
           </Routes>
         </div>
       </Router>

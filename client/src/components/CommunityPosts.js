@@ -92,7 +92,7 @@ function CommunityPosts() {
               "0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);",
           }}
         >
-          <Link to={`/community-posts/${post._id}`}>
+          <Link to={`/account/community-posts/${post._id}`}>
             <CardMedia
               sx={{
                 height: "100%",
@@ -128,7 +128,7 @@ function CommunityPosts() {
                 {post.postTime}
               </div>
             </Typography>
-            <Link to={`/community-posts/${post._id}`}>
+            <Link to={`/account/community-posts/${post._id}`}>
               <Typography
                 sx={{
                   borderBottom: "1px solid",
@@ -191,7 +191,7 @@ function CommunityPosts() {
                 />
               </div>
             </Typography>
-            <Link to={`/community-posts/${post._id}`}>
+            <Link to={`/account/community-posts/${post._id}`}>
               <Typography
                 sx={{
                   borderBottom: "1px solid",

@@ -26,33 +26,6 @@ input {
   width: 50%;
 }
 
-.App-header {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #db9b43;
-  height: 80px;
-  padding: 20px;
-  color: #222;
-}
-
-.App-title {
-  color: white;
-  font-family: "Leckerli One";
-  font-size: 45px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 700;
-  line-height: 28.4px;
-  float: left;
-}
-
-.navLinks {
-  margin-top: -5px;
-  margin-left: 20px;
-  font-size: 1.5em;
-  font-weight: lighter;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 cite {
   font-weight: bold;
 }
@@ -370,405 +343,410 @@ i {
   border-radius: 7px;
 }
 @font-face {
-    font-family: "LeckerliOne-Regular";   /*Can be any text*/
-    src: local("LeckerliOne-Regular"),
-      url("./fonts/LeckerliOne-Regular.ttf") format("truetype");
-  }
+  font-family: "LeckerliOne-Regular"; /*Can be any text*/
+  src: local("LeckerliOne-Regular"),
+    url("./fonts/LeckerliOne-Regular.ttf") format("truetype");
+}
 
 .App {
-	text-align: center;
-    background-color: gray;
+  text-align: center;
+  background-color: gray;
 }
 
 .App-header {
-	background-color: #9a41e4;
-	height: 30px;
-    width: 100%;
-	padding: 20px;
-	color: #222;
-    display: inline-flex;
-    /* position: fixed; top: 0; left: 0; z-index: 8888; */
+  background-color: #db9b43;
+  height: 65px;
+  width: 100%;
+  padding: 20px;
+  color: #222;
+  display: inline-flex;
+  /* position: fixed; top: 0; left: 0; z-index: 8888; */
 }
-h1{
-    font-size: 3em;
+h1 {
+  font-size: 3em;
 }
-h3{
-    font-size: 1.5em;
-}
-
-.navLinks{
-    margin-top: -5px;
-    margin-left: 20px;
-    font-size: 1.5em;
-    font-weight: lighter;
-    font-family: LeckerliOne-Regular;
+h3 {
+  font-size: 1.5em;
 }
 
+.navLinks {
+  margin-top: -5px;
+  margin-left: 20px;
+  font-size: 1.5em;
+  font-weight: lighter;
+  font-family: LeckerliOne-Regular;
+}
+.navLinksRight {
+  margin-top: -5px;
+  margin-right: 20px;
+  justify-items: right;
+  font-size: 1.5em;
+  font-weight: lighter;
+  font-family: LeckerliOne-Regular;
+}
 
 .App-title {
-    text-align: left;
-	/* font-size: 3em; */
-	font-weight:normal;
-	color: white;
-    margin-top: -20px;
-    font-family: LeckerliOne-Regular;
+  text-align: left;
+  font-weight: normal;
+  color: white;
+  margin-top: -20px;
+  font-family: LeckerliOne-Regular;
 }
 
-.pageTitle{
-    font-family: LeckerliOne-Regular;
-    font-size: 3em;
-    color: #9a41e4;
+.pageTitle {
+  font-family: LeckerliOne-Regular;
+  font-size: 3em;
+  color: #db9b43;
 }
-.mainLogo{
-    text-decoration: none;
+.mainLogo {
+  text-decoration: none;
 }
-.mainLogo:active{
-    text-decoration: none;
+.mainLogo:active {
+  text-decoration: none;
 }
 
 .postLink {
-	padding: 0.3rem 0.4rem;
-	background-color:#9a41e4;
-	border-radius: 3px;
-    padding-right: 10px;
-	color: white;
-	text-decoration: none !important;
-	font-family: LeckerliOne-Regular;
-	font-size: 1em;
-	border: none;
+  padding: 0.3rem 0.4rem;
+  background-color: #db9b43;
+  border-radius: 3px;
+  padding-right: 10px;
+  margin-right: 10px;
+  color: white;
+  text-decoration: none !important;
+  font-family: LeckerliOne-Regular;
+  font-size: 1em;
+  border: none;
 }
 
 .postLink:hover {
-	background-color: transparent;
-	color: white;
-	border: 2px solid white;
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
 }
-.button{
-    padding: 0.3rem 0.4rem;
-	background-color: white;
-	border-radius: 3px;
-    border-color: #9a41e4;
-	color:#9a41e4;
-    font-size: large;
-	text-decoration: none !important;
+.button {
+  padding: 0.3rem 0.4rem;
+  background-color: white;
+  border-radius: 3px;
+  border-color: #db9b43;
+  color: #db9b43;
+  font-size: large;
+  text-decoration: none !important;
 }
-.button:hover{
-	background-color:#9a41e4;
-    border-color: white;
-	color:white;
-	text-decoration: none !important;
+.button:hover {
+  background-color: #db9b43;
+  border-color: white;
+  color: white;
+  text-decoration: none !important;
 }
-.pageSpace{
-    padding-left: 30px;
-    padding-right: 30px;
-    color: #9a41e4;
-    font-weight: bolder;
+.pageSpace {
+  padding-left: 30px;
+  padding-right: 30px;
+  color: #db9b43;
+  font-weight: bolder;
 }
 
 p {
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 div {
-	text-align: center;
+  text-align: center;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
-	input {
-		font-size: 16px;
-	}
+  input {
+    font-size: 16px;
+  }
 }
 
 dt,
 dl {
-	padding: 0px;
-	margin-top: 0px;
-	margin-bottom: 0px;
+  padding: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 dt {
-    font-weight: bold;
-	display: inline-block;
+  font-weight: bold;
+  display: inline-block;
 }
 
 dd {
-    font-weight: bolder;
-	display: inline;
-	margin-left: 5px;
+  font-weight: bolder;
+  display: inline;
+  margin-left: 5px;
 }
-span{
-    font-weight: bold;
-    font-size: large;
+span {
+  font-weight: bold;
+  font-size: large;
 }
-.character{
-    font-size: medium;
+.character {
+  font-size: medium;
 }
-.color{
-    color: #9a41e4;
+.color {
+  color: #db9b43;
 }
-.main{
-    color: #9a41e4;
-    font-size: x-large;
+.main {
+  color: #db9b43;
+  font-size: x-large;
 }
 .card {
-	max-width :750px;
+  max-width: 750px;
   justify-content: center;
-	height : auto;
-	margin-left : auto;
-	margin-right: auto;
-	border-radius: 20;
-	box-shadow: 0 19px 38px rgba(0, 209, 250, 0.3), 0 15px 12px rgba(255, 0, 0, 0.22);
-};
-.modal{
-    background-color: #9a41e4;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 20;
+  box-shadow: 0 19px 38px rgba(0, 209, 250, 0.3),
+    0 15px 12px rgba(255, 0, 0, 0.22);
+}
+.modal {
+  background-color: #db9b43;
 }
 .titleHead {
-	border-bottom: 1px solid #9a41e4;
-	font-weight: bold;
-	font-size: xx-large;
-	color: #9a41e4
-};
-
+  border-bottom: 1px solid #db9b43;
+  font-weight: bold;
+  font-size: xx-large;
+  color: #db9b43;
+}
 
 .media {
-	height: 100%;
-	width: 100%
-};
+  height: 100%;
+  width: 100%;
+}
 
 /*container and grid */
 .grid {
-	flex-grow: 1;
-	flex-direction: row;
-};
+  flex-grow: 1;
+  flex-direction: row;
+}
 
 .container {
-	display: grid; 
-	grid-template-columns: 1.1fr 1fr 0.9fr; 
-	grid-template-rows: auto auto 0 [div4] 1fr; 
-	gap: 0px 0px; 
-	grid-template-areas: 
-		"div1 div1 div2"
-		"div3 div4 div4"
-		". div4 div4"
-		". div4 div4"
-		"div5 div5 div5"; 
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 0.9fr;
+  grid-template-rows: auto auto 0 [div4] 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "div1 div1 div2"
+    "div3 div4 div4"
+    ". div4 div4"
+    ". div4 div4"
+    "div5 div5 div5";
 }
 
-.div1 { 
-	grid-area: div1;
-	text-align: left;
-	margin-left: 80px;
-	align-self: start; /* Align to the top of the grid cell */
+.div1 {
+  grid-area: div1;
+  text-align: left;
+  margin-left: 80px;
+  align-self: start; /* Align to the top of the grid cell */
 }
 
-.div2 { 
-	grid-area: div2;
-	text-align: right;
-	margin-right: 80px;
-	align-self: start; /* Align to the top of the grid cell */
+.div2 {
+  grid-area: div2;
+  text-align: right;
+  margin-right: 80px;
+  align-self: start; /* Align to the top of the grid cell */
 }
 
-.div3 { 
-	grid-area: div3;
-	text-align: left;
-	margin-left: 80px;
-	margin-right: 50px;
-	align-self: end; /* Align to the bottom of the grid cell */
+.div3 {
+  grid-area: div3;
+  text-align: left;
+  margin-left: 80px;
+  margin-right: 50px;
+  align-self: end; /* Align to the bottom of the grid cell */
 }
 
-.div4 { 
-	grid-area: div4;
-	vertical-align: text-top;
-	text-align: left;
-	margin-left: 10px;
-	margin-right: 150px;
-	align-self: end; /* Align to the bottom of the grid cell */
+.div4 {
+  grid-area: div4;
+  vertical-align: text-top;
+  text-align: left;
+  margin-left: 10px;
+  margin-right: 150px;
+  align-self: end; /* Align to the bottom of the grid cell */
 }
 
 .div5 {
-	grid-area: div5;
-	text-align: center;
+  grid-area: div5;
+  text-align: center;
 }
 
-
 .homeDiv {
-    width: 100%;
-    display: flex;
+  width: 100%;
+  display: flex;
 }
 
 .homeDiv .editBtn {
-    margin-left: auto;
-    background-color: rgb(6, 200, 174);
-    color: black;
-    font-weight: bold;
+  margin-left: auto;
+  background-color: rgb(6, 200, 174);
+  color: black;
+  font-weight: bold;
 }
 
 .homeDiv button {
-    margin-left: auto;
-    background-color: rgb(3, 117, 3);
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    font-weight: bold;
-    height: 30px;
-    width: 70px;
+  margin-left: auto;
+  background-color: rgb(3, 117, 3);
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  font-weight: bold;
+  height: 30px;
+  width: 70px;
 }
 
 .homeDiv .delBtn {
-    margin-left: 10px;
-    background-color: rgb(192, 28, 28);
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    font-weight: bold;
-    height: 30px;
-    width: 70px;
+  margin-left: 10px;
+  background-color: rgb(192, 28, 28);
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  font-weight: bold;
+  height: 30px;
+  width: 70px;
 }
 
 .delYesBtn {
-    margin-left: 10px;
-    background-color: rgb(192, 28, 28);
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    font-weight: bold;
-    height: 30px;
-    width: 70px;
+  margin-left: 10px;
+  background-color: rgb(192, 28, 28);
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  font-weight: bold;
+  height: 30px;
+  width: 70px;
 }
 
 .delNoBtn {
-    margin-left: 10px;
-    background-color: rgb(3, 117, 3);
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    font-weight: bold;
-    height: 30px;
-    width: 70px;
+  margin-left: 10px;
+  background-color: rgb(3, 117, 3);
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  font-weight: bold;
+  height: 30px;
+  width: 70px;
 }
 
 .mainDiv {
-    padding: 15px;
+  padding: 15px;
 }
 
 .line {
-    height: 0.5px;
-    width: 50%;
-    background-color: black;
+  height: 0.5px;
+  width: 50%;
+  background-color: black;
 }
 
 .medCardDiv {
-    display: none;
+  display: none;
 }
 
 .medHeaderDiv {
-    background-color: #ece6e6;
+  background-color: #ece6e6;
 }
 
 .medHeaderDiv h3 {
-    padding: 4px;
+  padding: 4px;
 }
 
 .medHeaderDiv:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-
 .appCardDiv {
-    display: none;
+  display: none;
 }
 
 .appHeaderDiv {
-    background-color: #ece6e6;
+  background-color: #ece6e6;
 }
 
 .appHeaderDiv h3 {
-    padding: 4px;
+  padding: 4px;
 }
 
 .appHeaderDiv:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 td {
-    padding: 7.5px;
-    font-weight: 500;
+  padding: 7.5px;
+  font-weight: 500;
 }
 
 .presCardDiv {
-    display: none;
+  display: none;
 }
 
 .presHeaderDiv {
-    background-color: #ece6e6;
+  background-color: #ece6e6;
 }
 
 .presHeaderDiv h3 {
-    padding: 4px;
+  padding: 4px;
 }
 
 .presHeaderDiv:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .cardDiv {
-    width: 50%;
+  width: 50%;
 }
 
 .addButtonDiv {
-    width: 50%;
+  width: 50%;
 }
 
 .addButtonDiv button {
-    margin-left: 90%;
-    background-color: rgb(3, 117, 3);
-    font-weight: bold;
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    height: 30px;
-    width: 60px;
+  margin-left: 90%;
+  background-color: rgb(3, 117, 3);
+  font-weight: bold;
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  height: 30px;
+  width: 60px;
 }
 
 .submitBtn {
-    background-color: #575ce8;
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    height: 30px;
-    width: 60px;
+  background-color: #575ce8;
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  height: 30px;
+  width: 60px;
 }
 
 .delBtn {
-    background-color: #e2e2e2;
-    color: black;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    height: 30px;
-    width: 60px;
+  background-color: #e2e2e2;
+  color: black;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  height: 30px;
+  width: 60px;
 }
 
 /* .addMedDiv {
@@ -778,183 +756,199 @@ td {
     position: fixed;
 } */
 
-
 .homeDiv {
-    width: 100%;
-    display: flex;
+  width: 100%;
+  display: flex;
 }
 
 .homeDiv .editBtn {
-    margin-left: auto;
-    background-color: rgb(6, 200, 174);
-    color: black;
-    font-weight: bold;
+  margin-left: auto;
+  background-color: rgb(6, 200, 174);
+  color: black;
+  font-weight: bold;
 }
 
 .homeDiv button {
-    margin-left: auto;
-    background-color: rgb(3, 117, 3);
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    font-weight: bold;
-    height: 30px;
-    width: 70px;
+  margin-left: auto;
+  background-color: rgb(3, 117, 3);
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  font-weight: bold;
+  height: 30px;
+  width: 70px;
 }
 
 .homeDiv .delBtn {
-    margin-left: 10px;
-    background-color: rgb(192, 28, 28);
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    font-weight: bold;
-    height: 30px;
-    width: 70px;
+  margin-left: 10px;
+  background-color: rgb(192, 28, 28);
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  font-weight: bold;
+  height: 30px;
+  width: 70px;
 }
 
 .delYesBtn {
-    margin-left: 10px;
-    background-color: rgb(192, 28, 28);
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    font-weight: bold;
-    height: 30px;
-    width: 70px;
+  margin-left: 10px;
+  background-color: rgb(192, 28, 28);
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  font-weight: bold;
+  height: 30px;
+  width: 70px;
 }
 
 .delNoBtn {
-    margin-left: 10px;
-    background-color: rgb(3, 117, 3);
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    font-weight: bold;
-    height: 30px;
-    width: 70px;
+  margin-left: 10px;
+  background-color: rgb(3, 117, 3);
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  font-weight: bold;
+  height: 30px;
+  width: 70px;
 }
 
 .mainDiv {
-    padding: 15px;
+  padding: 15px;
 }
 
 .line {
-    height: 0.5px;
-    width: 50%;
-    background-color: black;
+  height: 0.5px;
+  width: 50%;
+  background-color: black;
 }
 
 .medCardDiv {
-    display: none;
+  display: none;
 }
 
 .medHeaderDiv {
-    background-color: #ece6e6;
+  background-color: #ece6e6;
 }
 
 .medHeaderDiv h3 {
-    padding: 4px;
+  padding: 4px;
 }
 
 .medHeaderDiv:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-
 .appCardDiv {
-    display: none;
+  display: none;
 }
 
 .appHeaderDiv {
-    background-color: #ece6e6;
+  background-color: #ece6e6;
 }
 
 .appHeaderDiv h3 {
-    padding: 4px;
+  padding: 4px;
 }
 
 .appHeaderDiv:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 td {
-    padding: 7.5px;
-    font-weight: 500;
+  padding: 7.5px;
+  font-weight: 500;
 }
 
 .presCardDiv {
-    display: none;
+  display: none;
 }
 
 .presHeaderDiv {
-    background-color: #ece6e6;
+  background-color: #ece6e6;
 }
 
 .presHeaderDiv h3 {
-    padding: 4px;
+  padding: 4px;
 }
 
 .presHeaderDiv:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .cardDiv {
-    width: 50%;
+  width: 50%;
 }
 
 .addButtonDiv {
-    width: 50%;
+  width: 50%;
 }
 
 .addButtonDiv button {
-    margin-left: 90%;
-    background-color: rgb(3, 117, 3);
-    font-weight: bold;
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    height: 30px;
-    width: 60px;
+  margin-left: 90%;
+  background-color: rgb(3, 117, 3);
+  font-weight: bold;
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  height: 30px;
+  width: 60px;
 }
 
 .submitBtn {
-    background-color: #575ce8;
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    height: 30px;
-    width: 60px;
+  background-color: #575ce8;
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  height: 30px;
+  width: 60px;
 }
 
 .delBtn {
-    background-color: #e2e2e2;
-    color: black;
-    padding: 5px;
-    font-size: 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 25px;
-    height: 30px;
-    width: 60px;
+  background-color: #e2e2e2;
+  color: black;
+  padding: 5px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  height: 30px;
+  width: 60px;
+}
+
+#welcome-heading {
+  color: #db9b43;
+  text-align: justify;
+  width: 500px;
+}
+
+.headline {
+  margin: auto;
+  margin-top: 5vw;
+  font-size: larger;
+  font-weight: bold;
+  width: 30%;
+  text-align: justify;
+  text-justify: inter-word;
+  color: rgb(89, 62, 36);
+  font-family: LeckerliOne-Regular;
 }
 
 body {
