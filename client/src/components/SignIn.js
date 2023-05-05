@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "./firebase/Auth";
 import { doSocialSignIn } from "./firebase/FirebaseFunctions";
+import { PetCenterHome } from "./Home";
 
 function SignIn() {
   const { currentUser } = useContext(AuthContext);
@@ -13,8 +14,32 @@ function SignIn() {
     }
   };
 
+  let [userId, setUserId] = useState(undefined);
+
+  async function addUser(email) {
+
+    let user = {
+      email
+    }
+
+    await fetch("/user", {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      setUserId(data.id);
+      window.sessionStorage.setItem('userid', data.id);
+    });
+    
+  }
+
   if (currentUser) {
-    return <Navigate to="/account/my-pets" />;
+    addUser(currentUser.email);
+    if(userId) return <PetCenterHome userId={userId}></PetCenterHome>
   }
   return (
     <div>

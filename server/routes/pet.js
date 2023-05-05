@@ -1,164 +1,176 @@
 import { Router } from "express";
 const router = Router();
-import { createApp, createMed, createPet, createPres, deleteApp, deleteMed, deletePet, deletePres, getAllApp, getAllMed, getAllPets, getAllPres, updatePet } from "../data/pet.js";
+import { createUser, createApp, createMed, getPet, createPet, createPres, deleteApp, deleteMed, deletePet, deletePres, getAllPets, updatePet } from "../data/pet.js";
+import xss from 'xss';
 
+import redis from "redis"
+const client = redis.createClient();
+client.connect();
 
-router.route('/medication')
+router.route('/mypet/:userId/:petId')
 .get(async (req, res) => {
     try {
-        let input = req.body;
-        
-        let userId = input.userId;
-        let petId = input.petId
+        let userId = xss(req.params.userId);
+        let petId = xss(req.params.petId);
 
-        let data = await getAllMed(userId, petId);
+        let data = await getPet(userId, petId);
         res.status(200).send(data);
-    } catch(e) {
-        res.status(404).send(e);
-    }
-    
+
+    } catch(e) {}
 })
+
+router.route('/medication')
 .post(async (req, res) => {
     try {
         let input = req.body;
-        let userId = input.userId;
-        let petId = input.petId
-        let medicationName = input.medicationName;
-        let administeredDate = input.administeredDate;
-        let dosage = input.dosage;
+        let userId = xss(input.userId);
+        let petId = xss(input.petId);
+        let medicationName = xss(input.medicationName);
+        let administeredDate = xss(input.administeredDate);
+        let dosage = xss(input.dosage);
 
         let data = await createMed(userId, petId, medicationName, administeredDate, dosage);
         res.status(200).send(data);
     } catch(e) {
-        res.status(404).send(e);
+        res.status(404).send({"error": e});
     }
 })
 .delete(async (req, res) => {
     try {
         let input = req.body;
-        let userId = input.userId;
-        let petId = input.petId
-        let medId = input.medId;
+        let userId = xss(input.userId);
+        let petId = xss(input.petId);
+        let medId = xss(input.medId);
 
         let data = await deleteMed(userId, petId, medId);
         res.status(200).send(data);
     } catch(e) {
-        res.status(404).send(e);
+        res.status(404).send({"error": e});
     }
 })
 
 
 router.route('/appointment')
-.get(async (req, res) => {
-    try {
-        let input = req.body;
-        let userId = input.userId;
-        let petId = input.petId
-
-        let data = await getAllApp(userId, petId);
-        res.status(200).send(data);
-    } catch(e) {
-        res.status(404).send(e);
-    }
-})
 .post(async (req, res) => {
     try {
         let input = req.body;
-        let userId = input.userId;
-        let petId = input.petId
-        let appointmentDate = input.appointmentDate;
-        let reason = input.reason;
-        let clinicName = input.clinicName;
+        let userId = xss(input.userId);
+        let petId = xss(input.petId);
+        let appointmentDate = xss(input.appointmentDate);;
+        let reason = xss(input.reason);
+        let clinicName = xss(input.clinicName);
 
         let data = await createApp(userId, petId, appointmentDate, reason, clinicName);
         res.status(200).send(data);
     } catch(e) {
-        res.status(404).send(e);
+        res.status(404).send({"error": e});
     }
 })
 .delete(async (req, res) => {
     try {
         let input = req.body;
-        let userId = input.userId;
-        let petId = input.petId
-        let appId = input.appId;
+        let userId = xss(input.userId);
+        let petId = xss(input.petId);
+        let appId = xss(input.appId);
 
         let data = await deleteApp(userId, petId, appId);
         res.status(200).send(data);
     } catch(e) {
-        res.status(404).send(e);
+        res.status(404).send({"error": e});
     }
 })
 
 router.route('/prescription')
-.get(async (req, res) => {
-    let input = req.body;
-    let userId = input.userId;
-    let petId = input.petId
-
-    let data = await getAllPres(userId, petId);
-    res.status(200).send(data);
-})
 .post(async (req, res) => {
-    // req.on('data', data => {
-    //     console.log(data.toString('base64'));
-    // });
-    
-    let input = req.body;
-    let userId = input.userId;
-    let petId = input.petId
-    let imageUrl = input.imageUrl;
-    console.log(imageUrl);
-    let data = await createPres(userId, petId, imageUrl);
-    res.status(200).send(data);
+    try {
+        let input = req.body;
+        let userId = xss(input.userId);
+        let petId = xss(input.petId);
+        let imageUrl = xss(input.imageUrl);
+
+        let data = await createPres(userId, petId, imageUrl);
+        res.status(200).send(data);
+    } catch(e) {
+        res.status(404).send({"error": e});
+    }
 })
 .delete(async (req, res) => {
-    let input = req.body;
-    let userId = input.userId;
-    let petId = input.petId
-    let imageUrl = input.imageUrl
+    try {
+        let input = req.body;
+        let userId = xss(input.userId);
+        let petId = xss(input.petId);
+        let imageUrl = xss(input.imageUrl);
 
-    let data = await deletePres(userId, petId, imageUrl);
-    res.status(200).send(data);
+        let data = await deletePres(userId, petId, imageUrl);
+        res.status(200).send(data);
+    } catch(e) {
+        res.status(404).send({"error": e});
+    }
 })
 
 router.route('/:userid')
 .get(async (req, res) => {
-    let userId = req.params.userid
-    let data = await getAllPets(userId);
-    res.status(200).send(data);
+    try {
+        let userId = xss(req.params.userid);
+
+        let userData = await client.exists(userId)
+        let data;
+
+        if(userData) {
+            data = await client.get(userId)
+            data = JSON.parse(data);
+        }
+        else {
+            data = await getAllPets(userId);
+        }
+        res.status(200).send(data);
+    } catch(e) {
+        res.status(404).send({"error": e});
+    }
 })
 .post(async (req, res) => {
-    let userId = req.params.userid
+    try {
+        let userId = xss(req.params.userid);
 
-    let input = req.body;
-    let petName = input.petName;
-    let petAge = input.petAge;
-    let petType = input.petType;
-    let petBreed = input.petBreed;
+        let input = req.body;
+        let petName = xss(input.petName);
+        let petAge = xss(input.petAge);
+        let petType = xss(input.petType);
+        let petBreed = xss(input.petBreed);
 
-    let data = await createPet(userId, petName, petAge, petType, petBreed);
-    res.status(200).send(data);
+        let data = await createPet(userId, petName, petAge, petType, petBreed);
+        res.status(200).send(data);
+    } catch(e) {
+        res.status(404).send({"error": e});
+    }
 })
 .put(async (req, res) => {
-    let input = req.body;
-    let userId = req.params.userid
-    let petId = input.petId
-    let petName = input.petName;
-    let petAge = input.petAge;
-    let petType = input.petType;
-    let petBreed = input.petBreed;
+    try {
+        let userId = xss(req.params.userid);
+        let input = req.body;
+        let petId = xss(input.petId);
+        let petName = xss(input.petName);
+        let petAge = xss(input.petAge);
+        let petType = xss(input.petType);
+        let petBreed = xss(input.petBreed);
 
-    let data = await updatePet(userId, petId, petName, petAge, petType, petBreed);
-    res.status(200).send(data);
+        let data = await updatePet(userId, petId, petName, petAge, petType, petBreed);
+        res.status(200).send(data);
+    } catch(e) {
+        res.status(404).send({"error": e});
+    }
 })
 .delete(async (req, res) => {
-    let input = req.body;
-    let userId = req.params.userid
-    let petId = input.petId
+    try {
+        let userId = xss(req.params.userid);
+        let input = req.body;
+        let petId = xss(input.petId);
 
-    let data = await deletePet(userId, petId);
-    res.status(200).send(data);
+        let data = await deletePet(userId, petId);
+        res.status(200).send(data);
+    } catch(e) {
+        res.status(404).send({"error": e});
+    }
 })
 
 export default router

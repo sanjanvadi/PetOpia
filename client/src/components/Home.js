@@ -4,25 +4,30 @@ import Modal from "react-modal/lib/components/Modal";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
-let userId = "643f4f7caade2d644d0f8057";
+let userId = window.sessionStorage.getItem('userid');
 
-const PetCenterHome = () => {
+const PetCenterHome = (props) => {
+    if(!userId) userId = props.userId;
     let [loading, setLoading] = useState(true);
     let [getMyPets, setMyPets] = useState(undefined);
     const [isOpenPet, setIsOpenPet] = useState(false);
+    const [isOpenError, setIsOpenError] = useState(false);
 
     useEffect(() => {
         async function getPets() {
-            // let userId = "643f4f7caade2d644d0f8057";
-            let {data} = await axios.get("/pets/"+userId);
+            let {data} = await axios.get("pets/"+userId);
             setMyPets(data);
             setLoading(false);
         }
         getPets();
-    }, [])
+    }, [userId])
 
     function showPet() {
         setIsOpenPet(!isOpenPet);
+    }
+
+    function showError() {
+        setIsOpenError(!isOpenError);
     }
 
     async function addPet(e) {
@@ -33,28 +38,33 @@ const PetCenterHome = () => {
         let petAge = formJson.petAge;
         let petType = formJson.petType;
         let petBreed = formJson.petBreed;
-        
-        const pet = {
-            petName,
-            petAge,
-            petType,
-            petBreed
-        };
 
-        setLoading(true);
-        await fetch("/pets/"+userId, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(pet)
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            setMyPets(data)
-            setIsOpenPet(!isOpenPet);
-            setLoading(false);
-        });
+        if(petName.trim().length === 0 || petAge.trim().length === 0 || petType.trim().length === 0 || petBreed.trim().length === 0) {
+            showError();
+        }
+        else {
+            const pet = {
+                petName,
+                petAge,
+                petType,
+                petBreed
+            };
+
+            setLoading(true);
+            await fetch("pets/"+userId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(pet)
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                setMyPets(data)
+                setIsOpenPet(!isOpenPet);
+                setLoading(false);
+            });
+        }
     }
 
     const customStyles = {
@@ -73,7 +83,7 @@ const PetCenterHome = () => {
     card = (getMyPets && getMyPets.map((val) => {
         return(
             <div key={val._id}>
-                <Link to={'/my-pet-info'} state={val}>
+                <Link to={'/account/my-pet-info'} state={val._id}>
                     <div>
                         <h3>{val.petName}</h3>
                     </div>
@@ -85,6 +95,9 @@ const PetCenterHome = () => {
     if(loading) {
         return(
             <div className="mainDiv">
+                <div className="homeDiv">
+                    <button onClick={() => showPet()}>Add Pet</button>
+                </div>
                 <h2>Loading...</h2>
             </div>
         );
@@ -135,6 +148,15 @@ const PetCenterHome = () => {
                         </table>
                     </form>
                 </Modal>
+
+                <Modal
+                    isOpen={isOpenError}
+                    onRequestClose={showError}
+                    contentLabel="My dialog"
+                    style={customStyles}
+                    >
+                        <h3>Input cannot be empty</h3>
+                    </Modal>
             </div>
         );
     }
@@ -152,12 +174,16 @@ const PetInfo = () => {
     const [isOpenEditPet, setIsOpenEditPet] = useState(false);
     const [isOpenDelPet, setIsOpenDelPet] = useState(false);
     const [getPresImg, setPresImg] = useState(undefined);
+    const [isOpenError, setIsOpenError] = useState(false);
+
     let location = useLocation();
     let navigate = useNavigate();
 
     useEffect(() => {
         async function getPets() {
-            setMyPets(location.state)
+            let petId = location.state;
+            let {data} = await axios.get(`pets/mypet/${userId}/${petId}`);
+            setMyPets(data);
             setLoading(false);
         }
         getPets();
@@ -219,46 +245,51 @@ const PetInfo = () => {
 
     function showEditPet() {
         setIsOpenEditPet(!isOpenEditPet);
-        // document.getElementById("petName").value = getMyPets['petName'];
-        // document.getElementById("petAge").value = getMyPets['petAge'];
-        // document.getElementById("petType").value = getMyPets['petType']
-        // document.getElementById("petBreed").value = getMyPets['petBreed']
     }
 
     function showDelPet() {
         setIsOpenDelPet(!isOpenDelPet);
     }
 
+    function showError() {
+        setIsOpenError(!isOpenError);
+    }
+
     async function addMed(e) {
         e.preventDefault();
         const data = new FormData(e.target);
         const formJson = Object.fromEntries(data.entries());
-        // let userId = '643f4f7caade2d644d0f8057';
         let petId = getMyPets._id;
         let medicationName = formJson.medicationName;
         let administeredDate = formJson.administeredDate;
         let dosage = formJson.dosage;
-        
-        const med = {
-            userId,
-            petId,
-            medicationName,
-            administeredDate,
-            dosage,
-        };
 
-        await fetch('pets/medication', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(med)
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            setMyPets(data)
-            setIsOpenMed(!isOpenMed)
-        });
+        if(medicationName.trim().length === 0 || administeredDate.trim().length === 0 || dosage.trim().length === 0) {
+            showError();
+        }
+        else {
+            const med = {
+                userId,
+                petId,
+                medicationName,
+                administeredDate,
+                dosage,
+            };
+
+            await fetch('pets/medication', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(med)
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                localStorage.setItem('petinfo', data);
+                setMyPets(data);
+                setIsOpenMed(!isOpenMed)
+            });
+        }
     }
 
     async function addApp(e) {
@@ -270,27 +301,32 @@ const PetInfo = () => {
         let appointmentDate = formJson.appointmentDate;
         let reason = formJson.reason;
         let clinicName = formJson.clinicName;
-        
-        const app = {
-            userId,
-            petId,
-            appointmentDate,
-            reason,
-            clinicName,
-        };
-        
-        await fetch('pets/appointment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(app)
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            setMyPets(data)
-            setIsOpenApp(!isOpenApp)
-        });
+
+        if(appointmentDate.trim().length === 0 || reason.trim().length === 0 || clinicName.trim().length === 0) {
+            showError();
+        }
+        else {
+            const app = {
+                userId,
+                petId,
+                appointmentDate,
+                reason,
+                clinicName,
+            };
+            
+            await fetch('pets/appointment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(app)
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                setMyPets(data)
+                setIsOpenApp(!isOpenApp)
+            });
+        }
     }
 
     async function addPres(e) {
@@ -307,9 +343,6 @@ const PetInfo = () => {
                     petId,
                     imageUrl: response.data.url
                 };
-                // data.append('file', getPresImg);
-                // data.append('id1', userId);
-                // data.append('id2', petId);
 
                 await fetch('pets/prescription', {
                     method: 'POST',
@@ -329,7 +362,6 @@ const PetInfo = () => {
     }
 
     async function deleteMed(val) {
-        // let userId = '643f4f7caade2d644d0f8057';
         let petId = getMyPets._id;
         let medId = val._id;
         
@@ -376,15 +408,16 @@ const PetInfo = () => {
         });
     }
 
-    async function deletePres(val) {
+    async function deletePres(imageUrl) {
         let petId = getMyPets._id;
-        // let appId = val._id;
         
         const app = {
             userId,
             petId,
-            val
+            imageUrl
         };
+
+        setLoading(true);
 
         await fetch('pets/prescription', {
             method: 'DELETE',
@@ -395,7 +428,8 @@ const PetInfo = () => {
         })
         .then((res) => res.json())
         .then((data) => {
-            setMyPets(data)
+            setMyPets(data);
+            setLoading(false);
         });
     }
 
@@ -428,6 +462,8 @@ const PetInfo = () => {
         })
         .then((res) => res.json())
         .then((data) => {
+            localStorage.setItem('petinfo', data);
+            console.log(location.state);
             setMyPets(data)
             setIsOpenEditPet(!isOpenEditPet)
             setLoading(false);
@@ -788,6 +824,16 @@ const PetInfo = () => {
                         </table>
                     </form>
                 </Modal>
+
+                <Modal
+                    isOpen={isOpenError}
+                    onRequestClose={showError}
+                    contentLabel="My dialog"
+                    style={customStyles}
+                    >
+                        <h3>Input cannot be empty</h3>
+                </Modal>
+
             </div>
         );
     }

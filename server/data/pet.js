@@ -1,11 +1,26 @@
 import { ObjectId } from "mongodb";
 import { users } from "../config/mongoCollections.js"
+import redis from "redis"
+const client = redis.createClient();
+client.connect();
 
+const createUser = async (email) => {
+    const collection = await users();
+    const newUser = {
+        email,
+        pets: []
+    }
+
+    let insertInfo = await collection.insertOne(newUser);
+    if (!insertInfo.acknowledged || !insertInfo.insertedId) {
+        throw 'Error : Could not add owner';
+    }
+    let id = insertInfo.insertedId.toString();
+    await client.set(email, id)
+    return {id}
+}
 
 const getAllPets = async (userId) => {
-    // const collection = await users();
-    // let data = await collection.find({}).toArray();
-    // return data;
 
     const collection = await users();
     const user = await collection.findOne(
@@ -13,6 +28,7 @@ const getAllPets = async (userId) => {
     )
 
     let data = user.pets;
+    await client.set(userId, JSON.stringify(data));
     return data;
 }
 
@@ -25,6 +41,7 @@ const getPet = async (userId, petId) => {
     let data = user.pets;
     for(let i = 0; i<data.length; i++) {
         if(data[i]['_id'].toString() === petId) {
+            data[i]['_id'] = data[i]['_id'].toString();
             return data[i];
         }
     }
@@ -76,6 +93,9 @@ const updatePet = async (userId, petId, petName, petAge, petType, petBreed) => {
         {$set: {pets: res}}
     );
     if(!update) throw "Internal server error. Try again later..."
+
+    await client.set(userId, JSON.stringify(res));
+
     return updatedData;
 }
 
@@ -97,7 +117,7 @@ const deletePet = async (userId, petId) => {
         }
     }
 
-    // return await getAllPets();
+    return await getAllPets();
 }
 
 const getAllMed = async (userId, petId) => {
@@ -141,6 +161,9 @@ const createMed = async (userId, petId, medicationName, administeredDate, dosage
         {$set: {pets: res}}
     );
     if(!update) throw "Internal server error. Try again later..."
+
+    await client.set(userId, JSON.stringify(res));
+
     return updatedData;
 }
 
@@ -169,6 +192,9 @@ const deleteMed = async (userId, petId, medId) => {
         {$set: {pets: res}}
     );
     if(!update) throw "Internal server error. Try again later..."
+
+    await client.set(userId, JSON.stringify(res));
+
     return updatedData;
 }
 
@@ -213,6 +239,9 @@ const createApp = async (userId, petId, appointmentDate, reason, clinicName) => 
         {$set: {pets: res}}
     );
     if(!update) throw "Internal server error. Try again later..."
+
+    await client.set(userId, JSON.stringify(res));
+
     return updatedData;
 }
 
@@ -241,6 +270,9 @@ const deleteApp = async (userId, petId, appId) => {
         {$set: {pets: res}}
     );
     if(!update) throw "Internal server error. Try again later..."
+
+    await client.set(userId, JSON.stringify(res));
+
     return updatedData;
 }
 
@@ -279,6 +311,9 @@ const createPres = async (userId, petId, imageUrl) => {
         {$set: {pets: res}}
     );
     if(!update) throw "Internal server error. Try again later..."
+
+    await client.set(userId, JSON.stringify(res));
+
     return updatedData;
 }
 
@@ -294,7 +329,7 @@ const deletePres = async (userId, petId, imageUrl) => {
         if(res[i]['_id'].toString() === petId) {
             let pres = res[i].prescription;
             for(let j = 0; j < pres.length; j++) {
-                if(pres[j]['imageUrl'] === imageUrl) {
+                if(pres[j] === imageUrl) {
                     pres.splice(j, 1);
                     updatedData = res[i];
                 }
@@ -307,21 +342,23 @@ const deletePres = async (userId, petId, imageUrl) => {
         {$set: {pets: res}}
     );
     if(!update) throw "Internal server error. Try again later..."
+
+    await client.set(userId, JSON.stringify(res));
+
     return updatedData;
 }
 
 export {
+    createUser,
     getAllPets,
     createPet,
+    getPet,
     updatePet,
     deletePet,
-    getAllMed,
     createMed,
     deleteMed,
-    getAllApp,
     createApp,
     deleteApp,
-    getAllPres,
     createPres,
     deletePres
 }

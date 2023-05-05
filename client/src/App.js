@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   NavLink,
+  Link
 } from "react-router-dom";
 import CommunityPosts from "./components/CommunityPosts";
 import ViewPost from "./components/ViewPost";

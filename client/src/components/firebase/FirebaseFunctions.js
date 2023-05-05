@@ -20,6 +20,7 @@ async function doSocialSignIn(provider) {
 }
 
 async function doSignOut() {
+  window.sessionStorage.removeItem('userid');
   await signOut(auth);
 }
 

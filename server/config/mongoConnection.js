@@ -1,11 +1,9 @@
 import { MongoClient } from 'mongodb';
 import * as dotenv from "dotenv";
 
-const r = dotenv.config();
+dotenv.config();
 let _connection = undefined;
 let _db = undefined;
-
-console.log(r);
 
 const dbConnection = async () => {
   if (!_connection) {
