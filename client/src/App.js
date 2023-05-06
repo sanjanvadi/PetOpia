@@ -57,7 +57,7 @@ function App() {
             <Route path="/account" element={<PrivateRoute />}>
               {/* <Route path="/account" element={<Account />} /> */}
               <Route path="/account/my-pets" element={<PetCenterHome />} />
-              <Route path="/account/my-pet-info" element={<PetInfo />} />
+              <Route path="/account/my-pet-info/:petId" element={<PetInfo />} />
               <Route path={`/account/community-posts`} element={<CommunityPosts />} />
               <Route path={`/account/community-posts/:postId`} element={<ViewPost />} />
             </Route>

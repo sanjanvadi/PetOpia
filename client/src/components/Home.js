@@ -1,7 +1,7 @@
 import axios from "axios";
 import { React, useEffect, useState } from "react";
 import Modal from "react-modal/lib/components/Modal";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 Modal.setAppElement("#root");
 let userId;
@@ -83,7 +83,7 @@ const PetCenterHome = () => {
     card = (getMyPets && getMyPets.map((val) => {
         return(
             <div key={val._id}>
-                <Link to={'/account/my-pet-info'} state={val._id}>
+                <Link to={'/account/my-pet-info/'+val._id}>
                     <div>
                         <h3>{val.petName}</h3>
                     </div>
@@ -163,6 +163,8 @@ const PetCenterHome = () => {
 }
 
 const PetInfo = () => {
+    userId = window.sessionStorage.getItem('userid');
+
     let [loading, setLoading] = useState(true);
     let [getMyPets, setMyPets] = useState(undefined);
     let [medHidden, setMedHidden] = useState(true);
@@ -176,18 +178,19 @@ const PetInfo = () => {
     const [getPresImg, setPresImg] = useState(undefined);
     const [isOpenError, setIsOpenError] = useState(false);
 
+    const {petId} = useParams();
+
     let location = useLocation();
     let navigate = useNavigate();
 
     useEffect(() => {
         async function getPets() {
-            let petId = location.state;
-            let {data} = await axios.get(`pets/mypet/${userId}/${petId}`);
+            let {data} = await axios.get('/account/pets/mypet/'+userId+'/'+petId);
             setMyPets(data);
             setLoading(false);
         }
         getPets();
-    }, [])
+    }, [petId])
 
     function medCloseFunc() { 
 
@@ -276,7 +279,7 @@ const PetInfo = () => {
                 dosage,
             };
 
-            await fetch('pets/medication', {
+            await fetch('/account/pets/medication', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -314,7 +317,7 @@ const PetInfo = () => {
                 clinicName,
             };
             
-            await fetch('pets/appointment', {
+            await fetch('/account/pets/appointment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -344,7 +347,7 @@ const PetInfo = () => {
                     imageUrl: response.data.url
                 };
 
-                await fetch('pets/prescription', {
+                await fetch('/account/pets/prescription', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -357,7 +360,6 @@ const PetInfo = () => {
                     setIsOpenPres(!isOpenPres)
                 });
         })
-        // let userId = '643f4f7caade2d644d0f8057';
         
     }
 
@@ -371,7 +373,7 @@ const PetInfo = () => {
             medId
         };
 
-        await fetch('pets/medication', {
+        await fetch('/account/pets/medication', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -385,7 +387,6 @@ const PetInfo = () => {
     }
 
     async function deleteApp(val) {
-        // let userId = '643f4f7caade2d644d0f8057';
         let petId = getMyPets._id;
         let appId = val._id;
         
@@ -395,7 +396,7 @@ const PetInfo = () => {
             appId
         };
 
-        await fetch('pets/appointment', {
+        await fetch('/account/pets/appointment', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -419,7 +420,7 @@ const PetInfo = () => {
 
         setLoading(true);
 
-        await fetch('pets/prescription', {
+        await fetch('/account/pets/prescription', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -453,7 +454,7 @@ const PetInfo = () => {
             petBreed
         };
         
-        await fetch('pets/'+userId, {
+        await fetch('/account/pets/'+userId, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -478,7 +479,7 @@ const PetInfo = () => {
             petId
         };
 
-        await fetch('pets/'+userId, {
+        await fetch('/account/pets/'+userId, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
