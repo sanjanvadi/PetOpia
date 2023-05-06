@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "./firebase/Auth";
 import { doSocialSignIn } from "./firebase/FirebaseFunctions";
-import { PetCenterHome } from "./Home";
 
 function SignIn() {
   const { currentUser } = useContext(AuthContext);
@@ -33,13 +32,14 @@ function SignIn() {
     .then((data) => {
       setUserId(data.id);
       window.sessionStorage.setItem('userid', data.id);
+      // ReactSession.set('userid', data.id);
     });
     
   }
 
   if (currentUser) {
     addUser(currentUser.email);
-    if(userId) return <PetCenterHome userId={userId}></PetCenterHome>
+    if(userId) return <Navigate to={'/account/my-pets'}></Navigate>
   }
   return (
     <div>

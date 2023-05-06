@@ -4,10 +4,10 @@ import Modal from "react-modal/lib/components/Modal";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
-let userId = window.sessionStorage.getItem('userid');
+let userId;
+const PetCenterHome = () => {
+    userId = window.sessionStorage.getItem('userid');
 
-const PetCenterHome = (props) => {
-    if(!userId) userId = props.userId;
     let [loading, setLoading] = useState(true);
     let [getMyPets, setMyPets] = useState(undefined);
     const [isOpenPet, setIsOpenPet] = useState(false);
