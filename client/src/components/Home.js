@@ -61,7 +61,6 @@ const PetCenterHome = () => {
       showError();
     } else {
       if (petImage) {
-        // console.log(petImage);
         const formData = new FormData();
         formData.append("file", petImage);
         formData.append("upload_preset", presetValue);
@@ -178,7 +177,6 @@ const PetCenterHome = () => {
                 sx={{
                   fontWeight: "bold",
                 }}
-                // gutterBottom
                 variant="h6"
                 component="h3"
               >
@@ -211,7 +209,6 @@ const PetCenterHome = () => {
                 sx={{
                   fontWeight: "bold",
                 }}
-                // gutterBottom
                 variant="h6"
                 component="h3"
               >
