@@ -8,6 +8,7 @@ const presetValue = "lqbvmbqp";
 Modal.setAppElement("#root");
 
 function EditPost(props) {
+  const userId = window.sessionStorage.getItem("userid");
   const [postImage, setPostImage] = useState("");
   const [postTitle, setPostTitle] = useState(props.oldDetails.postTitle);
   const [postDescription, setPostDescription] = useState(
@@ -78,6 +79,7 @@ function EditPost(props) {
 
           axios
             .put(`/community-posts/${props.oldDetails.postId}`, {
+              userThatPosted: userId,
               postImage: response.data.url,
               postTitle: postTitle,
               postDescription: postDescription,
@@ -105,6 +107,7 @@ function EditPost(props) {
     } else {
       axios
         .put(`/community-posts/${props.oldDetails.postId}`, {
+          userThatPosted: userId,
           postImage: checked ? "" : props.oldDetails.postImage,
           postTitle: postTitle,
           postDescription: postDescription,

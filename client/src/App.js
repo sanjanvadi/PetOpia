@@ -1,67 +1,95 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   NavLink,
-  Link
 } from "react-router-dom";
 import CommunityPosts from "./components/CommunityPosts";
 import ViewPost from "./components/ViewPost";
 import "./App.css";
 import AdoptPet from "./components/AdoptPet";
-import Account from "./components/Account";
 import SignIn from "./components/SignIn";
 import { AuthProvider } from "./components/firebase/Auth";
 import PrivateRoute from "./components/PrivateRoute";
 import { PetCenterHome, PetInfo } from "./components/Home";
 import SignOutButton from "./components/SignOut";
+import ErrorHandler from "./components/ErrorHandler";
 
 function App() {
+  const handleChange = () => {
+    setCount(count + 1);
+  };
+
+  const [count, setCount] = useState(0);
+  const [userId, setUserId] = useState(window.sessionStorage.getItem("userid"));
+  useEffect(() => {
+    setUserId(window.sessionStorage.getItem("userid"));
+  }, [count]);
+
   return (
     <AuthProvider>
       <Router>
         <div>
-          <header>
+          <header className="headerMain">
             <nav className="App-header">
               <h1 className="App-title">PetOpia</h1>
               <div className="navLinks">
-                <NavLink className="postLink" to="/">
-                  signIn
-                </NavLink>
-                <NavLink className="postLink" to="/account/my-pets">
-                  Pet-Center
-                </NavLink>
-                <NavLink className="postLink" to="/account/community-posts">
-                  Community
-                </NavLink>
+                {!userId && (
+                  <NavLink className="postLink" to="/">
+                    Home
+                  </NavLink>
+                )}
+                {userId && (
+                  <NavLink className="postLink" to="/account/my-pets">
+                    Pet-Center
+                  </NavLink>
+                )}
+                {userId && (
+                  <NavLink className="postLink" to="/account/community-posts">
+                    Community
+                  </NavLink>
+                )}
                 <NavLink className="postLink" to="/adoptpet">
                   Adopt
                 </NavLink>
-                {/* <NavLink className="postLink" to="/account">
-                  Account
-                </NavLink> */}
-                {/* <NavLink className="postLink" to="/signin">
-                  Sign Out
-                </NavLink> */}
-                <div className="postLink">
-                  <SignOutButton/>
-                </div>
               </div>
             </nav>
+            {userId && (
+              <div className="navLinksRight">
+                <SignOutButton handleChange={handleChange} />
+              </div>
+            )}
           </header>
           <Routes>
-            {/* <Route path='/' element={<Home/>}/> */}
             <Route path="/adoptpet" element={<AdoptPet />} />
-            {/* <Route path='*' element={<NotFound/>}/> */}
             <Route path="/account" element={<PrivateRoute />}>
-              {/* <Route path="/account" element={<Account />} /> */}
               <Route path="/account/my-pets" element={<PetCenterHome />} />
               <Route path="/account/my-pet-info/:petId" element={<PetInfo />} />
-              <Route path={`/account/community-posts`} element={<CommunityPosts />} />
-              <Route path={`/account/community-posts/:postId`} element={<ViewPost />} />
+              <Route
+                path={"/account/community-posts"}
+                element={<CommunityPosts />}
+              />
+              <Route
+                path={"/account/community-posts/:postId"}
+                element={<ViewPost />}
+              />
             </Route>
-            <Route path="/" element={<SignIn />} />
+            <Route path="/" element={<SignIn handleChange={handleChange} />} />
+            {/* <Route
+              path="*"
+              element={
+                <ErrorHandler
+                  error={
+                    <h1>
+                      <br />
+                      <br />
+                      Error 404: Page Not Found!
+                    </h1>
+                  }
+                />
+              }
+            /> */}
           </Routes>
         </div>
       </Router>

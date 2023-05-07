@@ -17,6 +17,7 @@ import LikeUnlikePost from "./LikeUnlikePost";
 import LikeUnlikeComment from "./LikeUnlikeComment";
 
 function ViewPost() {
+  const userId = window.sessionStorage.getItem("userid");
   const [viewPost, setViewPost] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
@@ -25,6 +26,7 @@ function ViewPost() {
   const [newModalOpen, setNewModalOpen] = useState(false);
   const [comments, setComments] = useState(undefined);
   const [newComment, setNewComment] = useState(undefined);
+  const [userEmail, setUserEmail] = useState(undefined);
   let { postId } = useParams();
   let navigate = useNavigate();
   let comment;
@@ -32,16 +34,20 @@ function ViewPost() {
   useEffect(() => {
     const getPostsAndComments = async () => {
       try {
-        const resPosts = await axios.get(`/community-posts/${postId}`);
-        const resComments = await axios.get(`/view-post/${postId}`);
-        setViewPost(resPosts.data);
-        setComments(resComments.data.postComments);
+        const resPost = await axios.get(`/community-posts/${postId}`);
+        const resUser = await axios.get(`/user/${userId}`);
+        setUserEmail(
+          resUser.data.email.substring(0, resUser.data.email.indexOf("@"))
+        );
+        setViewPost(resPost.data);
+        setComments(resPost.data.postComments);
         setLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     getPostsAndComments();
+    // eslint-disable-next-line
   }, [postId, count]);
 
   const handleChange = () => {
@@ -84,15 +90,16 @@ function ViewPost() {
     event.preventDefault();
     axios
       .post(`/view-post/${postId}`, {
+        userThatPosted: userId,
         comment: newComment,
       })
       .then(() => {
+        setCount(count + 1);
         setNewComment("");
       })
       .catch((error) => {
         console.log(error);
       });
-    setCount(count + 1);
   };
 
   const buildCard = () => {
@@ -139,7 +146,7 @@ function ViewPost() {
                 <dl>
                   <p>
                     <dt className="title">Posted By: </dt>
-                    {viewPost && " " + viewPost.userThatPosted}
+                    {viewPost && " " + userEmail}
                   </p>
                   <p>
                     <dt className="title">Posted On: </dt>
@@ -162,12 +169,12 @@ function ViewPost() {
                         ? viewPost.postLikes.length + " like"
                         : viewPost.postLikes.length + " likes")}
                   </p>
-                  {viewPost.userThatPosted === "644f4dd3258aac3913f46b73" && (
+                  {viewPost.userThatPosted === userId && (
                     <button onClick={handleEditModalOpen} className="post-link">
                       Edit
                     </button>
                   )}
-                  {viewPost.userThatPosted === "644f4dd3258aac3913f46b73" && (
+                  {viewPost.userThatPosted === userId && (
                     <button
                       onClick={handleDeleteModalOpen}
                       className="post-link"
@@ -260,8 +267,8 @@ function ViewPost() {
               >
                 <dl>
                   <p>
-                    <dt className="title">Posted On: </dt>
-                    {viewPost && viewPost.userThatPosted}
+                    <dt className="title">Posted By: </dt>
+                    {viewPost && " " + userEmail}
                   </p>
                   <p>
                     <dt className="title">Posted On: </dt>
@@ -335,11 +342,7 @@ function ViewPost() {
             </div>
           </form>
           <Paper style={{ padding: "40px 20px" }}>
-            {comment.length ? (
-              <Grid container justifyContent="left" wrap="nowrap" spacing={2}>
-                {comment}
-              </Grid>
-              ) : "No Comments Posted!"}
+            {comment.length ? comment : "No Comments Posted!"}
           </Paper>
         </div>
       </div>
@@ -348,28 +351,24 @@ function ViewPost() {
   };
 
   const buildComment = (com) => {
-    // make an axios call here to get the user details
     return (
       <>
-          <Grid item xs zeroMinWidth key={com._id}>
-            <p style={{ margin: 0, textAlign: "left", fontWeight: "bold" }}>
-              {com.userThatPosted}
-              <LikeUnlikeComment
-                countFunction={handleChange}
-                commentObj={com}
-              />
-              <span style={{ fontWeight: "lighter" }}>
-                {com.commentLikes.length !== 0 &&
-                  (com.commentLikes.length === 1
-                    ? com.commentLikes.length + " like"
-                    : com.commentLikes.length + " likes")}
-              </span>
-            </p>
-            <p style={{ textAlign: "left" }}>{com.comment}</p>
-            <p style={{ textAlign: "left", color: "gray" }}>
-              Posted On: {com.commentDate + ", " + com.commentTime}
-            </p>
-          </Grid>
+        <Grid item xs zeroMinWidth key={com._id}>
+          <p style={{ margin: 0, textAlign: "left", fontWeight: "bold" }}>
+            {userEmail}
+            <LikeUnlikeComment countFunction={handleChange} commentObj={com} />
+            <span style={{ fontWeight: "lighter" }}>
+              {com.commentLikes.length !== 0 &&
+                (com.commentLikes.length === 1
+                  ? com.commentLikes.length + " like"
+                  : com.commentLikes.length + " likes")}
+            </span>
+          </p>
+          <p style={{ textAlign: "left" }}>{com.comment}</p>
+          <p style={{ textAlign: "left", color: "gray" }}>
+            Posted On: {com.commentDate + ", " + com.commentTime}
+          </p>
+        </Grid>
         <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
       </>
     );

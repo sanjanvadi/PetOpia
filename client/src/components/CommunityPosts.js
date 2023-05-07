@@ -9,17 +9,19 @@ import SearchPosts from "./SearchPosts";
 import ErrorHandler from "./ErrorHandler";
 
 function CommunityPosts() {
+  const userId = window.sessionStorage.getItem("userid");
   const [firstPage, setFirstPage] = useState(false);
   const [lastPage, setLastPage] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [allPostsData, setAllPostsData] = useState(undefined);
-  const [myPostsData, setMyPostsData] = useState(undefined);
+  const [allPostsData, setAllPostsData] = useState([]);
+  const [myPostsData, setMyPostsData] = useState([]);
   const [newModalOpen, setNewModalOpen] = useState(false);
   const [count, setCount] = useState(0);
   const [postType, setPostType] = useState("allPosts");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedData, setSearchedData] = useState(undefined);
+  const [userEmail, setUserEmail] = useState(undefined);
   let card = null;
 
   useEffect(() => {
@@ -28,6 +30,10 @@ function CommunityPosts() {
         try {
           const resSearchedData = await axios.get(
             `/community-posts?keyword=${searchQuery}`
+          );
+          const resUser = await axios.get(`/user/${userId}`);
+          setUserEmail(
+            resUser.data.email.substring(0, resUser.data.email.indexOf("@"))
           );
           setSearchedData(resSearchedData.data.searchedData);
           setLoading(false);
@@ -39,8 +45,12 @@ function CommunityPosts() {
           const { data } = await axios.get(
             `/community-posts?page=${currentPage}`
           );
+          const resUser = await axios.get(`/user/${userId}`);
+          setUserEmail(
+            resUser.data.email.substring(0, resUser.data.email.indexOf("@"))
+          );
           const postsByUser = data.allData.allPostsData.filter((post) => {
-            return post.userThatPosted === "644f4dd3258aac3913f46b73";
+            return post.userThatPosted === userId;
           });
           setMyPostsData(postsByUser);
           const numberOfPages = Math.ceil(
@@ -51,9 +61,15 @@ function CommunityPosts() {
           );
           if (currentPage === 1) setFirstPage(true);
           else setFirstPage(false);
-          if (currentPage === numberOfPages) {
-            if (remainingPosts <= data.allData.limit) setLastPage(true);
-            else setLastPage(false);
+          if (
+            currentPage === numberOfPages ||
+            data.allData.numberOfDocs === 0
+          ) {
+            if (remainingPosts <= data.allData.limit) {
+              setLastPage(true);
+            } else {
+              setLastPage(false);
+            }
           } else setLastPage(false);
           setAllPostsData(data.allData.allPosts);
           setLoading(false);
@@ -63,7 +79,7 @@ function CommunityPosts() {
       }
     };
     getPostsData();
-  }, [currentPage, count, searchQuery]);
+  }, [currentPage, count, searchQuery, userId]);
 
   const handleNewModalOpen = () => {
     setNewModalOpen(true);
@@ -112,9 +128,9 @@ function CommunityPosts() {
               component="h3"
             >
               <div style={{ fontWeight: "bold" }} className="date">
-                {post.userThatPosted.length > 13
-                  ? post.userThatPosted.slice(0, 13) + "..."
-                  : post.userThatPosted}
+                {userEmail.length > 13
+                  ? userEmail.slice(0, 13) + "..."
+                  : userEmail}
                 <br />
                 <LikeUnlikePost
                   className={"in-community-posts"}
@@ -176,19 +192,21 @@ function CommunityPosts() {
               variant="h6"
               component="h3"
             >
-              <div className="date">
-                {post.postDate}
-                <br />
-                {post.postTime}
-              </div>
               <div style={{ fontWeight: "bold" }} className="date">
-                {post.userThatPosted.slice(0, 5)}
+                {userEmail.length > 13
+                  ? userEmail.slice(0, 13) + "..."
+                  : userEmail}
                 <br />
                 <LikeUnlikePost
                   className={"in-community-posts"}
                   countFunction={handleChange}
                   post={post}
                 />
+              </div>
+              <div className="date">
+                {post.postDate}
+                <br />
+                {post.postTime}
               </div>
             </Typography>
             <Link to={`/account/community-posts/${post._id}`}>
@@ -222,9 +240,9 @@ function CommunityPosts() {
       });
   } else {
     if (postType === "allPosts") {
-      card = allPostsData && allPostsData.map((post) => buildCard(post));
+      card = allPostsData.length ? allPostsData.map((post) => buildCard(post)) : <h5><br/>No community posts yet!</h5>;
     } else if (postType === "myPosts") {
-      card = myPostsData && myPostsData.map((post) => buildCard(post));
+      card = myPostsData.length ? myPostsData.map((post) => buildCard(post)) : <h5><br/>You haven't posted yet!</h5>;
     }
   }
 
@@ -290,6 +308,8 @@ function CommunityPosts() {
         <Grid
           container
           spacing={2}
+          alignItems="center"
+          justifyContent="center"
           sx={{
             flexGrow: 1,
             flexDirection: "row",

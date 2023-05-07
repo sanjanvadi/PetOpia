@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { AuthContext } from "./firebase/Auth";
 import { doSocialSignIn } from "./firebase/FirebaseFunctions";
 
-function SignIn() {
+function SignIn(props) {
   const { currentUser } = useContext(AuthContext);
   const socialSignOn = async (provider) => {
     try {
@@ -15,13 +15,13 @@ function SignIn() {
 
   let [userId, setUserId] = useState(undefined);
 
-  async function addUser(email) {
+  function addUser(email) {
 
     let user = {
       email
     }
 
-    await fetch("/user", {
+    fetch("/user", {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
@@ -32,17 +32,19 @@ function SignIn() {
     .then((data) => {
       setUserId(data.id);
       window.sessionStorage.setItem('userid', data.id);
-      // ReactSession.set('userid', data.id);
+      props.handleChange();
     });
     
   }
 
   if (currentUser) {
+    // console.log(currentUser);
     addUser(currentUser.email);
     if(userId) return <Navigate to={'/account/my-pets'}></Navigate>
   }
   return (
     <div>
+      <br />
       <h1 style={{ fontFamily: "LeckerliOne-Regular", color: "#db9b43" }}>
         Welcome to PetOpia!
       </h1>

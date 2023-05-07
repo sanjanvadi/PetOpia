@@ -2,9 +2,6 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.App {
-  text-align: center;
-}
 .center {
   display: block;
   margin-left: auto;
@@ -63,20 +60,7 @@ col-md-4 {
 }
 
 .post-link:hover {
-  color: white;
-  border: 2px solid white;
-}
-
-.nav-link {
-  color: white;
-  font-family: "Leckerli One";
-  font-size: 25px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 400;
-  line-height: 12.4px;
-  float: left;
-  margin-left: 20px;
+  color: black;
 }
 
 li {
@@ -204,6 +188,10 @@ dd {
   line-height: 1.3;
 }
 
+.pet-name {
+  font-size: x-large;
+}
+
 .date {
   float: right;
   font-size: small;
@@ -297,7 +285,7 @@ i {
 
 .post-and-comment {
   display: flex;
-  height: 730px;
+  height: 700px;
 }
 
 .comment-section {
@@ -348,19 +336,17 @@ i {
     url("./fonts/LeckerliOne-Regular.ttf") format("truetype");
 }
 
-.App {
-  text-align: center;
-  background-color: gray;
+.headerMain {
+  background-color: #db9b43;
+  height: 70px;
+  width: 100%;
+  overflow: auto;
 }
 
 .App-header {
-  background-color: #db9b43;
-  height: 65px;
-  width: 100%;
-  padding: 20px;
   color: #222;
   display: inline-flex;
-  /* position: fixed; top: 0; left: 0; z-index: 8888; */
+  float: left;
 }
 h1 {
   font-size: 3em;
@@ -370,26 +356,26 @@ h3 {
 }
 
 .navLinks {
-  margin-top: -5px;
+  margin-top: 15px;
   margin-left: 20px;
   font-size: 1.5em;
   font-weight: lighter;
   font-family: LeckerliOne-Regular;
+  float: left;
 }
 .navLinksRight {
-  margin-top: -5px;
-  margin-right: 20px;
-  justify-items: right;
+  margin-top: 9px;
   font-size: 1.5em;
   font-weight: lighter;
   font-family: LeckerliOne-Regular;
+  float: right;
 }
 
 .App-title {
   text-align: left;
   font-weight: normal;
   color: white;
-  margin-top: -20px;
+  margin-left: 5px;
   font-family: LeckerliOne-Regular;
 }
 
@@ -517,7 +503,6 @@ span {
   width: 100%;
 }
 
-/*container and grid */
 .grid {
   flex-grow: 1;
   flex-direction: row;
@@ -536,126 +521,9 @@ span {
     "div5 div5 div5";
 }
 
-.div1 {
-  grid-area: div1;
-  text-align: left;
-  margin-left: 80px;
-  align-self: start; /* Align to the top of the grid cell */
-}
-
-.div2 {
-  grid-area: div2;
-  text-align: right;
-  margin-right: 80px;
-  align-self: start; /* Align to the top of the grid cell */
-}
-
-.div3 {
-  grid-area: div3;
-  text-align: left;
-  margin-left: 80px;
-  margin-right: 50px;
-  align-self: end; /* Align to the bottom of the grid cell */
-}
-
-.div4 {
-  grid-area: div4;
-  vertical-align: text-top;
-  text-align: left;
-  margin-left: 10px;
-  margin-right: 150px;
-  align-self: end; /* Align to the bottom of the grid cell */
-}
-
-.div5 {
-  grid-area: div5;
-  text-align: center;
-}
-
-.homeDiv {
-  width: 100%;
-  display: flex;
-}
-
-.homeDiv .editBtn {
-  margin-left: auto;
-  background-color: rgb(6, 200, 174);
-  color: black;
-  font-weight: bold;
-}
-
-.homeDiv button {
-  margin-left: auto;
-  background-color: rgb(3, 117, 3);
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  font-weight: bold;
-  height: 30px;
-  width: 70px;
-}
-
-.homeDiv .delBtn {
-  margin-left: 10px;
-  background-color: rgb(192, 28, 28);
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  font-weight: bold;
-  height: 30px;
-  width: 70px;
-}
-
-.delYesBtn {
-  margin-left: 10px;
-  background-color: rgb(192, 28, 28);
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  font-weight: bold;
-  height: 30px;
-  width: 70px;
-}
-
-.delNoBtn {
-  margin-left: 10px;
-  background-color: rgb(3, 117, 3);
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  font-weight: bold;
-  height: 30px;
-  width: 70px;
-}
-
-.mainDiv {
-  padding: 15px;
-}
-
-.line {
-  height: 0.5px;
-  width: 50%;
-  background-color: black;
-}
-
-.medCardDiv {
-  display: none;
-}
-
 .medHeaderDiv {
   background-color: #ece6e6;
+  margin-bottom: 2em;
 }
 
 .medHeaderDiv h3 {
@@ -664,6 +532,59 @@ span {
 
 .medHeaderDiv:hover {
   cursor: pointer;
+}
+
+.appCardDiv {
+  display: none;
+}
+
+.appHeaderDiv {
+  background-color: #ece6e6;
+  margin-bottom: 2em;
+}
+
+.appHeaderDiv h3 {
+  padding: 4px;
+}
+
+.appHeaderDiv:hover {
+  cursor: pointer;
+}
+
+td {
+  padding: 7.5px;
+  font-weight: 500;
+}
+
+.presCardDiv {
+  display: none;
+}
+
+.presHeaderDiv {
+  background-color: #ece6e6;
+  margin-bottom: 2em;
+}
+
+.presHeaderDiv h3 {
+  padding: 4px;
+}
+
+.presHeaderDiv:hover {
+  cursor: pointer;
+}
+
+.cardDiv {
+  width: 50%;
+}
+
+.line {
+  height: 0.5px;
+  width: 100%;
+  background-color: black;
+}
+
+.medCardDiv {
+  display: none;
 }
 
 .appCardDiv {
@@ -705,232 +626,6 @@ td {
 
 .cardDiv {
   width: 50%;
-}
-
-.addButtonDiv {
-  width: 50%;
-}
-
-.addButtonDiv button {
-  margin-left: 90%;
-  background-color: rgb(3, 117, 3);
-  font-weight: bold;
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  height: 30px;
-  width: 60px;
-}
-
-.submitBtn {
-  background-color: #575ce8;
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  height: 30px;
-  width: 60px;
-}
-
-.delBtn {
-  background-color: #e2e2e2;
-  color: black;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  height: 30px;
-  width: 60px;
-}
-
-/* .addMedDiv {
-    display: none;
-    background-color: aqua;
-    width: 100%;
-    position: fixed;
-} */
-
-.homeDiv {
-  width: 100%;
-  display: flex;
-}
-
-.homeDiv .editBtn {
-  margin-left: auto;
-  background-color: rgb(6, 200, 174);
-  color: black;
-  font-weight: bold;
-}
-
-.homeDiv button {
-  margin-left: auto;
-  background-color: rgb(3, 117, 3);
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  font-weight: bold;
-  height: 30px;
-  width: 70px;
-}
-
-.homeDiv .delBtn {
-  margin-left: 10px;
-  background-color: rgb(192, 28, 28);
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  font-weight: bold;
-  height: 30px;
-  width: 70px;
-}
-
-.delYesBtn {
-  margin-left: 10px;
-  background-color: rgb(192, 28, 28);
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  font-weight: bold;
-  height: 30px;
-  width: 70px;
-}
-
-.delNoBtn {
-  margin-left: 10px;
-  background-color: rgb(3, 117, 3);
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  font-weight: bold;
-  height: 30px;
-  width: 70px;
-}
-
-.mainDiv {
-  padding: 15px;
-}
-
-.line {
-  height: 0.5px;
-  width: 50%;
-  background-color: black;
-}
-
-.medCardDiv {
-  display: none;
-}
-
-.medHeaderDiv {
-  background-color: #ece6e6;
-}
-
-.medHeaderDiv h3 {
-  padding: 4px;
-}
-
-.medHeaderDiv:hover {
-  cursor: pointer;
-}
-
-.appCardDiv {
-  display: none;
-}
-
-.appHeaderDiv {
-  background-color: #ece6e6;
-}
-
-.appHeaderDiv h3 {
-  padding: 4px;
-}
-
-.appHeaderDiv:hover {
-  cursor: pointer;
-}
-
-td {
-  padding: 7.5px;
-  font-weight: 500;
-}
-
-.presCardDiv {
-  display: none;
-}
-
-.presHeaderDiv {
-  background-color: #ece6e6;
-}
-
-.presHeaderDiv h3 {
-  padding: 4px;
-}
-
-.presHeaderDiv:hover {
-  cursor: pointer;
-}
-
-.cardDiv {
-  width: 50%;
-}
-
-.addButtonDiv {
-  width: 50%;
-}
-
-.addButtonDiv button {
-  margin-left: 90%;
-  background-color: rgb(3, 117, 3);
-  font-weight: bold;
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  height: 30px;
-  width: 60px;
-}
-
-.submitBtn {
-  background-color: #575ce8;
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  height: 30px;
-  width: 60px;
-}
-
-.delBtn {
-  background-color: #e2e2e2;
-  color: black;
-  padding: 5px;
-  font-size: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px;
-  height: 30px;
-  width: 60px;
 }
 
 #welcome-heading {
@@ -955,4 +650,10 @@ body {
   background-image: url("./img/pets.png");
   background-size: cover;
   background-position: no-repeat;
+}
+
+.add-item {
+  height: 3em;
+  margin-top: 5%;
+  margin-left: 10%;
 }

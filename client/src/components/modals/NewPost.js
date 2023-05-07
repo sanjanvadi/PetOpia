@@ -8,6 +8,7 @@ const presetValue = "lqbvmbqp";
 Modal.setAppElement("#root");
 
 function NewPost(props) {
+  const userId = window.sessionStorage.getItem("userid");
   const [postImage, setPostImage] = useState("");
   const [postTitle, setPostTitle] = useState("");
   const [postDescription, setPostDescription] = useState("");
@@ -58,7 +59,8 @@ function NewPost(props) {
           setPostImage(response.data.url);
 
           axios
-            .post("/community-posts", {
+            .post("/community-posts/", {
+              userThatPosted: userId,
               postImage: response.data.url,
               postTitle: postTitle,
               postDescription: postDescription,
@@ -83,6 +85,7 @@ function NewPost(props) {
     } else {
       axios
         .post("/community-posts", {
+          userThatPosted: userId,
           postImage: null,
           postTitle: postTitle,
           postDescription: postDescription,

@@ -3,12 +3,13 @@ import axios from "axios";
 import "../App.css";
 
 const LikeUnlikePost = (props) => {
+  const userId = window.sessionStorage.getItem("userid");
   const likeButton = (post) => {
-    return post.postLikes.includes("644b1e3a316bde16b1a407f5") ? (
+    return post.postLikes.includes(userId) ? (
       <button
         onClick={() => {
           axios
-            .delete(`/likes/${post._id}`)
+            .delete(`/likes/${post._id}`, {userThatPosted: userId})
             .then(() => {
               props.countFunction();
             })
@@ -24,7 +25,7 @@ const LikeUnlikePost = (props) => {
       <button
         onClick={() => {
           axios
-            .post(`/likes/${post._id}`)
+            .post(`/likes/${post._id}`, {userThatPosted: userId})
             .then(() => {
               props.countFunction();
             })

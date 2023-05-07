@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import AnimalDetail from "./modals/AnimalDetail";
 import noImage from "../img/download.jpeg";
-import ErrorPage from "./ErrorPage";
+import ErrorHandler from "./ErrorHandler";
 
 function AdoptPet() {
   let card;
@@ -126,7 +126,7 @@ function AdoptPet() {
 
   if(error){
     return(
-        <ErrorPage error={error}></ErrorPage>
+        <ErrorHandler error={error}></ErrorHandler>
     )
   }
   else{
