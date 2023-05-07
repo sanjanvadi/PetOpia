@@ -14,7 +14,7 @@ import { AuthProvider } from "./components/firebase/Auth";
 import PrivateRoute from "./components/PrivateRoute";
 import { PetCenterHome, PetInfo } from "./components/Home";
 import SignOutButton from "./components/SignOut";
-import ErrorHandler from "./components/ErrorHandler";
+// import ErrorHandler from "./components/ErrorHandler";
 
 function App() {
   const handleChange = () => {

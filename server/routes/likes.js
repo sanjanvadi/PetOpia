@@ -13,11 +13,13 @@ router
       console.log(error);
       res.status(error.code).send(error.message);
     }
-  })
+  });
+  router
+  .route("/:postId/:userId")
   .delete(async (req, res) => {
     try {
-      const { userThatPosted } = req.body;
-      const unlikedData = await unlikePost(userThatPosted, req.params.postId);
+      // const { userThatPosted } = req.body;
+      const unlikedData = await unlikePost(req.params.userId, req.params.postId);
       res.json({ unlikedData: unlikedData });
     } catch (error) {
       console.log(error);

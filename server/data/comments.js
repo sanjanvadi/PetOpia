@@ -132,6 +132,9 @@ const likeComment = async (userId, postId, commentId) => {
     throw internalServerError("Like not updated!");
   const commentLiked = await getCommentByCommentId(postId, commentId);
   // commentLiked._id = commentLiked._id.toString();
+  const updatedPost = await getPostById(postId);
+  await client.hDel("posts", postId.toString());
+  await client.hSet("posts", postId.toString(), JSON.stringify(updatedPost));
   return { liked: true, likesLength: commentLiked.commentLikes.length };
 };
 
@@ -154,6 +157,9 @@ const unlikeComment = async (userId, postId, commentId) => {
     throw internalServerError("Unlike not updated!");
   const commentLiked = await getCommentByCommentId(postId, commentId);
   commentLiked._id = commentLiked._id.toString();
+  const updatedPost = await getPostById(postId);
+  await client.hDel("posts", postId.toString());
+  await client.hSet("posts", postId.toString(), JSON.stringify(updatedPost));
   return { liked: true, likesLength: commentLiked.commentLikes.length };
 };
 

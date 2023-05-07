@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import "../App.css";
 import { useParams } from "react-router-dom";
@@ -6,23 +6,15 @@ import { useParams } from "react-router-dom";
 const LikeUnlikeComment = (props) => {
   const userId = window.sessionStorage.getItem("userid");
   const { postId } = useParams();
-  const [com,setCom] = useState(props.commentObj);
   
-  const handleLikeUnlike=()=>{
-    props.countFunction()
-  }
-  const likeButton = () => {
-    // console.log(com.commentLikes);
-    console.log(com);
+  const likeButton = (com) => {
     return com.commentLikes.includes(userId) ? (
       <button
         onClick={() => {
-          // console.log("unliked");
           axios
             .delete(`/view-post/${postId}/${com._id}/${userId}`)
             .then(() => {
-              // console.log("deleted like");
-              handleLikeUnlike()
+              props.countFunction()
             })
             .catch((error) => {
               console.log(error);
@@ -35,12 +27,10 @@ const LikeUnlikeComment = (props) => {
     ) : (
       <button
         onClick={() => {
-          // console.log("liked");
           axios
             .post(`/view-post/${postId}/${com._id}`, { userThatPosted: userId })
             .then(() => {
-              // console.log("added like");
-              handleLikeUnlike()
+              props.countFunction()
             })
             .catch((error) => {
               console.log(error);
@@ -52,7 +42,7 @@ const LikeUnlikeComment = (props) => {
       </button>
     );
   };
-  return likeButton();
+  return likeButton(props.commentObj);
 };
 
 export default LikeUnlikeComment;

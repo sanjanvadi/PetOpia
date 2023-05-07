@@ -9,7 +9,7 @@ const LikeUnlikePost = (props) => {
       <button
         onClick={() => {
           axios
-            .delete(`/likes/${post._id}`, {userThatPosted: userId})
+            .delete(`/likes/${post._id}/${userId}`)
             .then(() => {
               props.countFunction();
             })

@@ -25,7 +25,6 @@ function ViewPost() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [newModalOpen, setNewModalOpen] = useState(false);
   const [comments, setComments] = useState(undefined);
-  const [newComment, setNewComment] = useState(undefined);
   const [userEmail, setUserEmail] = useState(undefined);
   let { postId } = useParams();
   let navigate = useNavigate();
@@ -82,20 +81,19 @@ function ViewPost() {
     navigate(-1);
   };
 
-  const handleCommentChange = (event) => {
-    setNewComment(event.target.value);
-  };
-
   const handleCommentAdded = async (event) => {
     event.preventDefault();
+    const data = new FormData(event.target);
+    const formJson = Object.fromEntries(data.entries());
+    let commentInput = formJson.commentBox;
     axios
       .post(`/view-post/${postId}`, {
         userThatPosted: userId,
-        comment: newComment,
+        comment: commentInput,
       })
       .then(() => {
         setCount(count + 1);
-        setNewComment("");
+        document.getElementById('commentBox').value='';
       })
       .catch((error) => {
         console.log(error);
@@ -214,11 +212,12 @@ function ViewPost() {
             <div className="write-comment">
               <label htmlFor="comment-box"></label>
               <input
-                value={newComment}
-                onChange={handleCommentChange}
-                id="comment-box"
+                // value={newComment}
+                id="commentBox"
+                name="commentBox"
                 placeholder="Write a comment..."
                 type="text"
+                style={{width:"19em",height:'2.5em',marginTop:'-1px'}}
                 required
               />
               <button type="submit" className="post-link">
@@ -329,11 +328,12 @@ function ViewPost() {
             <div className="write-comment">
               <label htmlFor="comment-box"></label>
               <input
-                value={newComment}
-                onChange={handleCommentChange}
-                id="comment-box"
+                // value={newComment}
+                id="commentBox"
+                name="commentBox"
                 placeholder="Write a comment..."
                 type="text"
+                style={{width:"19em",height:'2.5em',marginTop:'-1px'}}
                 required
               />
               <button type="submit" className="post-link">
