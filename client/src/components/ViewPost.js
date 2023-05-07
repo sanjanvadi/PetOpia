@@ -85,15 +85,16 @@ function ViewPost() {
     event.preventDefault();
     const data = new FormData(event.target);
     const formJson = Object.fromEntries(data.entries());
-    let commentInput = formJson.commentBox;
+    let commentInput = formJson["comment-box"];
     axios
       .post(`/view-post/${postId}`, {
         userThatPosted: userId,
         comment: commentInput,
+        userEmail: userEmail
       })
       .then(() => {
         setCount(count + 1);
-        document.getElementById('commentBox').value='';
+        document.getElementById('comment-box').value='';
       })
       .catch((error) => {
         console.log(error);
@@ -144,7 +145,7 @@ function ViewPost() {
                 <dl>
                   <p>
                     <dt className="title">Posted By: </dt>
-                    {viewPost && " " + userEmail}
+                    {viewPost && " " + viewPost.userEmail}
                   </p>
                   <p>
                     <dt className="title">Posted On: </dt>
@@ -213,12 +214,10 @@ function ViewPost() {
               <label htmlFor="comment-box"></label>
               <input
                 // value={newComment}
-                id="commentBox"
-                name="commentBox"
+                id="comment-box"
+                name="comment-box"
                 placeholder="Write a comment..."
                 type="text"
-                style={{width:"19em",height:'2.5em',marginTop:'-1px'}}
-                required
               />
               <button type="submit" className="post-link">
                 Post
@@ -267,7 +266,7 @@ function ViewPost() {
                 <dl>
                   <p>
                     <dt className="title">Posted By: </dt>
-                    {viewPost && " " + userEmail}
+                    {viewPost && " " + viewPost.userEmail}
                   </p>
                   <p>
                     <dt className="title">Posted On: </dt>
@@ -329,12 +328,10 @@ function ViewPost() {
               <label htmlFor="comment-box"></label>
               <input
                 // value={newComment}
-                id="commentBox"
-                name="commentBox"
+                id="comment-box"
+                name="comment-box"
                 placeholder="Write a comment..."
                 type="text"
-                style={{width:"19em",height:'2.5em',marginTop:'-1px'}}
-                required
               />
               <button type="submit" className="post-link">
                 Post
@@ -352,10 +349,10 @@ function ViewPost() {
 
   const buildComment = (com) => {
     return (
-      <>
-        <Grid item xs zeroMinWidth key={com._id}>
+      <div key={com._id}>
+        <Grid item xs zeroMinWidth>
           <p style={{ margin: 0, textAlign: "left", fontWeight: "bold" }}>
-            {userEmail}
+            {com.userEmail}
             <LikeUnlikeComment countFunction={handleChange} commentObj={com} />
             <span style={{ fontWeight: "lighter" }}>
               {com.commentLikes.length !== 0 &&
@@ -370,7 +367,7 @@ function ViewPost() {
           </p>
         </Grid>
         <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
-      </>
+      </div>
     );
   };
 

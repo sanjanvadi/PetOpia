@@ -50,6 +50,9 @@ function NewPost(props) {
       formData.append("file", postImage);
       formData.append("upload_preset", presetValue);
 
+      const resUser = await axios.get(`/user/${userId}`);
+      const userEmail = resUser.data.email.substring(0, resUser.data.email.indexOf("@"))
+
       axios
         .post(
           `https://api.cloudinary.com/v1_1/${cloudinaryApi}/image/upload`,
@@ -61,6 +64,7 @@ function NewPost(props) {
           axios
             .post("/community-posts/", {
               userThatPosted: userId,
+              userEmail: userEmail,
               postImage: response.data.url,
               postTitle: postTitle,
               postDescription: postDescription,

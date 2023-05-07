@@ -25,9 +25,10 @@ router.route("/").get(async (req, res) => {
 });
 router.route("/").post(async (req, res) => {
   try {
-    const { userThatPosted, postImage, postTitle, postDescription } = req.body;
+    const { userThatPosted, userEmail, postImage, postTitle, postDescription } = req.body;
     const addPost = await newPost(
       xss(userThatPosted),
+      xss(userEmail),
       xss(postImage),
       xss(postTitle),
       xss(postDescription)

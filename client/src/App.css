@@ -258,6 +258,10 @@ i {
   outline: #db9b43;
 }
 
+.dropdown:hover {
+  color: black;
+}
+
 .view-post {
   float: left;
   width: 50%;

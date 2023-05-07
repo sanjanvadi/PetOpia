@@ -46,15 +46,19 @@ const getCommentByCommentId = async (postId, commentId) => {
   return commentObject;
 };
 
-const postComment = async (postId, userThatPosted, comment) => {
+const postComment = async (postId, userEmail, userThatPosted, comment) => {
   validateObjectId(postId, "Post ID");
   validateString(comment, "Comment");
+  validateObjectId(userThatPosted, "UserThatPosted");
+  console.log(userThatPosted);
   postId = postId.trim();
   comment = comment.trim();
+  userThatPosted = userThatPosted.trim();
 
   const newComment = {
     _id: new ObjectId(),
-    userThatPosted: userThatPosted.trim(),
+    userThatPosted: userThatPosted,
+    userEmail: userEmail,
     commentDate: moment().format("MM/DD/YYYY"),
     commentTime: moment().format("h:mm A"),
     comment: comment,
