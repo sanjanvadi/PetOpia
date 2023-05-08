@@ -9,7 +9,7 @@ import {
   Button
 } from "@mui/material";
 import AnimalDetail from "./modals/AnimalDetail";
-import noImage from "../img/download.jpeg";
+import noImage from "../img/noImage.jpg";
 import ErrorHandler from "./ErrorHandler";
 
 function AdoptPet() {

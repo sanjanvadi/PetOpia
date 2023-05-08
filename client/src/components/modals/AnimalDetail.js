@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../App.css";
 import ReactModal from 'react-modal'
 import { Card,CardContent,CardHeader,CardMedia,IconButton, Typography } from "@mui/material";
-import noImage from '../../img/download.jpeg';
+import noImage from '../../img/noImage.jpg';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from "react";
 //For react-modal
