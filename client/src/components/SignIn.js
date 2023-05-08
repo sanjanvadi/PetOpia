@@ -9,7 +9,9 @@ function SignIn(props) {
     try {
       await doSocialSignIn(provider);
     } catch (error) {
-      alert("An account with the given email address already exists under a different provider! Please use that!")
+      alert(
+        "An account with the given email address already exists under a different provider! Please use that!"
+      );
     }
   };
 
@@ -43,16 +45,16 @@ function SignIn(props) {
   return (
     <div>
       <br />
-      <h1 style={{ fontFamily: "LeckerliOne-Regular", color: "#a16c00" }}>
+      <h1 style={{height: "0.7em", fontFamily: "LeckerliOne-Regular", color: "#a16c00" }}>
         Welcome to PetOpia!
       </h1>
-      <p className="headline">
+      <p style={{height: "16em"}} className="headline">
         PetOpia is a Pet Health Management Platform which is based on the
         realization that animals on our planet also deserve concern the same
         level of concern that we show to our loved ones. After all actions speak
         louder than words. This is the very place where people can manage the
         well-being of their pets. Let's show some love and care to these animals
-        together with PetOpia! <br />
+        together with PetOpia!
         <br />
         <br />
         <br />
@@ -60,15 +62,16 @@ function SignIn(props) {
         kinds of pets around you. If you are looking to adopt a pet, you can
         check out our Adopt page right from the navigation bar!
       </p>
-      <br />
-      <br />
-      <br />
-      <img className="login-icons"
+      <p style={{height: "1.3em", textAlign: "center"}} className="headline">Login to get started:</p>
+      <br /><br />
+      <img
+        className="login-icons"
         onClick={() => socialSignOn("google")}
         alt="google signin"
         src="/imgs/google-icon.png"
       />
-      <img className="login-icons"
+      <img
+        className="login-icons"
         onClick={() => socialSignOn("github")}
         alt="github signin"
         src="/imgs/github-icon.png"
