@@ -68,7 +68,6 @@ const PetCenterHome = () => {
             formData
           )
           .then((response) => {
-            console.log(response.data.url);
             setPetImage(response.data.url);
             const pet = {
               petImage: response.data.url,
@@ -89,8 +88,6 @@ const PetCenterHome = () => {
                 setCount(count + 1);
                 setPetImage(null);
                 setAxiosLoading(false);
-                console.log(getMyPets);
-                console.log(Array.isArray(getMyPets));
                 setMyPets(data);
                 setIsOpenPet(!isOpenPet);
                 setLoading(false);
@@ -119,7 +116,6 @@ const PetCenterHome = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log("Data is here");
             setPetImage(null);
             setAxiosLoading(false);
             setMyPets(data);
@@ -224,7 +220,7 @@ const PetCenterHome = () => {
     getMyPets.length ?
     getMyPets.map((pet) => {
       return buildCard(pet);
-    }) : <h4><br/>No pets added yet!</h4>;
+    }) : <h5><br/>No pets added yet!</h5>;
 
   if (loading) {
     return (
@@ -675,7 +671,6 @@ const PetInfo = () => {
       .then((res) => res.json())
       .then((data) => {
         localStorage.setItem("petinfo", data);
-        console.log(location.state);
         setMyPets(data);
         setIsOpenEditPet(!isOpenEditPet);
         setLoading(false);

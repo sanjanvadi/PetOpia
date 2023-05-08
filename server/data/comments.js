@@ -50,7 +50,6 @@ const postComment = async (postId, userEmail, userThatPosted, comment) => {
   validateObjectId(postId, "Post ID");
   validateString(comment, "Comment");
   validateObjectId(userThatPosted, "UserThatPosted");
-  console.log(userThatPosted);
   postId = postId.trim();
   comment = comment.trim();
   userThatPosted = userThatPosted.trim();
