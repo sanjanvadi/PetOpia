@@ -1,7 +1,7 @@
 import axios from "axios";
 import { React, useEffect, useState } from "react";
 import Modal from "react-modal/lib/components/Modal";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 const cloudinaryApi = "dzlf4ut72";
 const presetValue = "lqbvmbqp";
@@ -216,11 +216,16 @@ const PetCenterHome = () => {
     return res;
   };
 
-  card =
-    getMyPets.length ?
+  card = getMyPets.length ? (
     getMyPets.map((pet) => {
       return buildCard(pet);
-    }) : <h2><br/>No pets added yet!</h2>;
+    })
+  ) : (
+    <h2>
+      <br />
+      No pets added yet!
+    </h2>
+  );
 
   if (loading) {
     return (
@@ -266,9 +271,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label htmlFor='petImage'>
-                      Image:
-                    </label>
+                    <label htmlFor="petImage">Image:</label>
                   </td>
                   <td>
                     <input
@@ -282,9 +285,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor='petName'>
-                      Name:
-                    </label>
+                    <label htmlFor="petName">Name:</label>
                   </td>
                   <td>
                     <input
@@ -297,9 +298,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label htmlFor='petAge'>
-                      Age:
-                    </label>
+                    <label htmlFor="petAge">Age:</label>
                   </td>
                   <td>
                     <input
@@ -312,9 +311,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label htmlFor='petType'>
-                      Type:
-                    </label>
+                    <label htmlFor="petType">Type:</label>
                   </td>
                   <td>
                     <input
@@ -327,9 +324,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label htmlFor='petBreed'>
-                      Breed:
-                    </label>
+                    <label htmlFor="petBreed">Breed:</label>
                   </td>
                   <td>
                     <input
@@ -395,7 +390,6 @@ const PetInfo = () => {
 
   const { petId } = useParams();
 
-  let location = useLocation();
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -921,6 +915,10 @@ const PetInfo = () => {
             Delete
           </button>
         </div>
+        <br />
+        <h3 style={{ fontWeight: "bold" }}>
+          {getMyPets.petName + "'s Info Card"}
+        </h3>
         <div>{card}</div>
         <Link to={`/account/my-pets`}>
           <button onClick={() => showDelPet()} className="post-link">
@@ -969,7 +967,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label htmlFor="dosage">Dosage:</label>
+                    <label htmlFor="dosage">Dosage:</label>
                   </td>
                   <td>
                     <input
@@ -1084,13 +1082,15 @@ const PetInfo = () => {
               <tbody>
                 <tr>
                   <td>
-                    <label htmlFor="presImg"><h3>Add Prescription</h3></label>
+                    <label htmlFor="presImg">
+                      <h3>Add Prescription</h3>
+                    </label>
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <input
-                    id="presImg"
+                      id="presImg"
                       type={"file"}
                       onChange={(event) => {
                         setPresImg(event.target.files[0]);
@@ -1130,7 +1130,9 @@ const PetInfo = () => {
               <tbody>
                 <tr>
                   <td>
-                  <label htmlFor="petName"><h3>Edit Pet:</h3>:</label>
+                    <label htmlFor="petName">
+                      <h3>Edit Pet:</h3>:
+                    </label>
                   </td>
                 </tr>
                 <tr>
@@ -1163,7 +1165,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label htmlFor="petType">Type:</label>
+                    <label htmlFor="petType">Type:</label>
                   </td>
                   <td>
                     <input
@@ -1177,7 +1179,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label htmlFor="petBreed">Breed:</label>
+                    <label htmlFor="petBreed">Breed:</label>
                   </td>
                   <td>
                     <input
@@ -1220,7 +1222,7 @@ const PetInfo = () => {
               <tbody>
                 <tr>
                   <td>
-                    <h3>Are you sure, you want to remove this pet?</h3>
+                    <h5>Are you sure, you want to remove this pet?</h5>
                   </td>
                 </tr>
                 <tr>
@@ -1229,10 +1231,10 @@ const PetInfo = () => {
                       type={"submit"}
                       value="Yes"
                       className="post-link"
+                      style={{ float: "left" }}
                     ></input>
-                  </td>
-                  <td>
                     <input
+                      style={{ float: "right" }}
                       type={"button"}
                       value="No"
                       onClick={() => showDelPet()}

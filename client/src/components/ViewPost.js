@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -12,6 +13,7 @@ import { Divider, Grid, Paper } from "@material-ui/core";
 import "../App.css";
 import EditPost from "./modals/EditPost";
 import DeletePost from "./modals/DeletePost";
+import DeleteComment from "./modals/DeleteComment";
 import NewPost from "./modals/NewPost";
 import LikeUnlikePost from "./LikeUnlikePost";
 import LikeUnlikeComment from "./LikeUnlikeComment";
@@ -24,7 +26,8 @@ function ViewPost() {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deletePostModalOpen, setDeletePostModalOpen] = useState(false);
+  const [deleteCommentModalOpen, setDeleteCommentModalOpen] = useState(false);
   const [newModalOpen, setNewModalOpen] = useState(false);
   const [comments, setComments] = useState(undefined);
   let { postId } = useParams();
@@ -58,12 +61,20 @@ function ViewPost() {
     setEditModalOpen(false);
   };
 
-  const handleDeleteModalOpen = () => {
-    setDeleteModalOpen(true);
+  const handlePostDeleteModalOpen = () => {
+    setDeletePostModalOpen(true);
   };
 
-  const handleDeleteModalClose = () => {
-    setDeleteModalOpen(false);
+  const handlePostDeleteModalClose = () => {
+    setDeletePostModalOpen(false);
+  };
+
+  const handleCommentDeleteModalOpen = () => {
+    setDeleteCommentModalOpen(true);
+  };
+
+  const handleCommentDeleteModalClose = () => {
+    setDeleteCommentModalOpen(false);
   };
 
   const handleNewModalOpen = () => {
@@ -172,7 +183,7 @@ function ViewPost() {
                   )}
                   {viewPost.userThatPosted === userId && (
                     <button
-                      onClick={handleDeleteModalOpen}
+                      onClick={handlePostDeleteModalOpen}
                       className="post-link"
                     >
                       Delete
@@ -191,10 +202,10 @@ function ViewPost() {
                       }}
                     />
                   )}
-                  {deleteModalOpen && (
+                  {deletePostModalOpen && (
                     <DeletePost
-                      handleDeleteModalClose={handleDeleteModalClose}
-                      isOpen={deleteModalOpen}
+                      handlePostDeleteModalClose={handlePostDeleteModalClose}
+                      isOpen={deletePostModalOpen}
                       handleChange={handleChange}
                       postId={postId}
                     />
@@ -294,7 +305,7 @@ function ViewPost() {
                   )}
                   {viewPost.userThatPosted === userId && (
                     <button
-                      onClick={handleDeleteModalOpen}
+                      onClick={handlePostDeleteModalOpen}
                       className="post-link"
                     >
                       Delete
@@ -312,10 +323,10 @@ function ViewPost() {
                       }}
                     />
                   )}
-                  {deleteModalOpen && (
+                  {deletePostModalOpen && (
                     <DeletePost
-                      handleDeleteModalClose={handleDeleteModalClose}
-                      isOpen={deleteModalOpen}
+                      handlePostDeleteModalClose={handlePostDeleteModalClose}
+                      isOpen={deletePostModalOpen}
                       handleChange={handleChange}
                       postId={postId}
                     />
@@ -364,7 +375,24 @@ function ViewPost() {
                   ? com.commentLikes.length + " like"
                   : com.commentLikes.length + " likes")}
             </span>
+            <Link>
+              <span
+                onClick={handleCommentDeleteModalOpen}
+                style={{ fontSize: "medium", float: "right", marginTop: "8px" }}
+              >
+                Delete
+              </span>
+            </Link>
           </p>
+          {deleteCommentModalOpen && (
+            <DeleteComment
+              handleCommentDeleteModalClose={handleCommentDeleteModalClose}
+              isOpen={deleteCommentModalOpen}
+              handleChange={handleChange}
+              postId={postId}
+              commentId={com._id}
+            />
+          )}
           <p style={{ textAlign: "left" }}>{com.comment}</p>
           <p style={{ textAlign: "left", color: "#767676" }}>
             Posted On: {com.commentDate + ", " + com.commentTime}
