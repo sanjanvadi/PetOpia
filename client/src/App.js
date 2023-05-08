@@ -1,38 +1,99 @@
-import React from "react";
-import "./App.css";
+import React, { useEffect, useState } from "react";
 import {
-  NavLink,
   BrowserRouter as Router,
-  Route,
   Routes,
+  Route,
+  NavLink,
 } from "react-router-dom";
+import CommunityPosts from "./components/CommunityPosts";
+import ViewPost from "./components/ViewPost";
+import "./App.css";
 import AdoptPet from "./components/AdoptPet";
+import SignIn from "./components/SignIn";
+import { AuthProvider } from "./components/firebase/Auth";
+import PrivateRoute from "./components/PrivateRoute";
+import { PetCenterHome, PetInfo } from "./components/Home";
+import SignOutButton from "./components/SignOut";
+import ErrorHandler from "./components/ErrorHandler";
+
 function App() {
+  const handleChange = () => {
+    setCount(count + 1);
+  };
+
+  const [count, setCount] = useState(0);
+  const [userId, setUserId] = useState(window.sessionStorage.getItem("userid"));
+  useEffect(() => {
+    setUserId(window.sessionStorage.getItem("userid"));
+  }, [count]);
+
   return (
-    <Router>
-      <div>
-        <header>
-          <nav className="App-header">
-            <NavLink className='mainLogo' to="/">
+    <AuthProvider>
+      <Router>
+        <div>
+          <header className="headerMain">
+            <nav className="App-header">
               <h1 className="App-title">PetOpia</h1>
-            </NavLink>
-            <div className="navLinks">
-                <NavLink className='showlink' to="/">
-                  Home
-                </NavLink>
-                <NavLink className='showlink' to="/adoptpet">
+              <div className="navLinks">
+                {!userId && (
+                  <NavLink className="postLink" to="/">
+                    Home
+                  </NavLink>
+                )}
+                {userId && (
+                  <NavLink className="postLink" to="/account/my-pets">
+                    Pet-Center
+                  </NavLink>
+                )}
+                {userId && (
+                  <NavLink className="postLink" to="/account/community-posts">
+                    Community
+                  </NavLink>
+                )}
+                <NavLink className="postLink" to="/adoptpet">
                   Adopt
                 </NavLink>
-            </div>
-          </nav>
-        </header>
-        <Routes>
-          {/* <Route path='/' element={<Home/>}/> */}
-          <Route path="/adoptpet" element={<AdoptPet />} />
-          {/* <Route path='*' element={<NotFound/>}/> */}
-        </Routes>
-      </div>
-    </Router>
+              </div>
+            </nav>
+            {userId && (
+              <div className="navLinksRight">
+                <SignOutButton handleChange={handleChange} />
+              </div>
+            )}
+          </header>
+          <Routes>
+            <Route path="/adoptpet" element={<AdoptPet />} />
+            <Route path="/account" element={<PrivateRoute />}>
+              <Route path="/account/my-pets" element={<PetCenterHome />} />
+              <Route path="/account/my-pet-info/:petId" element={<PetInfo />} />
+              <Route
+                path={"/account/community-posts"}
+                element={<CommunityPosts />}
+              />
+              <Route
+                path={"/account/community-posts/:postId"}
+                element={<ViewPost />}
+              />
+            </Route>
+            <Route path="/" element={<SignIn handleChange={handleChange} />} />
+            <Route
+              path="*"
+              element={
+                <ErrorHandler
+                  error={
+                    <h1>
+                      <br />
+                      <br />
+                      Error 404: Page Not Found!
+                    </h1>
+                  }
+                />
+              }
+            />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

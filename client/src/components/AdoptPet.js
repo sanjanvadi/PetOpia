@@ -9,8 +9,8 @@ import {
   Button
 } from "@mui/material";
 import AnimalDetail from "./modals/AnimalDetail";
-import noImage from "../img/download.jpeg";
-import ErrorPage from "./ErrorPage";
+import noImage from "../img/noImage.jpg";
+import ErrorHandler from "./ErrorHandler";
 
 function AdoptPet() {
   let card;
@@ -126,7 +126,7 @@ function AdoptPet() {
 
   if(error){
     return(
-        <ErrorPage error={error}></ErrorPage>
+        <ErrorHandler error={error}></ErrorHandler>
     )
   }
   else{
@@ -135,9 +135,9 @@ function AdoptPet() {
         <span className="pageTitle">Adopt a Pet</span>
         <br/>
         <br/>
-        {page>1?<Button sx={{color:'#6504B5',borderBlockColor:'#6504B5'}} variant="outlined" onClick={()=>handlePrevios()}>Previous</Button>:<span></span>}
+        {page>1?<Button sx={{color:'#996600',borderBlockColor:'#db9b43'}} variant="outlined" onClick={()=>handlePrevios()}>Previous</Button>:<span></span>}
         <span className="pageSpace">{page}</span>
-        {page<maxPage?<Button sx={{color:'#6504B5',borderBlockColor:'#6504B5'}} variant="outlined" onClick={()=>handleNext()}>Next</Button>:<span></span>}
+        {page<maxPage?<Button sx={{color:'#996600',borderBlockColor:'#db9b43'}} variant="outlined" onClick={()=>handleNext()}>Next</Button>:<span></span>}
         <br/>
         <br/>
         <br/>
