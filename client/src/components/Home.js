@@ -298,7 +298,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="petAge">Age:</label>
+                    <label htmlFor="petAge">Age (in years):</label>
                   </td>
                   <td>
                     <input
@@ -737,7 +737,6 @@ const PetInfo = () => {
           </button>
           <br></br>
           <br></br>
-          <div className="line"></div>
           <br></br>
         </div>
       );
@@ -773,7 +772,6 @@ const PetInfo = () => {
           </button>
           <br></br>
           <br></br>
-          <div className="line"></div>
           <br></br>
         </div>
       );
@@ -783,16 +781,17 @@ const PetInfo = () => {
     getMyPets &&
     getMyPets.prescription.map((val) => {
       return (
-        <div>
-          <img
-            alt={val}
-            src={val}
-            style={{ width: "500px", height: "500px" }}
-          ></img>
-          <button className="post-link" onClick={() => deletePres(val)}>
+        <div key={val} style={{float: "left"}}>
+          <a rel="noreferrer" target="_blank" href={val}>
+            <img
+              alt="Prescription"
+              src={val}
+              style={{marginBottom: "20px", width: "400px", height: "400px" }}
+            ></img>
+          </a>
+          <button style={{marginLeft: "3.3em"}} className="post-link" onClick={() => deletePres(val)}>
             Delete
           </button>
-          <div className="line"></div>
           <br></br>
         </div>
       );
@@ -800,15 +799,15 @@ const PetInfo = () => {
 
   let card = getMyPets && (
     <div>
-      <table className="table">
-        <tbody>
+      <table style={{}} className="table">
+        <tbody style={{fontSize: "x-large"}}>
           <tr>
             <td>Name:</td>
             <td>{getMyPets.petName}</td>
           </tr>
           <tr>
             <td>Age:</td>
-            <td>{getMyPets.petAge}</td>
+            <td>{getMyPets.petAge} year(s)</td>
           </tr>
           <tr>
             <td>Type:</td>
@@ -820,11 +819,12 @@ const PetInfo = () => {
           </tr>
         </tbody>
       </table>
+      <br /><br />
       {/* <h3>Name: {getMyPets.petName}</h3>
                 <p>Age: {getMyPets.petAge}</p>
                 <p>Type: {getMyPets.petType}</p>
                 <p>Bread: {getMyPets.petBreed}</p> */}
-      <div className="medDiv" id="medDiv">
+      <div className="pet-things">
         <div className="medHeaderDiv" id="medHeaderDiv">
           <h2
             onClick={() => {
@@ -847,7 +847,7 @@ const PetInfo = () => {
         </div>
       </div>
 
-      <div className="appDiv" id="appDiv">
+      <div className="pet-things">
         <div className="appHeaderDiv" id="appHeaderDiv">
           <h2
             onClick={() => {
@@ -870,14 +870,14 @@ const PetInfo = () => {
         </div>
       </div>
 
-      <div className="presDiv" id="presDiv">
+      <div className="pet-things">
         <div className="presHeaderDiv" id="presHeaderDiv">
           <h2
             onClick={() => {
               presCloseFunc();
             }}
           >
-            Prescription
+            Prescriptions
           </h2>
         </div>
         <div className="presCardDiv" id="presCardDiv">
@@ -916,10 +916,10 @@ const PetInfo = () => {
     return (
       <div>
         <div>
-          <button onClick={() => showEditPet()} className="post-link">
+          <button onClick={() => showEditPet()} className="post-link my-posts">
             Edit
           </button>
-          <button onClick={() => showDelPet()} className="post-link">
+          <button onClick={() => showDelPet()} className="post-link my-posts">
             Delete
           </button>
         </div>
@@ -929,7 +929,7 @@ const PetInfo = () => {
         </h3>
         <div>{card}</div>
         <Link to={`/account/my-pets`}>
-          <button onClick={() => showDelPet()} className="post-link">
+          <button onClick={() => showDelPet()} className="post-link my-posts">
             Back to Pet-Center
           </button>
         </Link>
@@ -1100,6 +1100,7 @@ const PetInfo = () => {
                 <tr>
                   <td>
                     <input
+                    accept="image/*"
                       id="presImg"
                       type={"file"}
                       onChange={(event) => {
@@ -1115,7 +1116,6 @@ const PetInfo = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td></td>
                   <td>
                     <input
                       type={"submit"}

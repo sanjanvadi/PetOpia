@@ -28,72 +28,99 @@ function App() {
   }, [count]);
 
   return (
-    <AuthProvider>
-      <Router>
-        <div>
-          <header className="headerMain">
-            <nav className="App-header">
-              <h1 className="App-title">PetOpia</h1>
-              <div className="navLinks">
-                {!userId && (
-                  <NavLink className="postLink" to="/">
-                    Home
+    <div className="App-container">
+      <AuthProvider>
+        <Router>
+          <div>
+            <header className="headerMain">
+              <nav className="App-header">
+                <h1 className="App-title">PetOpia</h1>
+                <div className="navLinks">
+                  {!userId && (
+                    <NavLink className="postLink" to="/">
+                      Home
+                    </NavLink>
+                  )}
+                  {userId && (
+                    <NavLink className="postLink" to="/account/my-pets">
+                      Pet-Center
+                    </NavLink>
+                  )}
+                  {userId && (
+                    <NavLink className="postLink" to="/account/community-posts">
+                      Community
+                    </NavLink>
+                  )}
+                  <NavLink className="postLink" to="/adoptpet">
+                    Adopt
                   </NavLink>
-                )}
-                {userId && (
-                  <NavLink className="postLink" to="/account/my-pets">
-                    Pet-Center
-                  </NavLink>
-                )}
-                {userId && (
-                  <NavLink className="postLink" to="/account/community-posts">
-                    Community
-                  </NavLink>
-                )}
-                <NavLink className="postLink" to="/adoptpet">
-                  Adopt
-                </NavLink>
-              </div>
-            </nav>
-            {userId && (
-              <div className="navLinksRight">
-                <SignOutButton handleChange={handleChange} />
-              </div>
-            )}
-          </header>
-          <Routes>
-            <Route path="/adoptpet" element={<AdoptPet />} />
-            <Route path="/account" element={<PrivateRoute />}>
-              <Route path="/account/my-pets" element={<PetCenterHome />} />
-              <Route path="/account/my-pet-info/:petId" element={<PetInfo />} />
-              <Route
-                path={"/account/community-posts"}
-                element={<CommunityPosts />}
-              />
-              <Route
-                path={"/account/community-posts/:postId"}
-                element={<ViewPost />}
-              />
-            </Route>
-            <Route path="/" element={<SignIn handleChange={handleChange} />} />
-            <Route
-              path="*"
-              element={
-                <ErrorHandler
-                  error={
-                    <h1>
-                      <br />
-                      <br />
-                      Error 404: Page Not Found!
-                    </h1>
-                  }
+                </div>
+              </nav>
+              {userId && (
+                <div className="navLinksRight">
+                  <SignOutButton handleChange={handleChange} />
+                </div>
+              )}
+            </header>
+            <Routes>
+              <Route path="/adoptpet" element={<AdoptPet />} />
+              <Route path="/account" element={<PrivateRoute />}>
+                <Route path="/account/my-pets" element={<PetCenterHome />} />
+                <Route
+                  path="/account/my-pet-info/:petId"
+                  element={<PetInfo />}
                 />
-              }
-            />
-          </Routes>
-        </div>
-      </Router>
-    </AuthProvider>
+                <Route
+                  path={"/account/community-posts"}
+                  element={<CommunityPosts />}
+                />
+                <Route
+                  path={"/account/community-posts/:postId"}
+                  element={<ViewPost />}
+                />
+              </Route>
+              <Route
+                path="/"
+                element={<SignIn handleChange={handleChange} />}
+              />
+              <Route
+                path="*"
+                element={
+                  <ErrorHandler
+                    error={
+                      <h1>
+                        <br />
+                        <br />
+                        Error 404: Page Not Found!
+                      </h1>
+                    }
+                  />
+                }
+              />
+            </Routes>
+          </div>
+        </Router>   
+        <footer
+          style={{ backgroundColor: "#a16c00" }}
+          className="bg-orange text-center text-lg-start fixed-bottom"
+        >
+          <div className="text-center p-1">
+            <span
+              style={{
+                color: "black",
+                fontWeight: "lighter",
+                fontSize: "medium",
+              }}
+            >
+              © 2023 Copyright:{" "}
+            </span>
+            <span style={{ fontSize: "medium" }} className="text-light" href="">
+              TEAM PETOPIA
+            </span>
+          </div>
+        </footer>
+      </AuthProvider>
+    </div>
   );
 }
 

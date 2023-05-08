@@ -654,6 +654,7 @@ body {
   background-image: url("./img/pets.png");
   background-size: cover;
   background-position: no-repeat;
+  padding-bottom: 50px;
 }
 
 .add-item {
@@ -669,3 +670,20 @@ body {
   margin-right: 20px;
   margin-left: 20px;
 }
+
+.pet-things {
+  margin-left: 20em;
+  margin-right: 20em;
+}
+
+tr {
+  border-color: #a16c00;
+}
+
+footer {
+  margin-top: auto;
+  bottom: 0;
+  color: #555;
+  text-align: center;
+}
+
