@@ -7,7 +7,7 @@ const LikeUnlikePost = (props) => {
   const likeButton = (post) => {
     return post.postLikes.includes(userId) ? (
       <>
-      <label for="likeUnlike"></label>
+      <label htmlFor="likeUnlike"></label>
       <button id="likeUnlike"
         onClick={() => {
           axios
@@ -26,7 +26,7 @@ const LikeUnlikePost = (props) => {
       </>
     ) : (
       <>
-      <label for="likeUnlike"></label>
+      <label htmlFor="likeUnlike"></label>
       <button id="likeUnlike"
         onClick={() => {
           axios

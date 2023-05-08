@@ -6,7 +6,7 @@ const SearchPosts = (props) => {
   };
   return (
     <form method="POST " name="formName" className="center">
-      <label for='searchBar'></label><input
+      <label htmlFor='searchBar'></label><input
       className="search-input"
         placeholder="Search Posts..."
         autoComplete="off"

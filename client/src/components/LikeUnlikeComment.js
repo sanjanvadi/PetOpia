@@ -10,7 +10,7 @@ const LikeUnlikeComment = (props) => {
   const likeButton = (com) => {
     return com.commentLikes.includes(userId) ? (
       <>
-      <label for="likeUnlike"></label>
+      <label htmlFor="likeUnlike"></label>
       <button id="likeUnlike"
         onClick={() => {
           axios
@@ -29,7 +29,7 @@ const LikeUnlikeComment = (props) => {
       </>
     ) : (
       <>
-      <label for="likeUnlike"></label>
+      <label htmlFor="likeUnlike"></label>
       <button id="likeUnlike"
         onClick={() => {
           axios

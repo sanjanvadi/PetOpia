@@ -266,7 +266,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label for='petImage'>
+                  <label htmlFor='petImage'>
                       Image:
                     </label>
                   </td>
@@ -282,7 +282,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                    <label for='petName'>
+                    <label htmlFor='petName'>
                       Name:
                     </label>
                   </td>
@@ -297,7 +297,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label for='petAge'>
+                  <label htmlFor='petAge'>
                       Age:
                     </label>
                   </td>
@@ -312,7 +312,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label for='petType'>
+                  <label htmlFor='petType'>
                       Type:
                     </label>
                   </td>
@@ -327,7 +327,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label for='petBreed'>
+                  <label htmlFor='petBreed'>
                       Breed:
                     </label>
                   </td>
@@ -943,7 +943,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <label for="medicationName">Name:</label>
+                    <label htmlFor="medicationName">Name:</label>
                   </td>
                   <td>
                     <input
@@ -956,7 +956,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <label for="administeredDate">Prescribed Date:</label>
+                    <label htmlFor="administeredDate">Prescribed Date:</label>
                   </td>
                   <td>
                     <input
@@ -969,7 +969,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label for="dosage">Dosage:</label>
+                  <label htmlFor="dosage">Dosage:</label>
                   </td>
                   <td>
                     <input
@@ -1016,7 +1016,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <label for="appointmentDate">Appointment Date:</label>
+                    <label htmlFor="appointmentDate">Appointment Date:</label>
                   </td>
                   <td>
                     <input
@@ -1029,7 +1029,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <label for="reason">Reason:</label>
+                    <label htmlFor="reason">Reason:</label>
                   </td>
                   <td>
                     <input
@@ -1042,7 +1042,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <label for="clinicName">Clinic Name:</label>
+                    <label htmlFor="clinicName">Clinic Name:</label>
                   </td>
                   <td>
                     <input
@@ -1084,7 +1084,7 @@ const PetInfo = () => {
               <tbody>
                 <tr>
                   <td>
-                    <label for="presImg"><h3>Add Prescription</h3></label>
+                    <label htmlFor="presImg"><h3>Add Prescription</h3></label>
                   </td>
                 </tr>
                 <tr>
@@ -1130,7 +1130,7 @@ const PetInfo = () => {
               <tbody>
                 <tr>
                   <td>
-                  <label for="petName"><h3>Edit Pet:</h3>:</label>
+                  <label htmlFor="petName"><h3>Edit Pet:</h3>:</label>
                   </td>
                 </tr>
                 <tr>
@@ -1149,7 +1149,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <label for="petAge">Age:</label>
+                    <label htmlFor="petAge">Age:</label>
                   </td>
                   <td>
                     <input
@@ -1163,7 +1163,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label for="petType">Type:</label>
+                  <label htmlFor="petType">Type:</label>
                   </td>
                   <td>
                     <input
@@ -1177,7 +1177,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                  <label for="petBreed">Breed:</label>
+                  <label htmlFor="petBreed">Breed:</label>
                   </td>
                   <td>
                     <input
