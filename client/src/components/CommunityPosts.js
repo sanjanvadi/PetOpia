@@ -193,9 +193,9 @@ function CommunityPosts() {
               component="h3"
             >
               <div style={{ fontWeight: "bold" }} className="date">
-                {userEmail.length > 13
-                  ? userEmail.slice(0, 13) + "..."
-                  : userEmail}
+              {post.userEmail.length > 13
+                  ? post.userEmail.slice(0, 13) + "..."
+                  : post.userEmail}
                 <br />
                 <LikeUnlikePost
                   className={"in-community-posts"}

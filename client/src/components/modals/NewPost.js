@@ -26,11 +26,11 @@ function NewPost(props) {
   const handleTitleChange = (event) => {
     if (event.target.value.length > 30) {
       setIsError(true);
-      setDisplayedError("Post title cannot contain more than 30 characters!")
+      setDisplayedError("Post title cannot contain more than 30 characters!");
       document.querySelector("#post-upload").hidden = true;
     } else {
       setIsError(false);
-      setDisplayedError(null)
+      setDisplayedError(null);
       document.querySelector("#post-upload").hidden = false;
     }
     setPostTitle(event.target.value);
@@ -45,13 +45,15 @@ function NewPost(props) {
     setAxiosLoading(true);
     setIsError(false);
     document.querySelector("#post-upload").disabled = true;
+    const resUser = await axios.get(`/user/${userId}`);
+    const userEmail = resUser.data.email.substring(
+      0,
+      resUser.data.email.indexOf("@")
+    );
     if (postImage) {
       const formData = new FormData();
       formData.append("file", postImage);
       formData.append("upload_preset", presetValue);
-
-      const resUser = await axios.get(`/user/${userId}`);
-      const userEmail = resUser.data.email.substring(0, resUser.data.email.indexOf("@"))
 
       axios
         .post(
@@ -90,6 +92,7 @@ function NewPost(props) {
       axios
         .post("/community-posts", {
           userThatPosted: userId,
+          userEmail: userEmail,
           postImage: null,
           postTitle: postTitle,
           postDescription: postDescription,
@@ -152,7 +155,7 @@ function NewPost(props) {
               <br />
               <label className="form-label">Post Title</label>
               <input
-              placeholder="Headline of your post..."
+                placeholder="Headline of your post..."
                 className="form-control"
                 type="text"
                 value={postTitle}
@@ -163,7 +166,7 @@ function NewPost(props) {
               {isError && <ErrorHandler error={displayedError} />}
               <label className="form-label">Write a Description</label>
               <textarea
-              placeholder="Describe what your post is about..."
+                placeholder="Describe what your post is about..."
                 rows={4}
                 className="form-control"
                 type="text"

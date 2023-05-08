@@ -11,7 +11,6 @@ router.route("/:userId").get(async (req, res) => {
     const userById = await getUserById(req.params.userId);
     res.json(userById);
   } catch (error) {
-    console.log(error);
     res.status(error.code).send(error.message);
   }
 });

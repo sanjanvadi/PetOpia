@@ -21,9 +21,7 @@ const PetCenterHome = () => {
 
   useEffect(() => {
     async function getPets() {
-      console.log("hello");
       let { data } = await axios.get("pets/" + userId);
-      console.log(Array.isArray(data));
       setMyPets(data);
       setLoading(false);
     }
@@ -226,7 +224,7 @@ const PetCenterHome = () => {
     getMyPets.length ?
     getMyPets.map((pet) => {
       return buildCard(pet);
-    }) : <>No</>;
+    }) : <h4><br/>No pets added yet!</h4>;
 
   if (loading) {
     return (

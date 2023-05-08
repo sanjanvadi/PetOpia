@@ -38,7 +38,6 @@ function SignIn(props) {
   }
 
   if (currentUser) {
-    // console.log(currentUser);
     addUser(currentUser.email);
     if(userId) return <Navigate to={'/account/my-pets'}></Navigate>
   }

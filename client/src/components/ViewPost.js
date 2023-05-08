@@ -90,11 +90,11 @@ function ViewPost() {
       .post(`/view-post/${postId}`, {
         userThatPosted: userId,
         comment: commentInput,
-        userEmail: userEmail
+        userEmail: userEmail,
       })
       .then(() => {
         setCount(count + 1);
-        document.getElementById('comment-box').value='';
+        document.getElementById("comment-box").value = "";
       })
       .catch((error) => {
         console.log(error);
@@ -290,12 +290,19 @@ function ViewPost() {
                         ? viewPost.postLikes.length + " like"
                         : viewPost.postLikes.length + " likes")}
                   </p>
-                  <button onClick={handleEditModalOpen} className="post-link">
-                    Edit
-                  </button>
-                  <button onClick={handleDeleteModalOpen} className="post-link">
-                    Delete
-                  </button>
+                  {viewPost.userThatPosted === userId && (
+                    <button onClick={handleEditModalOpen} className="post-link">
+                      Edit
+                    </button>
+                  )}
+                  {viewPost.userThatPosted === userId && (
+                    <button
+                      onClick={handleDeleteModalOpen}
+                      className="post-link"
+                    >
+                      Delete
+                    </button>
+                  )}
                   {editModalOpen && (
                     <EditPost
                       handleEditModalClose={handleEditModalClose}
