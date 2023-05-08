@@ -9,7 +9,7 @@ function SignIn(props) {
     try {
       await doSocialSignIn(provider);
     } catch (error) {
-      alert(error);
+      alert("An account with the given email address already exists under a different provider! Please use that!")
     }
   };
 
@@ -69,14 +69,9 @@ function SignIn(props) {
         src="/imgs/google-icon.png"
       />
       <img className="login-icons"
-        onClick={() => socialSignOn("facebook")}
-        alt="facebook signin"
-        src="/imgs/facebook-icon.png"
-      />
-      <img className="login-icons"
-        onClick={() => socialSignOn("twitter")}
-        alt="twitter signin"
-        src="/imgs/twitter-icon.png"
+        onClick={() => socialSignOn("github")}
+        alt="github signin"
+        src="/imgs/github-icon.png"
       />
     </div>
   );

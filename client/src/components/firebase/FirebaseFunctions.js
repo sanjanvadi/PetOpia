@@ -1,11 +1,10 @@
 import firebaseApp from "./Firebase";
 import {
   getAuth,
-  signInWithRedirect,
   signOut,
   GoogleAuthProvider,
-  FacebookAuthProvider,
-  TwitterAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 
 const auth = getAuth(firebaseApp);
@@ -14,12 +13,10 @@ async function doSocialSignIn(provider) {
   let socialProvider = null;
   if (provider === "google") {
     socialProvider = new GoogleAuthProvider();
-  } else if (provider === "facebook") {
-    socialProvider = new FacebookAuthProvider();
-  } else if (provider === "twitter") {
-    socialProvider = new TwitterAuthProvider();
+  } else if (provider === "github") {
+    socialProvider = new GithubAuthProvider();
   }
-  await signInWithRedirect(auth, socialProvider);
+  await signInWithPopup(auth, socialProvider);
 }
 
 async function doSignOut() {
