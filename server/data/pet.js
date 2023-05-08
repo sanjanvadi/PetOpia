@@ -104,11 +104,10 @@ const deletePet = async (userId, petId) => {
         { $pull: { pets: data[i] } }
       );
       if (del.modifiedCount === 0) throw "Could not delete review successfully";
-      else return "Pet deleted successfully";
     }
   }
 
-  return await getAllPets();
+  return await getAllPets(userId);
 };
 
 // const getAllMed = async (userId, petId) => {
@@ -267,7 +266,7 @@ const deleteApp = async (userId, petId, appId) => {
     { _id: new ObjectId(userId) },
     { $set: { pets: res } }
   );
-  if (update.modifiedCount) throw "Internal server error. Try again later...";
+  if (update.modifiedCount === 0) throw "Internal server error. Try again later...";
 
   await client.set(userId, JSON.stringify(res));
 

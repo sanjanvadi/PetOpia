@@ -392,6 +392,13 @@ const PetInfo = () => {
 
   let navigate = useNavigate();
 
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  let yyyy = today.getFullYear();
+
+  today = yyyy+'-'+mm+'-'+dd;
+
   useEffect(() => {
     async function getPets() {
       let { data } = await axios.get(
@@ -616,6 +623,7 @@ const PetInfo = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setMyPets(data);
       });
   }
@@ -686,7 +694,7 @@ const PetInfo = () => {
     let petId = getMyPets._id;
 
     const pet = {
-      petId,
+      petId
     };
 
     await fetch("/account/pets/" + userId, {
@@ -695,7 +703,7 @@ const PetInfo = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(pet),
-    });
+    })
     navigate(-1);
   }
 
@@ -917,7 +925,7 @@ const PetInfo = () => {
         </div>
         <br />
         <h3 style={{ fontWeight: "bold" }}>
-          {getMyPets.petName + "'s Info Card"}
+          {getMyPets.petName + "'s Info"}
         </h3>
         <div>{card}</div>
         <Link to={`/account/my-pets`}>
@@ -961,6 +969,7 @@ const PetInfo = () => {
                       type={"date"}
                       id="administeredDate"
                       name="administeredDate"
+                      min={today}
                       required
                     ></input>
                   </td>
@@ -1021,6 +1030,7 @@ const PetInfo = () => {
                       type={"date"}
                       id="appointmentDate"
                       name="appointmentDate"
+                      min={today}
                       required
                     ></input>
                   </td>
