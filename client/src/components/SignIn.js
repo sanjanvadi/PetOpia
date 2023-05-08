@@ -31,6 +31,7 @@ function SignIn(props) {
     .then((res) => res.json())
     .then((data) => {
       setUserId(data.id);
+      window.sessionStorage.setItem('userEmail',email);
       window.sessionStorage.setItem('userid', data.id);
       props.handleChange();
     });

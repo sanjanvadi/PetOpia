@@ -9,6 +9,8 @@ Modal.setAppElement("#root");
 
 function NewPost(props) {
   const userId = window.sessionStorage.getItem("userid");
+  let userEmail = window.sessionStorage.getItem("userEmail");
+  userEmail = userEmail.substring(0, userEmail.indexOf("@"));
   const [postImage, setPostImage] = useState("");
   const [postTitle, setPostTitle] = useState("");
   const [postDescription, setPostDescription] = useState("");
@@ -16,8 +18,6 @@ function NewPost(props) {
   const [axiosLoading, setAxiosLoading] = useState(null);
   const [isError, setIsError] = useState(null);
   const [displayedError, setDisplayedError] = useState(null);
-  // const [formSubmitted, setFormSubmitted] = useState(false);
-  // const [showAlert, setShowAlert] = useState(false);
 
   const handleImageChange = (event) => {
     setPostImage(event.target.files[0]);
@@ -45,11 +45,11 @@ function NewPost(props) {
     setAxiosLoading(true);
     setIsError(false);
     document.querySelector("#post-upload").disabled = true;
-    const resUser = await axios.get(`/user/${userId}`);
-    const userEmail = resUser.data.email.substring(
-      0,
-      resUser.data.email.indexOf("@")
-    );
+    // const resUser = await axios.get(`/user/${userId}`);
+    // const userEmail = resUser.data.email.substring(
+    //   0,
+    //   resUser.data.email.indexOf("@")
+    // );
     if (postImage) {
       const formData = new FormData();
       formData.append("file", postImage);

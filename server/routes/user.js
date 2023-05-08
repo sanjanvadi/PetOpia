@@ -6,15 +6,6 @@ import { createUser, getUserById } from "../data/user.js";
 const client = redis.createClient();
 client.connect();
 
-router.route("/:userId").get(async (req, res) => {
-  try {
-    const userById = await getUserById(req.params.userId);
-    res.json(userById);
-  } catch (error) {
-    res.status(error.code).send(error.message);
-  }
-});
-
 router.route("/").post(async (req, res) => {
   let input = req.body;
   let email = xss(input.email);

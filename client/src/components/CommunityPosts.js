@@ -21,7 +21,6 @@ function CommunityPosts() {
   const [postType, setPostType] = useState("allPosts");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedData, setSearchedData] = useState(undefined);
-  const [userEmail, setUserEmail] = useState(undefined);
   let card = null;
 
   useEffect(() => {
@@ -30,10 +29,6 @@ function CommunityPosts() {
         try {
           const resSearchedData = await axios.get(
             `/community-posts?keyword=${searchQuery}`
-          );
-          const resUser = await axios.get(`/user/${userId}`);
-          setUserEmail(
-            resUser.data.email.substring(0, resUser.data.email.indexOf("@"))
           );
           setSearchedData(resSearchedData.data.searchedData);
           setLoading(false);
@@ -44,10 +39,6 @@ function CommunityPosts() {
         try {
           const { data } = await axios.get(
             `/community-posts?page=${currentPage}`
-          );
-          const resUser = await axios.get(`/user/${userId}`);
-          setUserEmail(
-            resUser.data.email.substring(0, resUser.data.email.indexOf("@"))
           );
           const postsByUser = data.allData.allPostsData.filter((post) => {
             return post.userThatPosted === userId;

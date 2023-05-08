@@ -18,6 +18,8 @@ import LikeUnlikeComment from "./LikeUnlikeComment";
 
 function ViewPost() {
   const userId = window.sessionStorage.getItem("userid");
+  let userEmail = window.sessionStorage.getItem("userEmail");
+  userEmail = userEmail.substring(0, userEmail.indexOf("@"));
   const [viewPost, setViewPost] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
@@ -25,7 +27,6 @@ function ViewPost() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [newModalOpen, setNewModalOpen] = useState(false);
   const [comments, setComments] = useState(undefined);
-  const [userEmail, setUserEmail] = useState(undefined);
   let { postId } = useParams();
   let navigate = useNavigate();
   let comment;
@@ -34,10 +35,6 @@ function ViewPost() {
     const getPostsAndComments = async () => {
       try {
         const resPost = await axios.get(`/community-posts/${postId}`);
-        const resUser = await axios.get(`/user/${userId}`);
-        setUserEmail(
-          resUser.data.email.substring(0, resUser.data.email.indexOf("@"))
-        );
         setViewPost(resPost.data);
         setComments(resPost.data.postComments);
         setLoading(false);
