@@ -80,22 +80,22 @@ const postComment = async (postId, userEmail, userThatPosted, comment) => {
   return updatedPost;
 };
 
-// const deleteComment = async (postId, commentId) => {
-//   validateObjectId(commentId, "Comment ID");
-//   commentId = commentId.trim();
+const deleteComment = async (postId, commentId) => {
+  validateObjectId(commentId, "Comment ID");
+  commentId = commentId.trim();
 
-//   const postExists = await getPostById(postId);
-//   if (postExists === null) throw notFoundError("Post doesn't exist!");
-//   const postsCollection = await communityPosts();
-//   const updatedInfo = await postsCollection.updateOne(
-//     { _id: new ObjectId(postId) },
-//     { $pull: { postComments: { _id: new ObjectId(commentId) } } }
-//   );
-//   if (updatedInfo.modifiedCount === 0)
-//     throw internalServerError("Comment could not be deleted!");
-//   const updatedPost = await getPostById(postId);
-//   return updatedPost;
-// };
+  const postExists = await getPostById(postId);
+  if (postExists === null) throw notFoundError("Post doesn't exist!");
+  const postsCollection = await communityPosts();
+  const updatedInfo = await postsCollection.updateOne(
+    { _id: new ObjectId(postId) },
+    { $pull: { postComments: { _id: new ObjectId(commentId) } } }
+  );
+  if (updatedInfo.modifiedCount === 0)
+    throw internalServerError("Comment could not be deleted!");
+  const updatedPost = await getPostById(postId);
+  return updatedPost;
+};
 
 // const editComment = async (postId, commentId, comment) => {
 //   validateObjectId(commentId, "Comment ID");
@@ -178,7 +178,7 @@ export {
   // getCommentsByPostId,
   getCommentByCommentId,
   postComment,
-  // deleteComment,
+  deleteComment,
   // editComment,
   likeComment,
   unlikeComment,
