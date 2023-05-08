@@ -46,7 +46,7 @@ function DeletePost(props) {
       >
         {isOpen && (
           <div>
-            <h4>Are you sure you want to delete this post?</h4> <br />
+            <span style={{fontSize:'1.6em'}}>Are you sure you want to delete this post?</span> <br />
             <form onSubmit={handleSubmit}>
               <div className="mb-3"></div>
 

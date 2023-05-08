@@ -19,7 +19,7 @@ const customStyles = {
     height:"80%",
     border: "1px solid #28547a",
     borderRadius: "4px",
-    backgroundColor:'#E6CFF8'
+    backgroundColor:'#f5f5f5'
   },
 };
 
@@ -65,7 +65,7 @@ function AnimalDetail(props) {
         <CloseIcon />
     </IconButton>
       
-      <Card className="card" sx={{backgroundColor:'#E6CFF8  '}}>
+      <Card className="card" sx={{backgroundColor:'#f5f5f5 '}}>
         <CardHeader className="titleHead" title={animal.name}/>
         <CardMedia
             className='media'

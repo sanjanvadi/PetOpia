@@ -6,7 +6,9 @@ const LikeUnlikePost = (props) => {
   const userId = window.sessionStorage.getItem("userid");
   const likeButton = (post) => {
     return post.postLikes.includes(userId) ? (
-      <button
+      <>
+      <label for="likeUnlike"></label>
+      <button id="likeUnlike"
         onClick={() => {
           axios
             .delete(`/likes/${post._id}/${userId}`)
@@ -21,8 +23,11 @@ const LikeUnlikePost = (props) => {
       >
         <i className="bi bi-hand-thumbs-up-fill"></i>
       </button>
+      </>
     ) : (
-      <button
+      <>
+      <label for="likeUnlike"></label>
+      <button id="likeUnlike"
         onClick={() => {
           axios
             .post(`/likes/${post._id}`, {userThatPosted: userId})
@@ -37,6 +42,7 @@ const LikeUnlikePost = (props) => {
       >
         <i className="bi bi-hand-thumbs-up"></i>
       </button>
+      </>
     );
   };
   return likeButton(props.post);

@@ -116,7 +116,7 @@ function CommunityPosts() {
               className="card-flex"
               gutterBottom
               variant="h6"
-              component="h3"
+              component="h2"
             >
               <div style={{ fontWeight: "bold" }} className="date">
                 {post.userEmail.length > 13
@@ -143,7 +143,7 @@ function CommunityPosts() {
                 }}
                 gutterBottom
                 variant="h6"
-                component="h3"
+                component="h2"
               >
                 <div className="post-title">{post.postTitle}</div>
               </Typography>
@@ -181,7 +181,7 @@ function CommunityPosts() {
               className="card-flex"
               gutterBottom
               variant="h6"
-              component="h3"
+              component="h2"
             >
               <div style={{ fontWeight: "bold" }} className="date">
               {post.userEmail.length > 13
@@ -208,7 +208,7 @@ function CommunityPosts() {
                 }}
                 gutterBottom
                 variant="h6"
-                component="h3"
+                component="h2"
               >
                 <div className="post-title">{post.postTitle}</div>
               </Typography>
@@ -231,9 +231,9 @@ function CommunityPosts() {
       });
   } else {
     if (postType === "allPosts") {
-      card = allPostsData.length ? allPostsData.map((post) => buildCard(post)) : <h5><br/>No community posts yet!</h5>;
+      card = allPostsData.length ? allPostsData.map((post) => buildCard(post)) : <h2><br/>No community posts yet!</h2>;
     } else if (postType === "myPosts") {
-      card = myPostsData.length ? myPostsData.map((post) => buildCard(post)) : <h5><br/>You haven't posted yet!</h5>;
+      card = myPostsData.length ? myPostsData.map((post) => buildCard(post)) : <h2><br/>You haven't posted yet!</h2>;
     }
   }
 

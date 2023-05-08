@@ -6,12 +6,13 @@ const SearchPosts = (props) => {
   };
   return (
     <form method="POST " name="formName" className="center">
-      <input
+      <label for='searchBar'></label><input
       className="search-input"
         placeholder="Search Posts..."
         autoComplete="off"
         autoFocus="autofocus"
         type="text"
+        id="searchBar"
         name="searchTerm"
         onChange={handleChange}
       />

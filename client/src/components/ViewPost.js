@@ -366,7 +366,7 @@ function ViewPost() {
             </span>
           </p>
           <p style={{ textAlign: "left" }}>{com.comment}</p>
-          <p style={{ textAlign: "left", color: "gray" }}>
+          <p style={{ textAlign: "left", color: "#767676" }}>
             Posted On: {com.commentDate + ", " + com.commentTime}
           </p>
         </Grid>

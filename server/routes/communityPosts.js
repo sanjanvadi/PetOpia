@@ -9,9 +9,9 @@ import {
 } from "../data/communityPosts.js";
 import xss from "xss";
 const router = express.Router();
-import redis from "redis";
-const client = redis.createClient();
-client.connect().then(() => {});
+// import redis from "redis";
+// const client = redis.createClient();
+// client.connect().then(() => {});
 
 router.route("/").get(async (req, res) => {
   try {
@@ -44,16 +44,16 @@ router
   .get(async (req, res) => {
     try {
       let postById;
-      const postExistsInCache = await client.hExists(
-        "posts",
-        req.params.postId.toString()
-      );
-      if (postExistsInCache) {
-        postById = await client.hGet("posts", req.params.postId.toString());
-        postById = JSON.parse(postById);
-      } else {
+      // const postExistsInCache = await client.hExists(
+      //   "posts",
+      //   req.params.postId.toString()
+      // );
+      // if (postExistsInCache) {
+      //   postById = await client.hGet("posts", req.params.postId.toString());
+      //   postById = JSON.parse(postById);
+      // } else {
         postById = await getPostById(req.params.postId);
-      }
+      // }
       res.json(postById);
     } catch (error) {
       res.status(error.code).send(error.message);

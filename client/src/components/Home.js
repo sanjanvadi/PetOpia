@@ -172,7 +172,7 @@ const PetCenterHome = () => {
                   fontWeight: "bold",
                 }}
                 variant="h6"
-                component="h3"
+                component="h2"
               >
                 <div className="post-title pet-name">{pet.petName}</div>
               </Typography>
@@ -204,7 +204,7 @@ const PetCenterHome = () => {
                   fontWeight: "bold",
                 }}
                 variant="h6"
-                component="h3"
+                component="h2"
               >
                 <div className="post-title pet-name">{pet.petName}</div>
               </Typography>
@@ -220,7 +220,7 @@ const PetCenterHome = () => {
     getMyPets.length ?
     getMyPets.map((pet) => {
       return buildCard(pet);
-    }) : <h5><br/>No pets added yet!</h5>;
+    }) : <h2><br/>No pets added yet!</h2>;
 
   if (loading) {
     return (
@@ -266,7 +266,9 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Image:</p>
+                  <label for='petImage'>
+                      Image:
+                    </label>
                   </td>
                   <td>
                     <input
@@ -280,7 +282,9 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Name:</p>
+                    <label for='petName'>
+                      Name:
+                    </label>
                   </td>
                   <td>
                     <input
@@ -293,7 +297,9 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Age:</p>
+                  <label for='petAge'>
+                      Age:
+                    </label>
                   </td>
                   <td>
                     <input
@@ -306,7 +312,9 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Type:</p>
+                  <label for='petType'>
+                      Type:
+                    </label>
                   </td>
                   <td>
                     <input
@@ -319,7 +327,9 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Breed:</p>
+                  <label for='petBreed'>
+                      Breed:
+                    </label>
                   </td>
                   <td>
                     <input
@@ -814,13 +824,13 @@ const PetInfo = () => {
                 <p>Bread: {getMyPets.petBreed}</p> */}
       <div className="medDiv" id="medDiv">
         <div className="medHeaderDiv" id="medHeaderDiv">
-          <h3
+          <h2
             onClick={() => {
               medCloseFunc();
             }}
           >
             Medications
-          </h3>
+          </h2>
         </div>
         <div className="medCardDiv" id="medCardDiv">
           <div className="cardDiv">{medCard}</div>
@@ -837,13 +847,13 @@ const PetInfo = () => {
 
       <div className="appDiv" id="appDiv">
         <div className="appHeaderDiv" id="appHeaderDiv">
-          <h3
+          <h2
             onClick={() => {
               appCloseFunc();
             }}
           >
             Appointments
-          </h3>
+          </h2>
         </div>
         <div className="appCardDiv" id="appCardDiv">
           <div className="cardDiv">{appCard}</div>
@@ -860,13 +870,13 @@ const PetInfo = () => {
 
       <div className="presDiv" id="presDiv">
         <div className="presHeaderDiv" id="presHeaderDiv">
-          <h3
+          <h2
             onClick={() => {
               presCloseFunc();
             }}
           >
             Prescription
-          </h3>
+          </h2>
         </div>
         <div className="presCardDiv" id="presCardDiv">
           <div className="cardDiv">{presCard}</div>
@@ -933,7 +943,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Name:</p>
+                    <label for="medicationName">Name:</label>
                   </td>
                   <td>
                     <input
@@ -946,7 +956,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Prescribed Date:</p>
+                    <label for="administeredDate">Prescribed Date:</label>
                   </td>
                   <td>
                     <input
@@ -959,7 +969,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Dosage:</p>
+                  <label for="dosage">Dosage:</label>
                   </td>
                   <td>
                     <input
@@ -1006,7 +1016,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Appointment Date:</p>
+                    <label for="appointmentDate">Appointment Date:</label>
                   </td>
                   <td>
                     <input
@@ -1019,7 +1029,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Reason:</p>
+                    <label for="reason">Reason:</label>
                   </td>
                   <td>
                     <input
@@ -1032,7 +1042,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Clinic Name:</p>
+                    <label for="clinicName">Clinic Name:</label>
                   </td>
                   <td>
                     <input
@@ -1074,12 +1084,13 @@ const PetInfo = () => {
               <tbody>
                 <tr>
                   <td>
-                    <h3>Add Prescription</h3>
+                    <label for="presImg"><h3>Add Prescription</h3></label>
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <input
+                    id="presImg"
                       type={"file"}
                       onChange={(event) => {
                         setPresImg(event.target.files[0]);
@@ -1119,7 +1130,7 @@ const PetInfo = () => {
               <tbody>
                 <tr>
                   <td>
-                    <h3>Edit Pet</h3>
+                  <label for="petName"><h3>Edit Pet:</h3>:</label>
                   </td>
                 </tr>
                 <tr>
@@ -1138,7 +1149,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Age:</p>
+                    <label for="petAge">Age:</label>
                   </td>
                   <td>
                     <input
@@ -1152,7 +1163,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Type:</p>
+                  <label for="petType">Type:</label>
                   </td>
                   <td>
                     <input
@@ -1166,7 +1177,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <p>Breed:</p>
+                  <label for="petBreed">Breed:</label>
                   </td>
                   <td>
                     <input

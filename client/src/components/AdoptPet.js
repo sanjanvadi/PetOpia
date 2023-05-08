@@ -135,9 +135,9 @@ function AdoptPet() {
         <span className="pageTitle">Adopt a Pet</span>
         <br/>
         <br/>
-        {page>1?<Button sx={{color:'#db9b43',borderBlockColor:'#db9b43'}} variant="outlined" onClick={()=>handlePrevios()}>Previous</Button>:<span></span>}
+        {page>1?<Button sx={{color:'#996600',borderBlockColor:'#db9b43'}} variant="outlined" onClick={()=>handlePrevios()}>Previous</Button>:<span></span>}
         <span className="pageSpace">{page}</span>
-        {page<maxPage?<Button sx={{color:'#db9b43',borderBlockColor:'#db9b43'}} variant="outlined" onClick={()=>handleNext()}>Next</Button>:<span></span>}
+        {page<maxPage?<Button sx={{color:'#996600',borderBlockColor:'#db9b43'}} variant="outlined" onClick={()=>handleNext()}>Next</Button>:<span></span>}
         <br/>
         <br/>
         <br/>

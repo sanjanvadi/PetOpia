@@ -43,7 +43,7 @@ function SignIn(props) {
   return (
     <div>
       <br />
-      <h1 style={{ fontFamily: "LeckerliOne-Regular", color: "#db9b43" }}>
+      <h1 style={{ fontFamily: "LeckerliOne-Regular", color: "#a16c00" }}>
         Welcome to PetOpia!
       </h1>
       <p className="headline">

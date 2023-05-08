@@ -14,7 +14,7 @@
 
 input {
   margin-top: 5px;
-  border: 1px solid #db9b43;
+  border: 1px solid #a16c00;
 }
 .post-body {
   display: block;
@@ -52,7 +52,7 @@ col-md-4 {
   padding: 0.4rem 0.8rem;
   background-color: white;
   border-radius: 3px;
-  background-color: #db9b43;
+  background-color: #a16c00;
   color: white;
   text-decoration: none !important;
   margin: 5px;
@@ -78,7 +78,7 @@ div {
 }
 
 a {
-  color: #db9b43;
+  color: #a16c00;
   text-decoration: none !important;
 }
 
@@ -92,7 +92,7 @@ ul {
 
 .title {
   font-weight: bold;
-  color: #db9b43;
+  color: #a16c00;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -139,7 +139,7 @@ dd {
 
 .community {
   /* background-color: white; */
-  color: #db9b43;
+  color: #a16c00;
   font-family: "Leckerli One";
   font-size: 40px;
   font-style: normal;
@@ -150,7 +150,7 @@ dd {
 }
 
 .community:hover {
-  color: #db9b43;
+  color: #a16c00;
   border: none;
 }
 
@@ -158,7 +158,7 @@ dd {
   padding: 0.4rem 0.8rem;
   background-color: white;
   border-radius: 3px;
-  background-color: #db9b43;
+  background-color: #a16c00;
   color: white;
   text-decoration: none !important;
   margin: 1px;
@@ -204,7 +204,7 @@ dd {
   padding-right: 11px;
   background-color: white;
   border-radius: 3px;
-  background-color: #db9b43;
+  background-color: #a16c00;
   color: white;
   /* text-decoration: none !important; */
   margin: 5px;
@@ -242,7 +242,7 @@ dd {
 }
 
 i {
-  color: #db9b43;
+  color: #a16c00;
   transition: color 0.3s ease-in-out;
 }
 
@@ -252,10 +252,10 @@ i {
 }
 
 .dropdown {
-  background-color: #db9b43;
+  background-color: #a16c00;
   color: white;
   border: white;
-  outline: #db9b43;
+  outline: #a16c00;
 }
 
 .dropdown:hover {
@@ -297,7 +297,7 @@ i {
   width: 50%;
   overflow-y: auto;
   border-radius: 10px;
-  box-shadow: 5px 5px 5px #db9b43 inset;
+  box-shadow: 5px 5px 5px #a16c00 inset;
 }
 
 .write-comment {
@@ -310,7 +310,7 @@ i {
   margin: auto;
   border-radius: 7px;
   background-color: white;
-  border: 1px solid #db9b43;
+  border: 1px solid #a16c00;
   margin-bottom: 5px;
 }
 
@@ -331,7 +331,7 @@ i {
 .search-input {
   width: 35%;
   height: 35px;
-  outline: 1px solid #db9b43;
+  outline: 1px solid #a16c00;
   border-radius: 7px;
 }
 @font-face {
@@ -341,7 +341,7 @@ i {
 }
 
 .headerMain {
-  background-color: #db9b43;
+  background-color: #a16c00;
   height: 70px;
   width: 100%;
   overflow: auto;
@@ -386,7 +386,7 @@ h3 {
 .pageTitle {
   font-family: LeckerliOne-Regular;
   font-size: 3em;
-  color: #db9b43;
+  color: #a16c00;
 }
 .mainLogo {
   text-decoration: none;
@@ -397,7 +397,7 @@ h3 {
 
 .postLink {
   padding: 0.3rem 0.4rem;
-  background-color: #db9b43;
+  background-color: #a16c00;
   border-radius: 3px;
   padding-right: 10px;
   margin-right: 10px;
@@ -417,13 +417,13 @@ h3 {
   padding: 0.3rem 0.4rem;
   background-color: white;
   border-radius: 3px;
-  border-color: #db9b43;
-  color: #db9b43;
+  border-color: #a16c00;
+  color: #a16c00;
   font-size: large;
   text-decoration: none !important;
 }
 .button:hover {
-  background-color: #db9b43;
+  background-color: #a16c00;
   border-color: white;
   color: white;
   text-decoration: none !important;
@@ -431,7 +431,7 @@ h3 {
 .pageSpace {
   padding-left: 30px;
   padding-right: 30px;
-  color: #db9b43;
+  color: #996600;
   font-weight: bolder;
 }
 
@@ -476,10 +476,10 @@ span {
   font-size: medium;
 }
 .color {
-  color: #db9b43;
+  color: #996600;
 }
 .main {
-  color: #db9b43;
+  color: #a16c00;
   font-size: x-large;
 }
 .card {
@@ -493,13 +493,13 @@ span {
     0 15px 12px rgba(255, 0, 0, 0.22);
 }
 .modal {
-  background-color: #db9b43;
+  background-color: #a16c00;
 }
 .titleHead {
-  border-bottom: 1px solid #db9b43;
+  border-bottom: 1px solid #a16c00;
   font-weight: bold;
   font-size: xx-large;
-  color: #db9b43;
+  color: #a16c00;
 }
 
 .media {
@@ -633,7 +633,7 @@ td {
 }
 
 #welcome-heading {
-  color: #db9b43;
+  color: #a16c00;
   text-align: justify;
   width: 500px;
 }

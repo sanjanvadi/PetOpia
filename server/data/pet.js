@@ -50,10 +50,13 @@ const createPet = async (userId, petImage, petName, petAge, petType, petBreed) =
         {$addToSet: {pets: newPet}}
     );
     if(insert.insertedCount === 0) throw "Internal server error. Try again later..."
-    return getAllPets(userId);
+    
+    let res = await getAllPets(userId);
+    await client.set(userId, JSON.stringify(res));
+    return res;
 }
 
-const updatePet = async (userId, petId, petImage, petName, petAge, petType, petBreed) => {
+const updatePet = async (userId, petId, petName, petAge, petType, petBreed) => {
     const collection = await users();
     const user = await collection.findOne(
         {_id: new ObjectId(userId)}
@@ -98,11 +101,12 @@ const deletePet = async (userId, petId) => {
                 {$pull: {pets: data[i]}}
             )
             if (del.modifiedCount === 0) throw 'Could not delete review successfully';
-            else return "Pet deleted successfully";
         }
     }
-
-    return await getAllPets();
+    
+    let res = await getAllPets(userId);
+    await client.set(userId, JSON.stringify(res));
+    return res;
 }
 
 // const getAllMed = async (userId, petId) => {
