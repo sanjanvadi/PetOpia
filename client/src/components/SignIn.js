@@ -16,31 +16,29 @@ function SignIn(props) {
   let [userId, setUserId] = useState(undefined);
 
   function addUser(email) {
-
     let user = {
-      email
-    }
+      email,
+    };
 
     fetch("/user", {
-      method: 'POST',
+      method: "POST",
       headers: {
-          'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify(user),
     })
-    .then((res) => res.json())
-    .then((data) => {
-      setUserId(data.id);
-      window.sessionStorage.setItem('userEmail',email);
-      window.sessionStorage.setItem('userid', data.id);
-      props.handleChange();
-    });
-    
+      .then((res) => res.json())
+      .then((data) => {
+        setUserId(data.id);
+        window.sessionStorage.setItem("userEmail", email);
+        window.sessionStorage.setItem("userid", data.id);
+        props.handleChange();
+      });
   }
 
   if (currentUser) {
     addUser(currentUser.email);
-    if(userId) return <Navigate to={'/account/my-pets'}></Navigate>
+    if (userId) return <Navigate to={"/account/my-pets"}></Navigate>;
   }
   return (
     <div>
@@ -65,15 +63,20 @@ function SignIn(props) {
       <br />
       <br />
       <br />
-      <img
+      <img className="login-icons"
         onClick={() => socialSignOn("google")}
         alt="google signin"
-        src="/imgs/btn_google_signin.png"
+        src="/imgs/google-icon.png"
       />
-      <img
+      <img className="login-icons"
         onClick={() => socialSignOn("facebook")}
         alt="facebook signin"
-        src="/imgs/facebook_signin.png"
+        src="/imgs/facebook-icon.png"
+      />
+      <img className="login-icons"
+        onClick={() => socialSignOn("twitter")}
+        alt="twitter signin"
+        src="/imgs/twitter-icon.png"
       />
     </div>
   );
