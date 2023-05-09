@@ -13,7 +13,7 @@ will be featured at the top of the comment section.
 
 #### Setup and Installation:
 
-Step 1: Clone/Download this repository into your system and run `npm i` in the terminal directory where the project is downloaded/cloned
+Step 1: Clone/Download this repository into your system and run `npm i` in the terminal directory where the project is downloaded/cloned.
 
 Step 2: Make sure the .env file exists and contains the fields DATABASE_URL and DATABASE_NAME
 
