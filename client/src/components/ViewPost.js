@@ -17,6 +17,7 @@ import DeleteComment from "./modals/DeleteComment";
 import NewPost from "./modals/NewPost";
 import LikeUnlikePost from "./LikeUnlikePost";
 import LikeUnlikeComment from "./LikeUnlikeComment";
+import ErrorHandler from "./ErrorHandler";
 
 function ViewPost() {
   const userId = window.sessionStorage.getItem("userid");
@@ -30,6 +31,8 @@ function ViewPost() {
   const [deleteCommentModalOpen, setDeleteCommentModalOpen] = useState(false);
   const [newModalOpen, setNewModalOpen] = useState(false);
   const [comments, setComments] = useState(undefined);
+  const [displayedError, setDisplayedError] = useState(null);
+  const [isError, setIsError] = useState(null);
   let { postId } = useParams();
   let navigate = useNavigate();
   let comment;
@@ -52,6 +55,19 @@ function ViewPost() {
   const handleChange = () => {
     setCount(count + 1);
   };
+
+  const handleCommentChange = (event) => {
+    if (!event.target.value.trim().length) {
+      setIsError(true);
+      setDisplayedError("Comment can't be empty!");
+      document.querySelector("#post-comment").disabled = true;
+    }
+    else {
+      setIsError(false);
+      setDisplayedError(null);
+      document.querySelector("#post-comment").disabled = false;
+    }
+  }
 
   const handleEditModalOpen = () => {
     setEditModalOpen(true);
@@ -91,6 +107,8 @@ function ViewPost() {
 
   const handleCommentAdded = async (event) => {
     event.preventDefault();
+    setIsError(false);
+    document.querySelector("#post-comment").disabled = true;
     const data = new FormData(event.target);
     const formJson = Object.fromEntries(data.entries());
     let commentInput = formJson["comment-box"];
@@ -103,9 +121,11 @@ function ViewPost() {
       .then(() => {
         setCount(count + 1);
         document.getElementById("comment-box").value = "";
+        document.querySelector("#post-comment").disabled = false;
       })
       .catch((error) => {
-        console.log(error);
+        setDisplayedError(error.response.data);
+        document.getElementById("comment-box").value = "";
       });
   };
 
@@ -221,17 +241,19 @@ function ViewPost() {
             <div className="write-comment">
               <label htmlFor="comment-box"></label>
               <input
-                // value={newComment}
+              onChange={handleCommentChange}
                 id="comment-box"
                 name="comment-box"
                 placeholder="Write a comment..."
                 type="text"
+                required
               />
-              <button type="submit" className="post-link">
+              <button id="post-comment" type="submit" className="post-link">
                 Post
               </button>
             </div>
           </form>
+          {isError && <ErrorHandler error = {displayedError} />}
           <Paper style={{ padding: "30px 20px" }}>
             {comment.length ? comment : "No Comments Posted!"}
           </Paper>
@@ -342,17 +364,20 @@ function ViewPost() {
             <div className="write-comment">
               <label htmlFor="comment-box"></label>
               <input
-                // value={newComment}
+              onChange={() => {setDisplayedError(null)}}
                 id="comment-box"
                 name="comment-box"
                 placeholder="Write a comment..."
                 type="text"
+                autoComplete="off"
+                required
               />
-              <button type="submit" className="post-link">
+              <button id="post-comment" type="submit" className="post-link">
                 Post
               </button>
             </div>
           </form>
+          {isError && <ErrorHandler error = {displayedError} />}
           <Paper style={{ padding: "40px 20px" }}>
             {comment.length ? comment : "No Comments Posted!"}
           </Paper>

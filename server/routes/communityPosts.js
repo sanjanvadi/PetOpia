@@ -73,7 +73,6 @@ router
       );
       res.json(updatedPost);
     } catch (error) {
-      console.log(error);
       res.status(error.code).send(error.message);
     }
   })

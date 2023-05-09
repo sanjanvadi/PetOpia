@@ -79,7 +79,7 @@ const updatePet = async (userId, petId, petName, petAge, petType, petBreed) => {
     { $set: { pets: res } }
   );
   if (update.modifiedCount === 0)
-    throw "Internal server error. Try again later...";
+    throw "You haven't made any changes!";
 
   await client.set(userId, JSON.stringify(res));
 

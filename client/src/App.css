@@ -289,7 +289,7 @@ i {
 
 .post-and-comment {
   display: flex;
-  height: 700px;
+  height: 930px;
 }
 
 .comment-section {
@@ -638,7 +638,7 @@ td {
   width: 500px;
 }
 
-.headline {
+/* .headline {
   margin: auto;
   margin-top: 5vw;
   font-size: larger;
@@ -648,7 +648,7 @@ td {
   text-justify: inter-word;
   color: rgb(89, 62, 36);
   font-family: LeckerliOne-Regular;
-}
+} */
 
 body {
   background-image: url("./img/pets.png");
@@ -687,3 +687,53 @@ footer {
   text-align: center;
 }
 
+.home-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.heading {
+  text-align: center;
+  color: #a16c00;
+  margin-bottom: 20px;
+  font-family: LeckerliOne-Regular;
+}
+
+.description {
+  font-size: 22px;
+  margin-bottom: 20px;
+  font-family: LeckerliOne-Regular;
+}
+
+.home-section {
+  text-align: center;
+}
+
+.home-message {
+  font-size: 22px;
+  margin-bottom: 10px;
+  font-family: LeckerliOne-Regular;
+}
+
+@media screen and (max-width: 480px) {
+  /* Adjust font sizes for smaller screens */
+  .heading {
+    font-size: 20px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .home-message {
+    font-size: 16px;
+  }
+
+  /* Adjust icon size and margin for smaller screens */
+  .login-icons {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
+  }
+}

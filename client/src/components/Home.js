@@ -3,6 +3,7 @@ import { React, useEffect, useState } from "react";
 import Modal from "react-modal/lib/components/Modal";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import ErrorHandler from "./ErrorHandler";
 const cloudinaryApi = "dzlf4ut72";
 const presetValue = "lqbvmbqp";
 
@@ -40,7 +41,7 @@ const PetCenterHome = () => {
     setIsOpenError(!isOpenError);
   }
 
-  async function addPet(e) {
+  function addPet(e) {
     e.preventDefault();
     setAxiosLoading(true);
     const data = new FormData(e.target);
@@ -289,6 +290,7 @@ const PetCenterHome = () => {
                   </td>
                   <td>
                     <input
+                      placeholder="Ex: Tommy"
                       type={"text"}
                       id="petName"
                       name="petName"
@@ -302,6 +304,9 @@ const PetCenterHome = () => {
                   </td>
                   <td>
                     <input
+                      placeholder="Ex: 1, 2, 1.5, etc."
+                      min={0}
+                      step={0.1}
                       type={"number"}
                       id="petAge"
                       name="petAge"
@@ -315,6 +320,7 @@ const PetCenterHome = () => {
                   </td>
                   <td>
                     <input
+                      placeholder="Ex: Dog, Cat, etc."
                       type={"text"}
                       id="petType"
                       name="petType"
@@ -328,6 +334,7 @@ const PetCenterHome = () => {
                   </td>
                   <td>
                     <input
+                    placeholder="Ex: Husky, Lab, etc."
                       type={"text"}
                       id="petBreed"
                       name="petBreed"
@@ -387,17 +394,21 @@ const PetInfo = () => {
   const [isOpenDelPet, setIsOpenDelPet] = useState(false);
   const [getPresImg, setPresImg] = useState(undefined);
   const [isOpenError, setIsOpenError] = useState(false);
+  const [serverError, setServerError] = useState(null);
+  const [displayedError, setDisplayedError] = useState(null);
+  const [axiosLoading, setAxiosLoading] = useState(null);
 
   const { petId } = useParams();
 
   let navigate = useNavigate();
 
   let today = new Date();
-  let dd = String(today.getDate()).padStart(2, '0');
-  let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  let dd = String(today.getDate()).padStart(2, "0");
+  let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
   let yyyy = today.getFullYear();
 
-  today = yyyy+'-'+mm+'-'+dd;
+  today = yyyy + "-" + mm + "-" + dd;
+  const futureDate = yyyy + 1 + "-" + mm + "-" + dd;
 
   useEffect(() => {
     async function getPets() {
@@ -471,7 +482,7 @@ const PetInfo = () => {
     setIsOpenError(!isOpenError);
   }
 
-  async function addMed(e) {
+  function addMed(e) {
     e.preventDefault();
     const data = new FormData(e.target);
     const formJson = Object.fromEntries(data.entries());
@@ -495,7 +506,7 @@ const PetInfo = () => {
         dosage,
       };
 
-      await fetch("/account/pets/medication", {
+      fetch("/account/pets/medication", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -511,7 +522,7 @@ const PetInfo = () => {
     }
   }
 
-  async function addApp(e) {
+  function addApp(e) {
     e.preventDefault();
     const data = new FormData(e.target);
     const formJson = Object.fromEntries(data.entries());
@@ -535,7 +546,7 @@ const PetInfo = () => {
         clinicName,
       };
 
-      await fetch("/account/pets/appointment", {
+      fetch("/account/pets/appointment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -550,14 +561,15 @@ const PetInfo = () => {
     }
   }
 
-  async function addPres(e) {
+  function addPres(e) {
     e.preventDefault();
+    setAxiosLoading(true);
     const formData = new FormData();
     formData.append("file", getPresImg);
     formData.append("upload_preset", "lqbvmbqp");
     axios
       .post("https://api.cloudinary.com/v1_1/dzlf4ut72/image/upload", formData)
-      .then(async (response) => {
+      .then((response) => {
         let petId = getMyPets._id;
 
         const app = {
@@ -566,7 +578,7 @@ const PetInfo = () => {
           imageUrl: response.data.url,
         };
 
-        await fetch("/account/pets/prescription", {
+        fetch("/account/pets/prescription", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -577,11 +589,12 @@ const PetInfo = () => {
           .then((data) => {
             setMyPets(data);
             setIsOpenPres(!isOpenPres);
+            setAxiosLoading(false);
           });
       });
   }
 
-  async function deleteMed(val) {
+  function deleteMed(val) {
     let petId = getMyPets._id;
     let medId = val._id;
 
@@ -591,7 +604,7 @@ const PetInfo = () => {
       medId,
     };
 
-    await fetch("/account/pets/medication", {
+    fetch("/account/pets/medication", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -604,7 +617,7 @@ const PetInfo = () => {
       });
   }
 
-  async function deleteApp(val) {
+  function deleteApp(val) {
     let petId = getMyPets._id;
     let appId = val._id;
 
@@ -614,7 +627,7 @@ const PetInfo = () => {
       appId,
     };
 
-    await fetch("/account/pets/appointment", {
+    fetch("/account/pets/appointment", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -627,7 +640,7 @@ const PetInfo = () => {
       });
   }
 
-  async function deletePres(imageUrl) {
+  function deletePres(imageUrl) {
     let petId = getMyPets._id;
 
     const app = {
@@ -636,7 +649,7 @@ const PetInfo = () => {
       imageUrl,
     };
 
-    await fetch("/account/pets/prescription", {
+    fetch("/account/pets/prescription", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -649,7 +662,7 @@ const PetInfo = () => {
       });
   }
 
-  async function editPet(e) {
+  function editPet(e) {
     e.preventDefault();
     setLoading(true);
     const data = new FormData(e.target);
@@ -669,37 +682,38 @@ const PetInfo = () => {
       petBreed,
     };
 
-    await fetch("/account/pets/" + userId, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(pet),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        localStorage.setItem("petinfo", data);
-        setMyPets(data);
+    axios
+      .put("/account/pets/" + userId, pet)
+      .then((res) => {
+        localStorage.setItem("petinfo", res.data);
+        setMyPets(res.data);
         setIsOpenEditPet(!isOpenEditPet);
+        setServerError(false);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setServerError(true);
+        setDisplayedError(error.response.data.error);
         setLoading(false);
       });
   }
 
-  async function delPet(e) {
+  function delPet(e) {
     e.preventDefault();
     let petId = getMyPets._id;
 
     const pet = {
-      petId
+      petId,
     };
 
-    await fetch("/account/pets/" + userId, {
+    fetch("/account/pets/" + userId, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(pet),
-    })
+    });
     navigate(-1);
   }
 
@@ -777,15 +791,21 @@ const PetInfo = () => {
     getMyPets &&
     getMyPets.prescription.map((val) => {
       return (
-        <div key={val} style={{float: "left"}}>
+        <div key={val} style={{ float: "left" }}>
           <a rel="noreferrer" target="_blank" href={val}>
             <img
               alt="Prescription"
               src={val}
-              style={{marginBottom: "20px", width: "400px", height: "400px" }}
+              style={{ marginBottom: "20px", width: "400px", height: "400px" }}
             ></img>
           </a>
-          <button style={{marginLeft: "3.3em"}} className="post-link" onClick={() => {deletePres(val);}}>
+          <button
+            style={{ marginLeft: "3.3em" }}
+            className="post-link"
+            onClick={() => {
+              deletePres(val);
+            }}
+          >
             Delete
           </button>
           <br></br>
@@ -796,7 +816,7 @@ const PetInfo = () => {
   let card = getMyPets && (
     <div>
       <table style={{}} className="table">
-        <tbody style={{fontSize: "x-large"}}>
+        <tbody style={{ fontSize: "x-large" }}>
           <tr>
             <td>Name:</td>
             <td>{getMyPets.petName}</td>
@@ -815,7 +835,8 @@ const PetInfo = () => {
           </tr>
         </tbody>
       </table>
-      <br /><br />
+      <br />
+      <br />
       {/* <h3>Name: {getMyPets.petName}</h3>
                 <p>Age: {getMyPets.petAge}</p>
                 <p>Type: {getMyPets.petType}</p>
@@ -920,9 +941,7 @@ const PetInfo = () => {
           </button>
         </div>
         <br />
-        <h3 style={{ fontWeight: "bold" }}>
-          {getMyPets.petName + "'s Info"}
-        </h3>
+        <h2 style={{ fontWeight: "bold" }}>{getMyPets.petName + "'s Info"}</h2>
         <div>{card}</div>
         <Link to={`/account/my-pets`}>
           <button onClick={() => showDelPet()} className="post-link my-posts">
@@ -966,6 +985,7 @@ const PetInfo = () => {
                       id="administeredDate"
                       name="administeredDate"
                       min={today}
+                      max={futureDate}
                       required
                     ></input>
                   </td>
@@ -1027,6 +1047,7 @@ const PetInfo = () => {
                       id="appointmentDate"
                       name="appointmentDate"
                       min={today}
+                      max={futureDate}
                       required
                     ></input>
                   </td>
@@ -1096,7 +1117,7 @@ const PetInfo = () => {
                 <tr>
                   <td>
                     <input
-                    accept="image/*"
+                      accept="image/*"
                       id="presImg"
                       type={"file"}
                       onChange={(event) => {
@@ -1110,6 +1131,9 @@ const PetInfo = () => {
                   <td>
                     <br></br>
                   </td>
+                </tr>
+                <tr>
+                  <td>{axiosLoading && <>Uploading...</>}</td>
                 </tr>
                 <tr>
                   <td>
@@ -1147,6 +1171,7 @@ const PetInfo = () => {
                   </td>
                   <td>
                     <input
+                      placeholder="Ex: Tommy"
                       type={"text"}
                       id="petName"
                       name="petName"
@@ -1161,6 +1186,9 @@ const PetInfo = () => {
                   </td>
                   <td>
                     <input
+                      placeholder="Ex: 1, 2, 1.5, etc."
+                      min={0}
+                      step={0.1}
                       type={"number"}
                       id="petAge"
                       name="petAge"
@@ -1175,6 +1203,7 @@ const PetInfo = () => {
                   </td>
                   <td>
                     <input
+                      placeholder="Ex: Dog, Cat, etc."
                       type={"text"}
                       id="petType"
                       name="petType"
@@ -1189,6 +1218,7 @@ const PetInfo = () => {
                   </td>
                   <td>
                     <input
+                      placeholder="Ex: Husky, Lab, etc."
                       type={"text"}
                       id="petBreed"
                       name="petBreed"
@@ -1198,8 +1228,9 @@ const PetInfo = () => {
                   </td>
                 </tr>
                 <tr>
+                  <td></td>
                   <td>
-                    <br></br>
+                    {serverError && <ErrorHandler error={displayedError} />}
                   </td>
                 </tr>
                 <tr>
@@ -1228,7 +1259,7 @@ const PetInfo = () => {
               <tbody>
                 <tr>
                   <td>
-                    <h5>Are you sure, you want to remove this pet?</h5>
+                    <h3>Are you sure, you want to remove this pet?</h3>
                   </td>
                 </tr>
                 <tr>

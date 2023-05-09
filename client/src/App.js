@@ -101,7 +101,7 @@ function App() {
           </div>
         </Router>   
         <footer
-          style={{ backgroundColor: "#a16c00" }}
+          style={{ backgroundColor: "#9c6800" }}
           className="bg-orange text-center text-lg-start fixed-bottom"
         >
           <div className="text-center p-1">

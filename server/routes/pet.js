@@ -27,7 +27,7 @@ router.route("/mypet/:userId/:petId").get(async (req, res) => {
     let data = await getPet(userId, petId);
     res.status(200).send(data);
   } catch (e) {
-    console.log(e);
+    res.status(400).send({ error: e });
   }
 });
 
@@ -51,7 +51,7 @@ router
       );
       res.status(200).send(data);
     } catch (e) {
-      res.status(404).send({ error: e });
+      res.status(400).send({ error: e });
     }
   })
   .delete(async (req, res) => {
@@ -88,7 +88,7 @@ router
       );
       res.status(200).send(data);
     } catch (e) {
-      res.status(404).send({ error: e });
+      res.status(400).send({ error: e });
     }
   })
   .delete(async (req, res) => {
@@ -117,7 +117,7 @@ router
       let data = await createPres(userId, petId, imageUrl);
       res.status(200).send(data);
     } catch (e) {
-      res.status(404).send({ error: e });
+      res.status(400).send({ error: e });
     }
   })
   .delete(async (req, res) => {
@@ -175,7 +175,7 @@ router
       );
       res.status(200).send(data);
     } catch (e) {
-      res.status(404).send({ error: e });
+      res.status(400).send({ error: e });
     }
   })
   .put(async (req, res) => {
@@ -198,7 +198,7 @@ router
       );
       res.status(200).send(data);
     } catch (e) {
-      res.status(404).send({ error: e });
+      res.status(400).send({ error: e });
     }
   })
   .delete(async (req, res) => {

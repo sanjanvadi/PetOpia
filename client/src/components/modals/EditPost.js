@@ -40,20 +40,33 @@ function EditPost(props) {
   };
 
   const handleTitleChange = (event) => {
-    if (event.target.value.length > 30) {
-      setIsError(true);
-      setDisplayedError("Post title cannot contain more than 30 characters!");
-      document.querySelector("#post-upload").hidden = true;
-      document.querySelector("#remove-pic").hidden = true;
-      document.querySelector("#remove-pic-label").hidden = true;
+    if (postImage) {
+      if (event.target.value.length > 30) {
+        setIsError(true);
+        setDisplayedError("Post title cannot contain more than 30 characters!");
+        document.querySelector("#post-upload").hidden = true;
+        document.querySelector("#remove-pic").hidden = true;
+        document.querySelector("#remove-pic-label").hidden = true;
+      } else {
+        setIsError(false);
+        setDisplayedError(null);
+        document.querySelector("#post-upload").hidden = false;
+        document.querySelector("#remove-pic").hidden = false;
+        document.querySelector("#remove-pic-label").hidden = false;
+      }
+      setPostTitle(event.target.value);
     } else {
-      setIsError(false);
-      setDisplayedError(null);
-      document.querySelector("#post-upload").hidden = false;
-      document.querySelector("#remove-pic").hidden = false;
-      document.querySelector("#remove-pic-label").hidden = false;
+      if (event.target.value.length > 30) {
+        setIsError(true);
+        setDisplayedError("Post title cannot contain more than 30 characters!");
+        document.querySelector("#post-upload").hidden = true;
+      } else {
+        setIsError(false);
+        setDisplayedError(null);
+        document.querySelector("#post-upload").hidden = false;
+      }
+      setPostTitle(event.target.value);
     }
-    setPostTitle(event.target.value);
   };
 
   const handleDescriptionChange = (event) => {
@@ -100,7 +113,6 @@ function EditPost(props) {
               setAxiosLoading(false);
               setServerError(true);
               setDisplayedError(error.response.data);
-              console.log(error);
             });
         })
         .catch((error) => console.log(error));
@@ -129,7 +141,6 @@ function EditPost(props) {
           setServerError(true);
           setDisplayedError(error.response.data);
           document.querySelector("#post-upload").disabled = false;
-          console.log(error);
         });
     }
   };
@@ -165,8 +176,11 @@ function EditPost(props) {
             </button>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label className="form-label">Change Picture</label>
+                <label htmlFor="post-image" className="form-label">
+                  Change Picture
+                </label>
                 <input
+                  id="post-image"
                   className="form-control"
                   type="file"
                   accept="image/*"
@@ -174,8 +188,11 @@ function EditPost(props) {
                 />
               </div>
               <br />
-              <label className="form-label">Change Title</label>
+              <label htmlFor="post-title" className="form-label">
+                Change Title
+              </label>
               <input
+                id="post-title"
                 placeholder="Headline of your post..."
                 className="form-control"
                 type="text"
@@ -185,8 +202,11 @@ function EditPost(props) {
               />
               <br />
               {isError && <ErrorHandler error={displayedError} />}
-              <label className="form-label">Change Description</label>
+              <label htmlFor="post-description" className="form-label">
+                Change Description
+              </label>
               <textarea
+                id="post-description"
                 placeholder="Describe what your post is about..."
                 rows={4}
                 className="form-control"

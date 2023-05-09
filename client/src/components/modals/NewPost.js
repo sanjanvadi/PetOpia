@@ -17,26 +17,41 @@ function NewPost(props) {
   const [isOpen, setIsOpen] = useState(props.isOpen);
   const [axiosLoading, setAxiosLoading] = useState(null);
   const [isError, setIsError] = useState(null);
-  const [displayedError, setDisplayedError] = useState(null);
+  const [isDescError, setIsDescError] = useState(null);
+  const [displayedErrorForTitle, setDisplayedErrorForTitle] = useState(null);
+  const [displayedErrorFordesc, setDisplayedErrorForDesc] = useState(null);
 
   const handleImageChange = (event) => {
     setPostImage(event.target.files[0]);
   };
 
   const handleTitleChange = (event) => {
-    if (event.target.value.length > 30) {
+    if (!event.target.value.trim().length) {
       setIsError(true);
-      setDisplayedError("Post title cannot contain more than 30 characters!");
+      setDisplayedErrorForTitle("Title can't be empty!");
+      document.querySelector("#post-upload").hidden = true;
+    } else if (event.target.value.length > 30) {
+      setIsError(true);
+      setDisplayedErrorForTitle("Post title cannot contain more than 30 characters!");
       document.querySelector("#post-upload").hidden = true;
     } else {
       setIsError(false);
-      setDisplayedError(null);
+      setDisplayedErrorForTitle(null);
       document.querySelector("#post-upload").hidden = false;
     }
     setPostTitle(event.target.value);
   };
 
   const handleDescriptionChange = (event) => {
+    if (!event.target.value.trim().length) {
+      setIsDescError(true);
+      setDisplayedErrorForDesc("Description can't be empty!");
+      document.querySelector("#post-upload").hidden = true;
+    } else {
+      setIsError(false);
+      setDisplayedErrorForDesc(null);
+      document.querySelector("#post-upload").hidden = false;
+    }
     setPostDescription(event.target.value);
   };
 
@@ -45,11 +60,6 @@ function NewPost(props) {
     setAxiosLoading(true);
     setIsError(false);
     document.querySelector("#post-upload").disabled = true;
-    // const resUser = await axios.get(`/user/${userId}`);
-    // const userEmail = resUser.data.email.substring(
-    //   0,
-    //   resUser.data.email.indexOf("@")
-    // );
     if (postImage) {
       const formData = new FormData();
       formData.append("file", postImage);
@@ -144,8 +154,11 @@ function NewPost(props) {
             </button>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label className="form-label">Upload a Picture</label>
+                <label htmlFor="post-image" className="form-label">
+                  Upload a Picture
+                </label>
                 <input
+                  id="post-image"
                   className="form-control"
                   type="file"
                   accept="image/*"
@@ -153,8 +166,11 @@ function NewPost(props) {
                 />
               </div>
               <br />
-              <label className="form-label">Post Title</label>
+              <label htmlFor="post-title" className="form-label">
+                Post Title
+              </label>
               <input
+                id="post-title"
                 placeholder="Headline of your post..."
                 className="form-control"
                 type="text"
@@ -163,9 +179,12 @@ function NewPost(props) {
                 required
               />
               <br />
-              {isError && <ErrorHandler error={displayedError} />}
-              <label className="form-label">Write a Description</label>
+              {isError && <ErrorHandler error={displayedErrorForTitle} />}
+              <label htmlFor="post-description" className="form-label">
+                Write a Description
+              </label>
               <textarea
+                id="post-description"
                 placeholder="Describe what your post is about..."
                 rows={4}
                 className="form-control"
@@ -176,6 +195,7 @@ function NewPost(props) {
               />
               <br />
               {axiosLoading && <p>Uploading...</p>}
+              {isDescError && <ErrorHandler error={displayedErrorFordesc} />}
               <button id="post-upload" className="post-link" type="submit">
                 Submit
               </button>
