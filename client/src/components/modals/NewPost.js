@@ -90,7 +90,7 @@ function NewPost(props) {
         });
     } else {
       axios
-        .post("/community-posts", {
+        .post("/community-posts/", {
           userThatPosted: userId,
           userEmail: userEmail,
           postImage: null,
