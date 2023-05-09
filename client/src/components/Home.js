@@ -52,7 +52,7 @@ const PetCenterHome = () => {
 
     if (
       petName.trim().length < 3 ||
-      petAge.trim().length === 0 || !Number.isInteger(petAge) || parseInt(petAge) < 1 || parseInt(petAge) > 30 ||
+      petAge.trim().length === 0 || parseInt(petAge) < 1 || parseInt(petAge) > 30 ||
       petType.trim().length < 3 ||
       petBreed.trim().length < 3
     ) {
@@ -365,7 +365,7 @@ const PetCenterHome = () => {
           contentLabel="My dialog"
           style={customStyles}
         >
-          <h3>Input cannot be empty</h3>
+          <h3>Input cannot be empty. Age must be a positive integer (at most 30).</h3>
         </Modal>
       </div>
     );
@@ -663,7 +663,7 @@ const PetInfo = () => {
 
     if (
       petName.trim().length < 3 ||
-      petAge.trim().length === 0 || !Number.isInteger(petAge) || parseInt(petAge) < 1 || parseInt(petAge) > 30 ||
+      petAge.trim().length === 0 || parseInt(petAge) < 1 || parseInt(petAge) > 30 ||
       petType.trim().length < 3 ||
       petBreed.trim().length < 3
     ) {
@@ -1268,7 +1268,7 @@ const PetInfo = () => {
           contentLabel="My dialog"
           style={customStyles}
         >
-          <h3>Input cannot be empty</h3>
+          <h3>Input cannot be empty. Age must be a positive integer (at most 30).</h3>
         </Modal>
       </div>
     );
