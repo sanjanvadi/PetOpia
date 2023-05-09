@@ -20,6 +20,9 @@ function EditPost(props) {
   const [isError, setIsError] = useState(false);
   const [serverError, setServerError] = useState(false);
   const [displayedError, setDisplayedError] = useState(null);
+  const [isDescError, setIsDescError] = useState(null);
+  const [displayedErrorForTitle, setDisplayedErrorForTitle] = useState(null);
+  const [displayedErrorFordesc, setDisplayedErrorForDesc] = useState(null);
   // const [formSubmitted, setFormSubmitted] = useState(false);
   // const [showAlert, setShowAlert] = useState(false);
 
@@ -41,28 +44,36 @@ function EditPost(props) {
 
   const handleTitleChange = (event) => {
     if (postImage) {
-      if (event.target.value.length > 30) {
+      if (!event.target.value.trim().length) {
         setIsError(true);
-        setDisplayedError("Post title cannot contain more than 30 characters!");
+        setDisplayedErrorForTitle("Title can't be empty!");
+        document.querySelector("#post-upload").hidden = true;
+      } else if (event.target.value.length > 30) {
+        setIsError(true);
+        setDisplayedErrorForTitle("Post title cannot contain more than 30 characters!");
         document.querySelector("#post-upload").hidden = true;
         document.querySelector("#remove-pic").hidden = true;
         document.querySelector("#remove-pic-label").hidden = true;
       } else {
         setIsError(false);
-        setDisplayedError(null);
+        setDisplayedErrorForTitle(null);
         document.querySelector("#post-upload").hidden = false;
         document.querySelector("#remove-pic").hidden = false;
         document.querySelector("#remove-pic-label").hidden = false;
       }
       setPostTitle(event.target.value);
     } else {
-      if (event.target.value.length > 30) {
+      if (!event.target.value.trim().length) {
         setIsError(true);
-        setDisplayedError("Post title cannot contain more than 30 characters!");
+        setDisplayedErrorForTitle("Title can't be empty!");
+        document.querySelector("#post-upload").hidden = true;
+      } else if (event.target.value.length > 30) {
+        setIsError(true);
+        setDisplayedErrorForTitle("Post title cannot contain more than 30 characters!");
         document.querySelector("#post-upload").hidden = true;
       } else {
         setIsError(false);
-        setDisplayedError(null);
+        setDisplayedErrorForTitle(null);
         document.querySelector("#post-upload").hidden = false;
       }
       setPostTitle(event.target.value);
@@ -70,11 +81,22 @@ function EditPost(props) {
   };
 
   const handleDescriptionChange = (event) => {
+    if (!event.target.value.trim().length) {
+      setIsDescError(true);
+      setDisplayedErrorForDesc("Description can't be empty!");
+      document.querySelector("#post-upload").hidden = true;
+    } else {
+      setIsDescError(false);
+      setDisplayedErrorForDesc(null);
+      document.querySelector("#post-upload").hidden = false;
+    }
     setPostDescription(event.target.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsError(false);
+    setIsDescError(false);
     setAxiosLoading(true);
     document.querySelector("#post-upload").disabled = true;
     if (postImage) {
@@ -201,7 +223,7 @@ function EditPost(props) {
                 required
               />
               <br />
-              {isError && <ErrorHandler error={displayedError} />}
+              {isError && <ErrorHandler error={displayedErrorForTitle} />}
               <label htmlFor="post-description" className="form-label">
                 Change Description
               </label>
@@ -217,6 +239,7 @@ function EditPost(props) {
               />
               <br />
               {axiosLoading && <p>Updating...</p>}
+              {isDescError && <ErrorHandler error={displayedErrorFordesc} />}
               {serverError && <ErrorHandler error={displayedError} />}
               {props.oldDetails.postImage ? (
                 <>

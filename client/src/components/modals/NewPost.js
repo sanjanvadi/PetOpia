@@ -48,7 +48,7 @@ function NewPost(props) {
       setDisplayedErrorForDesc("Description can't be empty!");
       document.querySelector("#post-upload").hidden = true;
     } else {
-      setIsError(false);
+      setIsDescError(false);
       setDisplayedErrorForDesc(null);
       document.querySelector("#post-upload").hidden = false;
     }
@@ -59,6 +59,7 @@ function NewPost(props) {
     event.preventDefault();
     setAxiosLoading(true);
     setIsError(false);
+    // setIsDescError(false);
     document.querySelector("#post-upload").disabled = true;
     if (postImage) {
       const formData = new FormData();
