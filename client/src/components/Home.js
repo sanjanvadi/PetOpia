@@ -1137,7 +1137,7 @@ const PetInfo = () => {
                 <tr>
                   <td>
                     <label htmlFor="petName">
-                      <h3>Edit Pet:</h3>:
+                      <h3>Edit Pet</h3>
                     </label>
                   </td>
                 </tr>
