@@ -623,7 +623,6 @@ const PetInfo = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setMyPets(data);
       });
   }
@@ -637,8 +636,6 @@ const PetInfo = () => {
       imageUrl,
     };
 
-    setLoading(true);
-
     await fetch("/account/pets/prescription", {
       method: "DELETE",
       headers: {
@@ -649,7 +646,6 @@ const PetInfo = () => {
       .then((res) => res.json())
       .then((data) => {
         setMyPets(data);
-        setLoading(false);
       });
   }
 
@@ -789,7 +785,7 @@ const PetInfo = () => {
               style={{marginBottom: "20px", width: "400px", height: "400px" }}
             ></img>
           </a>
-          <button style={{marginLeft: "3.3em"}} className="post-link" onClick={() => deletePres(val)}>
+          <button style={{marginLeft: "3.3em"}} className="post-link" onClick={() => {deletePres(val);}}>
             Delete
           </button>
           <br></br>
