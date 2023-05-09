@@ -62,7 +62,7 @@ function SignIn(props) {
         kinds of pets around you. If you are looking to adopt a pet, you can
         check out our Adopt page right from the navigation bar!
       </p>
-      <p style={{height: "1.3em", textAlign: "center"}} className="headline">Login to get started:</p>
+      <p style={{height: "1.3em", textAlign: "center"}} className="headline">Sign in to get started:</p>
       <br /><br />
       <img
         className="login-icons"
