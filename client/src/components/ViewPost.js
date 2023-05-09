@@ -375,14 +375,20 @@ function ViewPost() {
                   ? com.commentLikes.length + " like"
                   : com.commentLikes.length + " likes")}
             </span>
-            <Link>
-              <span
-                onClick={handleCommentDeleteModalOpen}
-                style={{ fontSize: "medium", float: "right", marginTop: "8px" }}
-              >
-                Delete
-              </span>
-            </Link>
+            {com.userThatPosted === userId && (
+              <Link>
+                <span
+                  onClick={handleCommentDeleteModalOpen}
+                  style={{
+                    fontSize: "medium",
+                    float: "right",
+                    marginTop: "8px",
+                  }}
+                >
+                  Delete
+                </span>
+              </Link>
+            )}
           </p>
           {deleteCommentModalOpen && (
             <DeleteComment
