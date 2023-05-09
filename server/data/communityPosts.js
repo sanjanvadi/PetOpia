@@ -11,9 +11,9 @@ import {
   validateString,
 } from "../helpers/validations.js";
 import moment from "moment";
-// import redis from "redis";
-// const client = redis.createClient();
-// client.connect().then(() => {});
+import redis from "redis";
+const client = redis.createClient();
+client.connect().then(() => {});
 
 const getAllPosts = async (page = 1) => {
   const limit = 4;
@@ -69,7 +69,7 @@ const getPostById = async (postId) => {
     return b.commentLikes.length - a.commentLikes.length;
   });
   postById._id = postById._id.toString();
-  // await client.hSet("posts", postId.toString(), JSON.stringify(postById));
+  await client.hSet("posts", postId.toString(), JSON.stringify(postById));
   return postById;
 };
 
@@ -109,7 +109,7 @@ const newPost = async (
 
   if (insertedInfo.insertedCount === 0)
     throw internalServerError("Could not add community post to the database!");
-  // await client.hSet("posts", addPost._id.toString(), JSON.stringify(addPost));
+  await client.hSet("posts", addPost._id.toString(), JSON.stringify(addPost));
   return addPost;
 };
 
@@ -167,8 +167,8 @@ const editPost = async (
   if (updateInfo.modifiedCount === 0)
     throw internalServerError("You haven't made any changes!");
   const editedPost = await getPostById(postId);
-  // await client.hDel("posts", postId.toString());
-  // await client.hSet("posts", postId.toString(), JSON.stringify(editedPost));
+  await client.hDel("posts", postId.toString());
+  await client.hSet("posts", postId.toString(), JSON.stringify(editedPost));
   return editedPost;
 };
 
@@ -186,7 +186,7 @@ const deletePost = async (postId) => {
   if (deleteInfo.deletedCount === 0) {
     throw internalServerError("Post couldn't be delete!");
   }
-  // await client.hDel("posts", postId.toString());
+  await client.hDel("posts", postId.toString());
   return { postId: postId, deleted: true };
 };
 

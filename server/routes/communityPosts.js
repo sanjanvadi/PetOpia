@@ -9,9 +9,9 @@ import {
 } from "../data/communityPosts.js";
 import xss from "xss";
 const router = express.Router();
-// import redis from "redis";
-// const client = redis.createClient();
-// client.connect().then(() => {});
+import redis from "redis";
+const client = redis.createClient();
+client.connect().then(() => {});
 
 router.route("/").get(async (req, res) => {
   try {
@@ -25,7 +25,8 @@ router.route("/").get(async (req, res) => {
 });
 router.route("/").post(async (req, res) => {
   try {
-    const { userThatPosted, userEmail, postImage, postTitle, postDescription } = req.body;
+    const { userThatPosted, userEmail, postImage, postTitle, postDescription } =
+      req.body;
     const addPost = await newPost(
       xss(userThatPosted),
       xss(userEmail),
@@ -44,16 +45,16 @@ router
   .get(async (req, res) => {
     try {
       let postById;
-      // const postExistsInCache = await client.hExists(
-      //   "posts",
-      //   req.params.postId.toString()
-      // );
-      // if (postExistsInCache) {
-      //   postById = await client.hGet("posts", req.params.postId.toString());
-      //   postById = JSON.parse(postById);
-      // } else {
+      const postExistsInCache = await client.hExists(
+        "posts",
+        req.params.postId.toString()
+      );
+      if (postExistsInCache) {
+        postById = await client.hGet("posts", req.params.postId.toString());
+        postById = JSON.parse(postById);
+      } else {
         postById = await getPostById(req.params.postId);
-      // }
+      }
       res.json(postById);
     } catch (error) {
       res.status(error.code).send(error.message);
@@ -61,7 +62,8 @@ router
   })
   .put(async (req, res) => {
     try {
-      const { userThatPosted, postImage, postTitle, postDescription } = req.body;
+      const { userThatPosted, postImage, postTitle, postDescription } =
+        req.body;
       const updatedPost = await editPost(
         req.params.postId,
         xss(userThatPosted),

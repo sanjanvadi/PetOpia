@@ -94,6 +94,8 @@ const deleteComment = async (postId, commentId) => {
   if (updatedInfo.modifiedCount === 0)
     throw internalServerError("Comment could not be deleted!");
   const updatedPost = await getPostById(postId);
+  await client.hDel("posts", postId.toString());
+  await client.hSet("posts", postId.toString(), JSON.stringify(updatedPost));
   return updatedPost;
 };
 
