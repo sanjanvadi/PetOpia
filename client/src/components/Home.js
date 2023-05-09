@@ -54,7 +54,7 @@ const PetCenterHome = () => {
       petName.trim().length === 0 ||
       petAge.trim().length === 0 ||
       petType.trim().length === 0 ||
-      petBreed.trim().length < 3
+      petBreed.trim().length === 0
     ) {
       showError();
     } else {
@@ -661,15 +661,6 @@ const PetInfo = () => {
     let petType = formJson.petType;
     let petBreed = formJson.petBreed;
 
-    if (
-      petName.trim().length < 3 ||
-      petAge.trim().length === 0 || parseInt(petAge) < 1 || parseInt(petAge) > 30 ||
-      petType.trim().length < 3 ||
-      petBreed.trim().length < 3
-    ) {
-      showError();
-    }
-
     const pet = {
       petId,
       petName,
@@ -1268,7 +1259,7 @@ const PetInfo = () => {
           contentLabel="My dialog"
           style={customStyles}
         >
-          <h3>Input cannot be empty. Age must be a positive integer (at most 30).</h3>
+          <h3>Input cannot be empty</h3>
         </Modal>
       </div>
     );
