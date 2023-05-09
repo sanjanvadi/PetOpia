@@ -51,10 +51,10 @@ const PetCenterHome = () => {
     let petBreed = formJson.petBreed;
 
     if (
-      petName.trim().length === 0 ||
-      petAge.trim().length === 0 ||
-      petType.trim().length === 0 ||
-      petBreed.trim().length === 0
+      petName.trim().length < 3 ||
+      petAge.trim().length === 0 || !Number.isInteger(petAge) || parseInt(petAge) < 1 || parseInt(petAge) > 30 ||
+      petType.trim().length < 3 ||
+      petBreed.trim().length < 3
     ) {
       showError();
     } else {
@@ -660,6 +660,15 @@ const PetInfo = () => {
     let petAge = formJson.petAge;
     let petType = formJson.petType;
     let petBreed = formJson.petBreed;
+
+    if (
+      petName.trim().length < 3 ||
+      petAge.trim().length === 0 || !Number.isInteger(petAge) || parseInt(petAge) < 1 || parseInt(petAge) > 30 ||
+      petType.trim().length < 3 ||
+      petBreed.trim().length < 3
+    ) {
+      showError();
+    }
 
     const pet = {
       petId,
