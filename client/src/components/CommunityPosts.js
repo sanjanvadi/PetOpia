@@ -267,7 +267,6 @@ function CommunityPosts() {
   if (!allPostsData || !myPostsData) {
     return <ErrorHandler error="ERROR 500: Internal Server Error!" />;
   }
-  // if (!searchedData.length) return <div>No posts found!</div>
   if (firstPage && lastPage) {
     return (
       <div>

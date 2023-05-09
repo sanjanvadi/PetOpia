@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { users } from "../config/mongoCollections.js";
+import emailSender from "./reminderEmail.js";
 import redis from "redis";
 const client = redis.createClient();
 client.connect();
@@ -56,14 +57,7 @@ const createPet = async (
   return getAllPets(userId);
 };
 
-const updatePet = async (
-  userId,
-  petId,
-  petName,
-  petAge,
-  petType,
-  petBreed
-) => {
+const updatePet = async (userId, petId, petName, petAge, petType, petBreed) => {
   const collection = await users();
   const user = await collection.findOne({ _id: new ObjectId(userId) });
 
@@ -266,7 +260,8 @@ const deleteApp = async (userId, petId, appId) => {
     { _id: new ObjectId(userId) },
     { $set: { pets: res } }
   );
-  if (update.modifiedCount === 0) throw "Internal server error. Try again later...";
+  if (update.modifiedCount === 0)
+    throw "Internal server error. Try again later...";
 
   await client.set(userId, JSON.stringify(res));
 
@@ -343,6 +338,52 @@ const deletePres = async (userId, petId, imageUrl) => {
   return updatedData;
 };
 
+const medicationReminder = async () => {
+  const userCollection = await users();
+  const allUsers = await userCollection.find({}).toArray();
+  allUsers.map((user) => {
+    for (const pet of user.pets) {
+      for (const medication of pet.medications) {
+        const reminderDate = new Date();
+        reminderDate.setDate(reminderDate.getDate() + 1);
+        const convertedDate = reminderDate.toISOString().split("T")[0];
+
+        if (medication.administeredDate === convertedDate) {
+          emailSender(
+            user.email.toString(),
+            "Medication",
+            pet.petName.toString(),
+            `You have your pet ${pet.petName}'s medication tomorrow!`
+          );
+        }
+      }
+    }
+  });
+};
+
+const appointmentReminder = async () => {
+  const userCollection = await users();
+  const allUsers = await userCollection.find({}).toArray();
+  allUsers.map((user) => {
+    for (const pet of user.pets) {
+      for (const appointment of pet.appointments) {
+        const reminderDate = new Date();
+        reminderDate.setDate(reminderDate.getDate() + 1);
+        const convertedDate = reminderDate.toISOString().split("T")[0];
+
+        if (appointment.appointmentDate === convertedDate) {
+          emailSender(
+            user.email.toString(),
+            "Appointment",
+            pet.petName.toString(),
+            `You have your pet ${pet.petName}'s appointment tomorrow!`
+          );
+        }
+      }
+    }
+  });
+};
+
 export {
   getAllPets,
   createPet,
@@ -355,4 +396,6 @@ export {
   deleteApp,
   createPres,
   deletePres,
+  medicationReminder,
+  appointmentReminder,
 };
