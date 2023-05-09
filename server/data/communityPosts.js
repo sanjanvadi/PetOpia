@@ -10,7 +10,6 @@ import {
   validatePostTitle,
   validateString,
 } from "../helpers/validations.js";
-import moment from "moment";
 import redis from "redis";
 const client = redis.createClient();
 client.connect().then(() => {});
@@ -93,14 +92,17 @@ const newPost = async (
   postDescription = postDescription.trim();
   userThatPosted = userThatPosted.trim();
 
+  const date = new Date(Date.now());
+
+
   const addPost = {
     userThatPosted: userThatPosted,
     userEmail: userEmail,
     postImage: postImage,
     postTitle: postTitle,
     postDescription: postDescription,
-    postDate: moment().format("MMMM Do YYYY"),
-    postTime: moment().format("h:mm A"),
+    postDate: date.toLocaleDateString('en-US', {dateStyle: "long"}),
+    postTime: date.toLocaleTimeString('en-US', {timeStyle: "short"}),
     postComments: [],
     postLikes: [],
   };

@@ -3,7 +3,6 @@ import { communityPosts } from "../config/mongoCollections.js";
 import { getPostById } from "./communityPosts.js";
 import { validateObjectId, validateString } from "../helpers/validations.js";
 import { internalServerError, notFoundError } from "../helpers/wrappers.js";
-import moment from "moment";
 import redis from "redis";
 const client = redis.createClient();
 client.connect().then(() => {});
@@ -54,12 +53,14 @@ const postComment = async (postId, userEmail, userThatPosted, comment) => {
   comment = comment.trim();
   userThatPosted = userThatPosted.trim();
 
+  const date = new Date(Date.now());
+
   const newComment = {
     _id: new ObjectId(),
     userThatPosted: userThatPosted,
     userEmail: userEmail,
-    commentDate: moment().format("MM/DD/YYYY"),
-    commentTime: moment().format("h:mm A"),
+    commentDate: date.toLocaleDateString('en-US', {dateStyle: "long"}),
+    commentTime: date.toLocaleTimeString('en-US', {timeStyle: "short"}),
     comment: comment,
     commentLikes: [],
     // replies: [],
