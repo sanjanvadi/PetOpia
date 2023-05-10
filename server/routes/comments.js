@@ -63,6 +63,7 @@ router.route("/:postId/:commentId").post(async (req, res) => {
     );
     res.json(commentLiked);
   } catch (error) {
+    console.log(error);
     res.status(error.code).send(error.message);
   }
 });

@@ -133,6 +133,9 @@ const editPost = async (
 
   let updatedPost;
   const oldData = await getPostById(postId);
+  for (const comment of oldData.postComments) {
+    comment._id = new ObjectId(comment._id);
+  }
   if (postImage !== "") {
     validateString(postImage, "Image path");
     postImage = postImage.trim();
@@ -168,10 +171,10 @@ const editPost = async (
   );
   if (updateInfo.modifiedCount === 0)
     throw internalServerError("You haven't made any changes!");
-  const editedPost = await getPostById(postId);
-  await client.hDel("posts", postId.toString());
-  await client.hSet("posts", postId.toString(), JSON.stringify(editedPost));
-  return editedPost;
+  // const editedPost = await getPostById(postId);
+  // await client.hDel("posts", postId.toString());
+  // await client.hSet("posts", postId.toString(), JSON.stringify(editedPost));
+  return await getPostById(postId);
 };
 
 const deletePost = async (postId) => {

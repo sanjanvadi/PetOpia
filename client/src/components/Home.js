@@ -39,10 +39,12 @@ const PetCenterHome = () => {
   };
 
   function showError() {
+    setAxiosLoading(false);
     setIsOpenError(!isOpenError);
   }
 
   function showEmptyError() {
+    setAxiosLoading(false);
     setIsOpenEmptyError(!isOpenEmptyError);
   }
 
@@ -56,10 +58,9 @@ const PetCenterHome = () => {
     let petType = formJson.petType;
     let petBreed = formJson.petBreed;
 
-    if(!petName || !petAge || !petType || !petBreed || !Number(petAge)){
+    if (!petName || !petAge || !petType || !petBreed || !Number(petAge)) {
       showEmptyError();
-    }
-    else if (
+    } else if (
       petName.trim().length === 0 ||
       petAge.trim().length === 0 ||
       petType.trim().length === 0 ||
@@ -342,7 +343,7 @@ const PetCenterHome = () => {
                   </td>
                   <td>
                     <input
-                    placeholder="Ex: Husky, Lab, etc."
+                      placeholder="Ex: Husky, Lab, etc."
                       type={"text"}
                       id="petBreed"
                       name="petBreed"
@@ -357,7 +358,7 @@ const PetCenterHome = () => {
                 </tr>
                 <tr>
                   <td></td>
-                  {axiosLoading && <>Uploading...</>}
+                  <td>{axiosLoading && <>Uploading...</>}</td>
                 </tr>
                 <tr>
                   <td></td>
@@ -425,7 +426,7 @@ const PetInfo = () => {
   const [isOpenDelPet, setIsOpenDelPet] = useState(false);
   const [getPresImg, setPresImg] = useState(undefined);
   const [isOpenError, setIsOpenError] = useState(false);
-  const [errorMsg,setErrorMsg] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [isOpenEmptyError, setIsOpenEmptyError] = useState(false);
   const [serverError, setServerError] = useState(null);
   const [displayedError, setDisplayedError] = useState(null);
@@ -534,10 +535,14 @@ const PetInfo = () => {
     let administeredDate = formJson.administeredDate;
     let dosage = formJson.dosage;
 
-    if(!medicationName || !administeredDate || !dosage || !Date.parse(administeredDate)){
+    if (
+      !medicationName ||
+      !administeredDate ||
+      !dosage ||
+      !Date.parse(administeredDate)
+    ) {
       showEmptyError();
-    }
-    else if (
+    } else if (
       medicationName.trim().length === 0 ||
       administeredDate.trim().length === 0 ||
       dosage.trim().length === 0
@@ -577,11 +582,14 @@ const PetInfo = () => {
     let reason = formJson.reason;
     let clinicName = formJson.clinicName;
 
-    
-    if(!appointmentDate || !reason || !clinicName || !Date.parse(appointmentDate)){
+    if (
+      !appointmentDate ||
+      !reason ||
+      !clinicName ||
+      !Date.parse(appointmentDate)
+    ) {
       showEmptyError();
-    }
-    else if (
+    } else if (
       appointmentDate.trim().length === 0 ||
       reason.trim().length === 0 ||
       clinicName.trim().length === 0
@@ -723,13 +731,12 @@ const PetInfo = () => {
     let petType = formJson.petType;
     let petBreed = formJson.petBreed;
 
-    if(!petName || !petAge || !petType || !petBreed || !Number(petAge)){
+    if (!petName || !petAge || !petType || !petBreed || !Number(petAge)) {
       showEmptyError();
-    }
-    else if (
+    } else if (
       petName.trim().length === 0 ||
       petAge.trim().length === 0 ||
-      petType.trim().length === 0 || 
+      petType.trim().length === 0 ||
       petBreed.trim().length === 0
     ) {
       showError();
@@ -743,21 +750,21 @@ const PetInfo = () => {
         petBreed,
       };
 
-    axios
-      .put("/account/pets/" + userId, pet)
-      .then((res) => {
-        localStorage.setItem("petinfo", res.data);
-        setMyPets(res.data);
-        setIsOpenEditPet(!isOpenEditPet);
-        setServerError(false);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setServerError(true);
-        setDisplayedError(error.response.data.error);
-        setLoading(false);
-      });
+      axios
+        .put("/account/pets/" + userId, pet)
+        .then((res) => {
+          localStorage.setItem("petinfo", res.data);
+          setMyPets(res.data);
+          setIsOpenEditPet(!isOpenEditPet);
+          setServerError(false);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setServerError(true);
+          setDisplayedError(error.response.data.error);
+          setLoading(false);
+        });
     }
   }
 
@@ -776,12 +783,10 @@ const PetInfo = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(pet),
-    })
-    .then(()=>{
+    }).then(() => {
       setAxiosLoading(false);
-      navigate('/account/my-pets');
-    })
-    
+      navigate("/account/my-pets");
+    });
   }
 
   let medCard =
@@ -819,7 +824,7 @@ const PetInfo = () => {
       );
     });
 
-    let appCard =
+  let appCard =
     getMyPets &&
     getMyPets.appointments.map((val) => {
       return (
@@ -996,7 +1001,7 @@ const PetInfo = () => {
         <h2>Loading...</h2>
       </div>
     );
-  } else if(getMyPets) {
+  } else if (getMyPets) {
     return (
       <div>
         <div>
@@ -1044,7 +1049,9 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="administeredDate">Date to be Administered:</label>
+                    <label htmlFor="administeredDate">
+                      Date to be Administered:
+                    </label>
                   </td>
                   <td>
                     <input
@@ -1327,7 +1334,7 @@ const PetInfo = () => {
                 <tr>
                   <td>
                     <h3>Are you sure, you want to remove this pet?</h3>
-                    {axiosLoading?(<span>Deleting...</span>):(<span></span>)}
+                    {axiosLoading ? <span>Deleting...</span> : <span></span>}
                   </td>
                 </tr>
                 <tr>
@@ -1371,21 +1378,26 @@ const PetInfo = () => {
         </Modal>
       </div>
     );
-  }
-  else{
-    return(
-      <ErrorHandler error={
-    <div>
-      <br/><br/>
-      <h1>{errorMsg}</h1>
-      <Link to={`/account/my-pets`}>
-          <button onClick={() => showDelPet()} className="post-link my-posts">
-            Back to Pet-Center
-          </button>
-        </Link>
-    </div>}
-    />
-    )
+  } else {
+    return (
+      <ErrorHandler
+        error={
+          <div>
+            <br />
+            <br />
+            <h1>{errorMsg}</h1>
+            <Link to={`/account/my-pets`}>
+              <button
+                onClick={() => showDelPet()}
+                className="post-link my-posts"
+              >
+                Back to Pet-Center
+              </button>
+            </Link>
+          </div>
+        }
+      />
+    );
   }
 };
 

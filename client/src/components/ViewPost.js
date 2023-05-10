@@ -34,7 +34,6 @@ function ViewPost() {
   const [displayedError, setDisplayedError] = useState(null);
   const [isError, setIsError] = useState(null);
   let { postId } = useParams();
-  let navigate = useNavigate();
   let comment;
 
   useEffect(() => {
@@ -42,11 +41,9 @@ function ViewPost() {
       try {
         const resPost = await axios.get(`/community-posts/${postId}`);
         setViewPost(resPost.data);
-        console.log(resPost);
         setComments(resPost.data.postComments);
         setLoading(false);
       } catch (error) {
-        console.log(error);
         setViewPost(undefined);
         setLoading(false);
         setDisplayedError(error.response.data);
@@ -364,7 +361,7 @@ function ViewPost() {
             <div className="write-comment">
               <label htmlFor="comment-box"></label>
               <input
-              onChange={() => {setDisplayedError(null)}}
+              onChange={handleCommentChange}
                 id="comment-box"
                 name="comment-box"
                 placeholder="Write a comment..."
