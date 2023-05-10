@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   NavLink,
+  Link,
 } from "react-router-dom";
 import CommunityPosts from "./components/CommunityPosts";
 import ViewPost from "./components/ViewPost";
@@ -88,11 +89,17 @@ function App() {
                 element={
                   <ErrorHandler
                     error={
-                      <h1>
+                      <div><h1>
                         <br />
                         <br />
                         Error 404: Page Not Found!
                       </h1>
+                      <Link to={`/account/my-pets`}>
+                        <button className="post-link my-posts">
+                          Back to Pet-Center
+                        </button>
+                      </Link>
+                      </div>
                     }
                   />
                 }

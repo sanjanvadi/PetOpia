@@ -10,7 +10,7 @@ Modal.setAppElement("#root");
 function NewPost(props) {
   const userId = window.sessionStorage.getItem("userid");
   let userEmail = window.sessionStorage.getItem("userEmail");
-  userEmail = userEmail.substring(0, userEmail.indexOf("@"));
+  if(userEmail) userEmail = userEmail.substring(0, userEmail.indexOf("@"));
   const [postImage, setPostImage] = useState("");
   const [postTitle, setPostTitle] = useState("");
   const [postDescription, setPostDescription] = useState("");

@@ -8,7 +8,9 @@ client.connect();
 const getAllPets = async (userId) => {
   const collection = await users();
   const user = await collection.findOne({ _id: new ObjectId(userId) });
-
+  if(!user){
+    throw "User Not Found!"
+  }
   let data = user.pets;
   await client.set(userId, JSON.stringify(data));
   return data;
@@ -25,6 +27,7 @@ const getPet = async (userId, petId) => {
       return data[i];
     }
   }
+  throw "Pet Not Found!";
 };
 
 const createPet = async (

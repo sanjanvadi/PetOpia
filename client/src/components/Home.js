@@ -379,6 +379,20 @@ const PetCenterHome = () => {
   }
 };
 
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------*/
+
 const PetInfo = () => {
   userId = window.sessionStorage.getItem("userid");
 
@@ -394,6 +408,7 @@ const PetInfo = () => {
   const [isOpenDelPet, setIsOpenDelPet] = useState(false);
   const [getPresImg, setPresImg] = useState(undefined);
   const [isOpenError, setIsOpenError] = useState(false);
+  const [errorMsg,setErrorMsg] = useState(null);
   const [serverError, setServerError] = useState(null);
   const [displayedError, setDisplayedError] = useState(null);
   const [axiosLoading, setAxiosLoading] = useState(null);
@@ -412,11 +427,17 @@ const PetInfo = () => {
 
   useEffect(() => {
     async function getPets() {
-      let { data } = await axios.get(
-        "/account/pets/mypet/" + userId + "/" + petId
-      );
-      setMyPets(data);
-      setLoading(false);
+      try {
+        let { data } = await axios.get(
+          "/account/pets/mypet/" + userId + "/" + petId
+        );
+        setMyPets(data);
+        setLoading(false);
+      } catch (error) {
+        setErrorMsg(error.response.data.error);
+        setMyPets(undefined);
+        setLoading(false);
+      }
     }
     getPets();
   }, [petId]);
@@ -701,6 +722,7 @@ const PetInfo = () => {
 
   function delPet(e) {
     e.preventDefault();
+    setAxiosLoading(true);
     let petId = getMyPets._id;
 
     const pet = {
@@ -713,8 +735,12 @@ const PetInfo = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(pet),
-    });
-    navigate(-1);
+    })
+    .then(()=>{
+      setAxiosLoading(false);
+      navigate('/account/my-pets');
+    })
+    
   }
 
   let medCard =
@@ -752,7 +778,7 @@ const PetInfo = () => {
       );
     });
 
-  let appCard =
+    let appCard =
     getMyPets &&
     getMyPets.appointments.map((val) => {
       return (
@@ -929,7 +955,7 @@ const PetInfo = () => {
         <h2>Loading...</h2>
       </div>
     );
-  } else {
+  } else if(getMyPets) {
     return (
       <div>
         <div>
@@ -1260,6 +1286,7 @@ const PetInfo = () => {
                 <tr>
                   <td>
                     <h3>Are you sure, you want to remove this pet?</h3>
+                    {axiosLoading?(<span>Deleting...</span>):(<span></span>)}
                   </td>
                 </tr>
                 <tr>
@@ -1294,6 +1321,21 @@ const PetInfo = () => {
         </Modal>
       </div>
     );
+  }
+  else{
+    return(
+      <ErrorHandler error={
+    <div>
+      <br/><br/>
+      <h1>{errorMsg}</h1>
+      <Link to={`/account/my-pets`}>
+          <button onClick={() => showDelPet()} className="post-link my-posts">
+            Back to Pet-Center
+          </button>
+        </Link>
+    </div>}
+    />
+    )
   }
 };
 

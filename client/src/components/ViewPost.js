@@ -22,7 +22,7 @@ import ErrorHandler from "./ErrorHandler";
 function ViewPost() {
   const userId = window.sessionStorage.getItem("userid");
   let userEmail = window.sessionStorage.getItem("userEmail");
-  userEmail = userEmail.substring(0, userEmail.indexOf("@"));
+  if(userEmail) userEmail = userEmail.substring(0, userEmail.indexOf("@"));
   const [viewPost, setViewPost] = useState(undefined);
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
@@ -42,10 +42,14 @@ function ViewPost() {
       try {
         const resPost = await axios.get(`/community-posts/${postId}`);
         setViewPost(resPost.data);
+        console.log(resPost);
         setComments(resPost.data.postComments);
         setLoading(false);
       } catch (error) {
         console.log(error);
+        setViewPost(undefined);
+        setLoading(false);
+        setDisplayedError(error.response.data);
       }
     };
     getPostsAndComments();
@@ -99,10 +103,6 @@ function ViewPost() {
 
   const handleNewModalClose = () => {
     setNewModalOpen(false);
-  };
-
-  const handleNavigate = () => {
-    navigate(-1);
   };
 
   const handleCommentAdded = async (event) => {
@@ -440,21 +440,24 @@ function ViewPost() {
       return buildComment(com);
     });
 
-  if (loading)
+  if (loading){
     return (
       <div>
         <h2>Loading...</h2>
       </div>
     );
-  else
+  }
+  else if(viewPost){
     return (
       <div>
         <button onClick={handleNewModalOpen} className="post-link my-posts">
           New Post
         </button>
-        <button onClick={handleNavigate} className="post-link my-posts">
-          Back to All Posts
-        </button>
+        <Link to={`/account/community-posts`}>
+          <button className="post-link my-posts">
+            Back to Community
+          </button>
+        </Link>
         {buildCard()}
         {newModalOpen && (
           <NewPost
@@ -464,7 +467,22 @@ function ViewPost() {
           />
         )}
       </div>
-    );
+    )}
+  else if(displayedError){
+    return(
+      <ErrorHandler error={
+        <div>
+          <br/><br/>
+          <h1>{displayedError}</h1>
+            <Link to={`/account/community-posts`}>
+              <button className="post-link my-posts">
+                Back to Community
+              </button>
+            </Link>
+        </div>}
+        />
+    )
+  }
 }
 
 export default ViewPost;
