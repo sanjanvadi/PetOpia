@@ -799,7 +799,7 @@ const PetInfo = () => {
                 <td>{val.medicationName}</td>
               </tr>
               <tr>
-                <td>Prescribed Date:</td>
+                <td>Date to be Administered:</td>
                 <td>{val.administeredDate}</td>
               </tr>
               <tr>
@@ -961,7 +961,7 @@ const PetInfo = () => {
               presCloseFunc();
             }}
           >
-            Prescriptions
+            Prescription Photos
           </h2>
         </div>
         <div className="presCardDiv" id="presCardDiv">
@@ -1044,7 +1044,7 @@ const PetInfo = () => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="administeredDate">Prescribed Date:</label>
+                    <label htmlFor="administeredDate">Date to be Administered:</label>
                   </td>
                   <td>
                     <input
