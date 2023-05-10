@@ -12,11 +12,17 @@ users via the comment section. Users will also be able to upvote any comment. Th
 will be featured at the top of the comment section.
 
 #### Setup and Installation:
+##### Locally:
 
-Step 1: Clone/Download this repository into your system and run `npm i` in the terminal directory where the project is downloaded/cloned.
+Step 1: Clone this repository. Run `npm install --force` in the `client` folder and `npm install` in the `server` folder
 
 Step 2: Make sure the .env file exists and contains the fields DATABASE_URL and DATABASE_NAME
 
-Step 3: Run `npm start` from the server directory and the client directory to start the server for the backend and the frontend respectively
+Step 3: Run `redis-server` to start a Redis server
 
-Step 4: Navigate to the route [http://localhost:3000]() (default) or whatever URL is used by the client (React) to start the server to get started with using PetOpia
+Step 4: Run `npm start` from the server directory and the client directory to start the server for the backend and the frontend respectively
+
+Step 5: Navigate to the route [http://localhost:3000]() (default) or whatever URL is used by the client (React) to start the server to get started with using PetOpia
+
+##### On AWS:
+Visit http://3.140.124.8/ to use the site!
