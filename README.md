@@ -28,4 +28,25 @@ Step 5: Navigate to the route [http://localhost:3000]() (default) or whatever UR
 Visit http://3.140.124.8/ to use the site!
 
 #### Validation Used
+Pet Center Page =>
+Add Pet Form and Edit Pet Form: 
+  Name : cannot be empty, cannot be just space characters
+  Type : cannot be empty, cannot be just space characters
+  Breed : cannot be empty, cannot be just space characters
+  Age : cannot be empty, cannot be just space characters, must be a number, cannot be 0
+  
+Add Medication=>
+  Name : cannot be empty, cannot be just space characters
+  Date : must be date, within today to max 1 year from present date
+  Dosage : cannot be empty, cannot be just space characters
 
+Add Appointment=>
+  Reason : cannot be empty, cannot be just space characters
+  Date : must be date, within today to max 1 year from present date
+  clinic name : cannot be empty, cannot be just space characters
+Community Page=>
+Add Post and Edit Post=>
+  Title: cannot be empty, cannot be just space characters, must be less than 30 characters
+  Description : cannot be empty, cannot be just space characters
+  
+Add Comment=> cannot be empty, cannot be just space characters
