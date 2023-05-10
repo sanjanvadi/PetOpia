@@ -1,5 +1,6 @@
 import { Router } from "express";
 const router = Router();
+import { ObjectId } from "mongodb";
 import {
   createApp,
   createMed,
@@ -24,6 +25,8 @@ router.route("/mypet/:userId/:petId").get(async (req, res) => {
     let userId = xss(req.params.userId);
     let petId = xss(req.params.petId);
 
+    if (!ObjectId.isValid(userId) || !ObjectId.isValid(petId)) throw 'Invalid object ID';
+
     let data = await getPet(userId, petId);
     res.status(200).send(data);
   } catch (e) {
@@ -41,6 +44,12 @@ router
       let medicationName = xss(input.medicationName);
       let administeredDate = xss(input.administeredDate);
       let dosage = xss(input.dosage);
+
+      if (!ObjectId.isValid(userId) || !ObjectId.isValid(petId)) throw 'Invalid object ID';
+
+      if(!medicationName || !administeredDate || !dosage || !Date.parse(administeredDate)){
+        throw 'Invalid input';
+      }
 
       let data = await createMed(
         userId,
@@ -79,6 +88,12 @@ router
       let reason = xss(input.reason);
       let clinicName = xss(input.clinicName);
 
+      if (!ObjectId.isValid(userId) || !ObjectId.isValid(petId)) throw 'Invalid object ID';
+
+      if(!appointmentDate || !reason || !clinicName || !Date.parse(appointmentDate)){
+        throw 'Invalid input';
+      }
+
       let data = await createApp(
         userId,
         petId,
@@ -114,6 +129,12 @@ router
       let petId = xss(input.petId);
       let imageUrl = xss(input.imageUrl);
 
+      if (!ObjectId.isValid(userId) || !ObjectId.isValid(petId)) throw 'Invalid object ID';
+
+      if(!imageUrl) {
+        throw 'Invalid input';
+      }
+
       let data = await createPres(userId, petId, imageUrl);
       res.status(200).send(data);
     } catch (e) {
@@ -140,6 +161,8 @@ router
     try {
       let userId = xss(req.params.userid);
 
+      if (!ObjectId.isValid(userId)) throw 'Invalid object ID';
+
       let userData = await client.exists(userId);
       let data;
 
@@ -165,6 +188,12 @@ router
       let petType = xss(input.petType);
       let petBreed = xss(input.petBreed);
 
+      if (!ObjectId.isValid(userId)) throw 'Invalid object ID';
+
+      if(!petName || !petAge || !petType || !petBreed || !Number(petAge)){
+        throw 'Invalid input';
+      }
+
       let data = await createPet(
         userId,
         petImage,
@@ -187,6 +216,12 @@ router
       let petAge = xss(input.petAge);
       let petType = xss(input.petType);
       let petBreed = xss(input.petBreed);
+
+      if (!ObjectId.isValid(userId) || !ObjectId.isValid(petId)) throw 'Invalid object ID';
+
+      if(!petName || !petAge || !petType || !petBreed || !Number(petAge)){
+        throw 'Invalid input';
+      }
 
       let data = await updatePet(
         userId,

@@ -15,6 +15,7 @@ const PetCenterHome = () => {
   const [getMyPets, setMyPets] = useState([]);
   const [isOpenPet, setIsOpenPet] = useState(false);
   const [isOpenError, setIsOpenError] = useState(false);
+  const [isOpenEmptyError, setIsOpenEmptyError] = useState(false);
   const [petImage, setPetImage] = useState("");
   const [axiosLoading, setAxiosLoading] = useState(null);
   const [count, setCount] = useState(0);
@@ -41,6 +42,10 @@ const PetCenterHome = () => {
     setIsOpenError(!isOpenError);
   }
 
+  function showEmptyError() {
+    setIsOpenEmptyError(!isOpenEmptyError);
+  }
+
   function addPet(e) {
     e.preventDefault();
     setAxiosLoading(true);
@@ -51,7 +56,10 @@ const PetCenterHome = () => {
     let petType = formJson.petType;
     let petBreed = formJson.petBreed;
 
-    if (
+    if(!petName || !petAge || !petType || !petBreed || !Number(petAge)){
+      showEmptyError();
+    }
+    else if (
       petName.trim().length === 0 ||
       petAge.trim().length === 0 ||
       petType.trim().length === 0 ||
@@ -374,6 +382,15 @@ const PetCenterHome = () => {
         >
           <h3>Input cannot be empty</h3>
         </Modal>
+
+        <Modal
+          isOpen={isOpenEmptyError}
+          onRequestClose={showEmptyError}
+          contentLabel="My dialog"
+          style={customStyles}
+        >
+          <h3>Invalid Input</h3>
+        </Modal>
       </div>
     );
   }
@@ -409,6 +426,7 @@ const PetInfo = () => {
   const [getPresImg, setPresImg] = useState(undefined);
   const [isOpenError, setIsOpenError] = useState(false);
   const [errorMsg,setErrorMsg] = useState(null);
+  const [isOpenEmptyError, setIsOpenEmptyError] = useState(false);
   const [serverError, setServerError] = useState(null);
   const [displayedError, setDisplayedError] = useState(null);
   const [axiosLoading, setAxiosLoading] = useState(null);
@@ -503,6 +521,10 @@ const PetInfo = () => {
     setIsOpenError(!isOpenError);
   }
 
+  function showEmptyError() {
+    setIsOpenEmptyError(!isOpenEmptyError);
+  }
+
   function addMed(e) {
     e.preventDefault();
     const data = new FormData(e.target);
@@ -512,7 +534,10 @@ const PetInfo = () => {
     let administeredDate = formJson.administeredDate;
     let dosage = formJson.dosage;
 
-    if (
+    if(!medicationName || !administeredDate || !dosage || !Date.parse(administeredDate)){
+      showEmptyError();
+    }
+    else if (
       medicationName.trim().length === 0 ||
       administeredDate.trim().length === 0 ||
       dosage.trim().length === 0
@@ -552,7 +577,11 @@ const PetInfo = () => {
     let reason = formJson.reason;
     let clinicName = formJson.clinicName;
 
-    if (
+    
+    if(!appointmentDate || !reason || !clinicName || !Date.parse(appointmentDate)){
+      showEmptyError();
+    }
+    else if (
       appointmentDate.trim().length === 0 ||
       reason.trim().length === 0 ||
       clinicName.trim().length === 0
@@ -685,7 +714,6 @@ const PetInfo = () => {
 
   function editPet(e) {
     e.preventDefault();
-    setLoading(true);
     const data = new FormData(e.target);
     const formJson = Object.fromEntries(data.entries());
 
@@ -695,13 +723,25 @@ const PetInfo = () => {
     let petType = formJson.petType;
     let petBreed = formJson.petBreed;
 
-    const pet = {
-      petId,
-      petName,
-      petAge,
-      petType,
-      petBreed,
-    };
+    if(!petName || !petAge || !petType || !petBreed || !Number(petAge)){
+      showEmptyError();
+    }
+    else if (
+      petName.trim().length === 0 ||
+      petAge.trim().length === 0 ||
+      petType.trim().length === 0 || 
+      petBreed.trim().length === 0
+    ) {
+      showError();
+    } else {
+      setLoading(true);
+      const pet = {
+        petId,
+        petName,
+        petAge,
+        petType,
+        petBreed,
+      };
 
     axios
       .put("/account/pets/" + userId, pet)
@@ -718,6 +758,7 @@ const PetInfo = () => {
         setDisplayedError(error.response.data.error);
         setLoading(false);
       });
+    }
   }
 
   function delPet(e) {
@@ -1318,6 +1359,15 @@ const PetInfo = () => {
           style={customStyles}
         >
           <h3>Input cannot be empty</h3>
+        </Modal>
+
+        <Modal
+          isOpen={isOpenEmptyError}
+          onRequestClose={showEmptyError}
+          contentLabel="My dialog"
+          style={customStyles}
+        >
+          <h3>Invalid Input</h3>
         </Modal>
       </div>
     );
