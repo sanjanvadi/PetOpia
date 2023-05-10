@@ -114,7 +114,7 @@ function App() {
           <div className="text-center p-1">
             <span
               style={{
-                color: "black",
+                color: "white",
                 fontWeight: "lighter",
                 fontSize: "medium",
               }}
