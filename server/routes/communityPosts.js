@@ -52,7 +52,6 @@ router
       if (postExistsInCache) {
         postById = await client.hGet("posts", req.params.postId.toString());
         postById = JSON.parse(postById);
-        console.log(postById);
       } else {
         postById = await getPostById(req.params.postId);
       }
