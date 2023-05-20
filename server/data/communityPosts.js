@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { communityPosts } from "../config/mongoCollections.js";
+import moment from "moment"
 import {
   badRequestError,
   internalServerError,
@@ -92,7 +93,7 @@ const newPost = async (
   postDescription = postDescription.trim();
   userThatPosted = userThatPosted.trim();
 
-  const date = new Date(Date.now());
+  // const date = new Date(Date.now());
 
 
   const addPost = {
@@ -101,8 +102,10 @@ const newPost = async (
     postImage: postImage,
     postTitle: postTitle,
     postDescription: postDescription,
-    postDate: date.toLocaleDateString('en-US', {dateStyle: "long"}),
-    postTime: date.toLocaleTimeString('en-US', {timeStyle: "short"}),
+    postDate: moment().local().format("MMMM Do YYYY"),
+    postTime: moment().local().format("h:mm A"),
+    // postDate: date.toLocaleDateString('en-US', {dateStyle: "long"}),
+    // postTime: date.toLocaleTimeString('en-US', {timeStyle: "short"}),
     postComments: [],
     postLikes: [],
   };
