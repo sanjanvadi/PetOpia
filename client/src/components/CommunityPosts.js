@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
+import "moment-timezone";
 import axios from "axios";
 import NewPost from "./modals/NewPost";
 import LikeUnlikePost from "./LikeUnlikePost";
@@ -84,6 +86,7 @@ function CommunityPosts() {
     setCount(count + 1);
   };
   const buildCard = (post) => {
+    const currentTimeZone = moment.tz.guess();
     const res = post.postImage ? (
       <Grid item xs={12} sm={7} md={5} lg={4} xl={3} key={post._id}>
         <Card
@@ -130,9 +133,9 @@ function CommunityPosts() {
                 />
               </div>
               <div className="date">
-                {post.postDate}
+                {moment.tz(currentTimeZone).format(post.postDate)}
                 <br />
-                {post.postTime}
+                {moment.tz(currentTimeZone).format(post.postTime)}
               </div>
             </Typography>
             <Link to={`/account/community-posts/${post._id}`}>
