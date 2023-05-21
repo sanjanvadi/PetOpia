@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { communityPosts } from "../config/mongoCollections.js";
 import moment from "moment"
+import "moment-timezone"
 import {
   badRequestError,
   internalServerError,
@@ -93,8 +94,7 @@ const newPost = async (
   postDescription = postDescription.trim();
   userThatPosted = userThatPosted.trim();
 
-  // const date = new Date(Date.now());
-
+  const currentTimeZone = moment.tz.guess()
 
   const addPost = {
     userThatPosted: userThatPosted,
@@ -102,10 +102,8 @@ const newPost = async (
     postImage: postImage,
     postTitle: postTitle,
     postDescription: postDescription,
-    postDate: moment().local().format("MMMM Do YYYY"),
-    postTime: moment().local().format("h:mm A"),
-    // postDate: date.toLocaleDateString('en-US', {dateStyle: "long"}),
-    // postTime: date.toLocaleTimeString('en-US', {timeStyle: "short"}),
+    postDate: moment().tz(currentTimeZone).format("MMMM Do YYYY"),
+    postTime: moment().tz(currentTimeZone).format("h:mm A"),
     postComments: [],
     postLikes: [],
   };
